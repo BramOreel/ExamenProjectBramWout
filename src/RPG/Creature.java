@@ -3,7 +3,11 @@ package RPG;
 
 import be.kuleuven.cs.som.annotate.Raw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Creature {
+    private final List<anchor> anchors = new ArrayList<>();
     /**
      * variable containing the name of the Creature
      */

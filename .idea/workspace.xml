@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="al de basis setters, getters en checkers gemaakt, bezig met constructor">
+      <change afterPath="$PROJECT_DIR$/src/RPG/AnchorType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RPG/Anchors.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExamenProjectBramWout.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ExamenProjectBramWout.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Enum" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -29,7 +36,6 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/Users/woutt/Downloads/AnnotationsDoclets_v17.jar",
     "project.structure.last.edited": "Libraries",
@@ -48,12 +54,31 @@
       <option name="presentableId" value="Default" />
       <updated>1682493008413</updated>
       <workItem from="1682493009655" duration="2000" />
-      <workItem from="1682495227075" duration="8042000" />
+      <workItem from="1682495227075" duration="11347000" />
     </task>
+    <task id="LOCAL-00001" summary="al de basis setters, getters en checkers gemaakt, bezig met constructor">
+      <created>1682503734612</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1682503734612</updated>
+    </task>
+    <task id="LOCAL-00002" summary="al de basis setters, getters en checkers gemaakt, bezig met constructor">
+      <created>1682503750873</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1682503750873</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="al de basis setters, getters en checkers gemaakt, bezig met constructor" />
+    <option name="LAST_COMMIT_MESSAGE" value="al de basis setters, getters en checkers gemaakt, bezig met constructor" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
