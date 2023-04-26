@@ -1,7 +1,7 @@
 package RPG;
 
 public enum AnchorType {
-    RUG("Rug"), LICHAAM("Lichaam"), LINKERHAND("Linkerhand"), RECHTERHAND("Rechterhand"), RIEM("Riem"), OTHER("other");
+    RUG("RUG"), LICHAAM("Lichaam"), LINKERHAND("Linkerhand"), RECHTERHAND("Rechterhand"), RIEM("Riem"), OTHER("other");
 
     /**
      * Generates new Anchortype
@@ -10,7 +10,7 @@ public enum AnchorType {
      * @post  the name is set to the given name.
      *        | this.name == name
      */
-    private void AnchorType(String name){
+    private AnchorType(String name){
         this.name = name;
     }
 

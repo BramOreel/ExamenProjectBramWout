@@ -18,7 +18,7 @@ public class Armor extends Equipable{
 
 
     public Armor(long id){
-
+        configurePrime(id);
     }
 
 
@@ -31,7 +31,7 @@ public class Armor extends Equipable{
      *        | for each long in set:
      *        | isPrime(set) == true
      */
-    private static Set<Long> primeid = new HashSet<>();
+    private static Set<Long> primeidSet = new HashSet<>();
 
 
     /**
@@ -39,13 +39,13 @@ public class Armor extends Equipable{
      * @param id
      *        the id to be checked
      * @return False if the idcounter is negative, greater than the maximum integer value, not prime or already an existant id for another armor.
-     *         |if(idcounter < 0 || idcounter > Integer.MAX_VALUE || !isPrime(id) || primeid.contains(id) )
+     *         |if(idcounter < 0 || idcounter > Integer.MAX_VALUE || !isPrime(id) || primeidSet.contains(id) )
      *         | then result == false
      *
      */
     @Override
     protected boolean canHaveAsId(long id){
-        return(super.canHaveAsId(id) && isPrime(id) && !primeid.contains(id));
+        return(super.canHaveAsId(id) && isPrime(id) && !primeidSet.contains(id));
     }
 
     /**
@@ -55,7 +55,7 @@ public class Armor extends Equipable{
      * @return
      */
 
-    static  boolean isPrime(long num)
+    private boolean isPrime(long num)
     {
         if(num<=1)
         {
@@ -69,21 +69,27 @@ public class Armor extends Equipable{
         return true;
     }
 
+    /**
+     * Sets the id to the specified value.
+     * @param id
+     *        the value of the given id
+     * @post If the given id is unique and prime, the armor id is set to the specified id,
+     *       otherwise the id is set to the closest, bigger next prime integer.
+     *       | if(canHaveAsId(id))
+     * 	     | then new.getId().equals(id)
+     * 	     | else new.getId().equals(closestBiggerPrime(id))
+     */
 
     private void configurePrime(long id){
-        if(canHaveAsId(id))
-            setId(id);
-        else{
-            double maxvalue = Math.pow(id, 0.535);
-            while(id < maxvalue){
-                id++;
-                if(canHaveAsId(id))
-                    setId(id);
-            }
 
+        while(!canHaveAsId(id)){
+                id++;}
+
+        setId(id);
+        primeidSet.add(id);
         }
 
     }
 
 
-}
+

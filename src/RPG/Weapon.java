@@ -36,7 +36,7 @@ public class Weapon extends Equipable{
      *        the value of the next, unused id.
      * @post If the given id is unique and valid, this weapon id is set to the given id, otherwise the id is set to zero.
      *       This should never happen however, seeing that the weapon id is always internally generated.
-     *       |if(canHaveAsId(id))
+     *       | if(canHaveAsId(id))
      * 	     | then new.getId().equals(id)
      * 	     | else new.getId().equals(0)
      */
