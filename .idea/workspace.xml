@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="al de basis setters, getters en checkers gemaakt, bezig met constructor">
-      <change afterPath="$PROJECT_DIR$/src/RPG/AnchorType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/RPG/Anchors.java" afterDir="false" />
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="anchors en anchortypes toegevoegd">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
     </list>
@@ -54,7 +52,7 @@
       <option name="presentableId" value="Default" />
       <updated>1682493008413</updated>
       <workItem from="1682493009655" duration="2000" />
-      <workItem from="1682495227075" duration="11347000" />
+      <workItem from="1682495227075" duration="12409000" />
     </task>
     <task id="LOCAL-00001" summary="al de basis setters, getters en checkers gemaakt, bezig met constructor">
       <created>1682503734612</created>
@@ -70,7 +68,21 @@
       <option name="project" value="LOCAL" />
       <updated>1682503750873</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="anchors en anchortypes toegevoegd">
+      <created>1682515185209</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1682515185209</updated>
+    </task>
+    <task id="LOCAL-00004" summary="anchors en anchortypes toegevoegd">
+      <created>1682515250708</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1682515250708</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -78,7 +90,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="al de basis setters, getters en checkers gemaakt, bezig met constructor" />
-    <option name="LAST_COMMIT_MESSAGE" value="al de basis setters, getters en checkers gemaakt, bezig met constructor" />
+    <MESSAGE value="anchors en anchortypes toegevoegd" />
+    <option name="LAST_COMMIT_MESSAGE" value="anchors en anchortypes toegevoegd" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Creature {
-    private final List<Anchor> anchors = new ArrayList<>();
+    protected List<Anchor> anchors;
     /**
      * variable containing the name of the Creature
      */
@@ -199,11 +199,45 @@ public abstract class Creature {
         }
     }
 
-    public Creature(String name, int maxHitPoints, int hitPoints, int capacity, int maxCapacity) {
+    /**
+     * Gives the list of anchors
+     * @return the list of anchors
+     */
+    public List<Anchor> getAnchors() {
+        return anchors;
+    }
+
+    /**
+     * Creates a new creature with a name, amount of hitpoints and capactity.
+     * @param name
+     *        The name of the new creature.
+     * @param maxHitPoints
+     *        The maximum amount of hitpoints of the creature.
+     * @param maxCapacity
+     *        The maximum capacity of the creature in kg.
+     * @effect The new name is set to the name of the creature, if the name is not valid
+     *         an IllegalArgumentException is thrown.
+     *         |setName(name)
+     * @effect The maximum capacity is set to the given maxCapacity.
+     *         |setMaxCapacity(maxCapacity)
+     * @effect The remaining capacity is set to the given maxCapacity,
+     *          because the creature still has an empty inventory.
+     *         |setCapacity(maxCapacity)
+     * @effect The maximum amount of hitpoints is set to the given maxHitPoints.
+     *         |setMaxHitPoints(maxHitPoints)
+     * @effect The amount of hitpoints is set to the given maxHitPoints,
+     *          so the creature has full health.
+     *         |setHitPoints(maxHitPoints)
+     * @post   The Anchors is set to an empty arraylist to which anchors can later be added.
+     *         |this.anchors = new ArrayList<Anchor>()
+     */
+    protected Creature(String name, int maxHitPoints, int maxCapacity) {
         setName(name);
         setMaxCapacity(maxCapacity);
-        setCapacity(capacity);
-        setHitPoints(hitPoints);
+        setCapacity(maxCapacity);
         setMaxHitPoints(maxHitPoints);
+        setHitPoints(maxHitPoints);
+        this.anchors = new ArrayList<Anchor>();
+
     }
 }
