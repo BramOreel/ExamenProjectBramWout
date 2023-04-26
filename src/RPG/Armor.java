@@ -17,7 +17,8 @@ public class Armor extends Equipable{
      */
 
 
-    public Armor(long id){
+    public Armor(long id, int weight){
+        super(weight);
         configurePrime(id);
     }
 

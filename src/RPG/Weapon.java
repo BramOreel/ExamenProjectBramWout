@@ -1,9 +1,13 @@
 package RPG;
 
+import java.security.SecureRandom;
+import java.util.Random;
+
 /**
  * A class for weapons within an RPG
  *
- *
+ * @invar the damage of a weapon must be valid
+ *        |isValidDamage(getWeapon())
  */
 public class Weapon extends Equipable{
 
@@ -11,9 +15,19 @@ public class Weapon extends Equipable{
      * CONSTRUCTORS
      */
 
-    public Weapon(){
+    public Weapon(int weight, int damagevalue){
+        super(weight);
         setId(getIdcounter());
         incrementId();
+        setDamage(damagevalue);
+
+    }
+
+    public Weapon(int weight){
+        super(weight);
+        setId(getIdcounter());
+        incrementId();
+        generateRandomDamage();
 
     }
 
@@ -68,5 +82,121 @@ public class Weapon extends Equipable{
 
 
     }
+
+    /*********************
+     * Damage
+     *********************/
+
+    /**
+     * A constant representing the current maximum damagevalue for weapons
+     */
+    static final int DAMAGE_MAXVALUE = 100;
+
+    /**
+     * A variabele referencing the damage of a weapon
+     */
+    private int damage = 7;
+
+    /**
+     *
+     * Return the damage of this weapon
+     */
+    public int getDamage() {
+        return damage;
+    }
+
+    /**
+     *
+     * Return the Maximum damagevalue of all weapons
+     */
+    public static int getDamageMaxvalue(){
+        return Weapon.DAMAGE_MAXVALUE;
+    }
+
+    /**
+     * Sets the damage to the specified value
+     *
+     * @param damage
+     *        the new damage for this weapon
+     *
+     * @pre The given damage must be allowed
+     *      |isValidDamage(damage)
+     *
+     * @post The given damage is registered as the damage of the weapon
+     *       |new.getDamage() == damage
+     *
+     */
+    private void setDamage(int damage) {this.damage = damage;}
+
+    /**
+     * Check whether the given damage is a valid damageNumber
+     * @param damage
+     *        the damage to check
+     * @return True if the damage is greater than 1, smaller than the listed maximum value and a multiple of seven
+     *         |result == ((damage > 1) && (damage < getDamageMaxvalue()) && (damage % 7 == 0));
+     */
+    private boolean isValidDamage(int damage){
+        return((damage > 1) && (damage < getDamageMaxvalue()) && (damage % 7 == 0));
+    }
+
+
+    private void generateRandomDamage(){
+        SecureRandom R = new SecureRandom();
+        int upperbound = Math.floorDiv(getDamageMaxvalue(),7) - 1;
+
+        int int1 = R.nextInt(upperbound);
+        int1 = (7 * int1) + 7;
+        setDamage(int1);
+    }
+
+    /**
+     * Change the damage of the weapon to the given delta.
+     *
+     * @param delta
+     *        the amount of damage by which the weapon damage must be increased or decreased
+     *
+     * @pre The given delta must not be 0
+     *      |delta !=0
+     * @effect The damage of this weapon is adapted with the given delta.
+     *         | setDamage(getDamage()+delta)
+     */
+    private void changeDamage(int delta){
+        setDamage(getDamage()+delta);
+    }
+
+    /**
+     * Increases the damage of this weapon with the given delta.
+     *
+     * @param   delta
+     *          The amount of damage by which the damage of this weapon
+     *          must be increased.
+     * @pre     The given delta must be strictly positive.
+     *          | delta > 0
+     * @effect  The damage of this weapon is increased with the given delta.
+     *          | changeDamage(delta)
+     */
+    public void EnhanceDamage(int delta){
+        changeDamage(delta);
+    }
+    /**
+     * Decreases the damage of this weapon with the given delta.
+     *
+     * @param   delta
+     *          The amount of damage by which the damage of this weapon
+     *          must be decreased.
+     * @pre     The given delta must be strictly positive.
+     *          | delta > 0
+     * @effect  The damage of this weapon is decreased with the given delta.
+     *          | changeDamage(delta)
+     */
+    public void DecrementDamage(int delta){
+        changeDamage(-delta);
+    }
+
+
+
+
+
+
 
 }

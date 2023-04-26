@@ -13,7 +13,8 @@ public class Backpack extends Equipable{
      */
 
 
-    public Backpack(long id){
+    public Backpack(long id, int weight){
+        super(weight);
         configure(id);
     }
 
@@ -58,6 +59,14 @@ public class Backpack extends Equipable{
         setId(id);
         idSet.add(id);
     }
+
+    /***************
+     * Content
+     */
+    public int getTotalWeight(){
+        return 1;
+    }
+
 
 }
 

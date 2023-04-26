@@ -4,16 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/RPG/Equipable.java" afterDir="false" />
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="Identificatie van Items geïmplementeerd">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/AnchorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/AnchorType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Armor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Armor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Backpack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Equipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Equipable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Weapon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682530570486</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Identificatie van Items geïmplementeerd">
+      <created>1682541742925</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1682541742925</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,7 +148,8 @@
     <MESSAGE value="al de basis setters, getters en checkers gemaakt, bezig met constructor" />
     <MESSAGE value="anchors en anchortypes toegevoegd" />
     <MESSAGE value="constructor afgewerkt" />
-    <option name="LAST_COMMIT_MESSAGE" value="constructor afgewerkt" />
+    <MESSAGE value="Identificatie van Items geïmplementeerd" />
+    <option name="LAST_COMMIT_MESSAGE" value="Identificatie van Items geïmplementeerd" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

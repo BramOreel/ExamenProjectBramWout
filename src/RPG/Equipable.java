@@ -24,9 +24,15 @@ public abstract class Equipable {
     /**
      * Initialize a new Equipable item with a given weight and holder
      */
-    protected Equipable(){
-
+    protected Equipable(int weight){
+        if(weight > 0)
+        this.weight = weight;
+        else this.weight = 5;
     }
+
+    /***********************
+     * Identification
+     */
 
     /**
      *
@@ -69,6 +75,20 @@ public abstract class Equipable {
     protected boolean canHaveAsId(long id){
        return(id >= 0 && id < Integer.MAX_VALUE);
 
+    }
+
+
+    /*********************************
+     * Weight
+     */
+
+    /**
+     * a final variable containing the weight of an Equipable item in kilograms
+     */
+    private final int weight;
+
+    public int getWeight() {
+        return weight;
     }
 }
 
