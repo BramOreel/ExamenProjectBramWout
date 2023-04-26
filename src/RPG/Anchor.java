@@ -8,6 +8,6 @@ public class Anchor {
     /**
      * Variable containing the item it holds.
      */
-    private Equipment item;
+    //private Equipment item;
 
 }
