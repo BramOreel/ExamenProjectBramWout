@@ -20,7 +20,6 @@ public enum AnchorType {
      * Gives the name of the anchortype
      * @return the name
      */
-
     public String getName() {
         return name;
     }
