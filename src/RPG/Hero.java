@@ -72,4 +72,61 @@ public class Hero extends Creature{
     public void setStrength(double strength) {
         Strength = Math.round(strength * Math.pow(10, decimalPlacesStrength)) / Math.pow(10, decimalPlacesStrength);
     }
+
+    /**
+     * Calculates the maximum capacity with the given strength.
+     * @param strength
+     *        the strength of the character.
+     * @return The maximum capacity of the hero based on the rules,
+     *         the maximum capacity is 20 times the strength, rounded off an integer.
+     *         | maxcapacity == Math.round(strength * 20)
+     *
+     */
+    public int calculateMaxCapacity(double strength){
+        return (int) Math.round(strength * 20);
+    }
+
+    /**
+     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and a given protetection stat.
+     * @param name
+     *        The given name of the new Hero
+     * @param maxHitPoints
+     *        The given maximum amount of hitpoints the Hero can have
+     * @param strength
+     *        The given strength the hero has
+     * @param protection
+     *        The given protection stat the hero has.
+     *@effect The maxcapacity is calculated with the given strength and then set as the strength.
+     *        |setMaxCapacity(calculateMaxCapacity(strength));
+     *@effect The Hero is generated as a creature with a given name, maxHitPoints and the calculated maxCapacity.
+     *        | super(name, maxHitPoints, maxCapacity)
+     *@effect The protection is set as the protection.
+     *        | setProtection(protection)
+     *@effect The strength is set as the strength.
+     *        | setStrength(strength)
+     */
+
+    public Hero(String name, int maxHitPoints, double strength, float protection) {
+        super(name, maxHitPoints,0);
+        setMaxCapacity(calculateMaxCapacity(strength));
+        setProtection(protection);
+        setStrength(strength);
+    }
+
+    /**
+     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and the default protetection stat.
+     * @param name
+     *        The given name of the new Hero
+     * @param maxHitPoints
+     *        The given maximum amount of hitpoints the Hero can have
+     * @param strength
+     *        The given strength the hero has
+     *@effect The hero is generated as a hero with the default protection stat.
+     *        | this(name,maxHitPoints,strength,getDefaultProtection())
+     */
+    public Hero(String name, int maxHitPoints, double strength){
+        this(name,maxHitPoints,strength,getDefaultProtection());
+    }
 }
+
+
