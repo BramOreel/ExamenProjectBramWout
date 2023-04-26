@@ -238,6 +238,5 @@ public abstract class Creature {
         setMaxHitPoints(maxHitPoints);
         setHitPoints(maxHitPoints);
         this.anchors = new ArrayList<Anchor>();
-
     }
 }
