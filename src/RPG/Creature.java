@@ -1,6 +1,4 @@
-
 package RPG;
-
 import be.kuleuven.cs.som.annotate.Raw;
 
 import java.util.ArrayList;
@@ -37,7 +35,7 @@ public abstract class Creature {
     /**
      * a list containing all valid characters for the name.
      */
-    protected final static String validCharacters = "[a-zA-Z' ]+";
+    protected final static String validCharacters = "[a-zA-Z': ]+";
 
     /**
      * @return  the name of the creature

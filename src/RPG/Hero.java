@@ -1,4 +1,7 @@
 package RPG;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import be.kuleuven.cs.som.annotate.Raw;
 
 import java.text.DecimalFormat;
 
@@ -84,6 +87,29 @@ public class Hero extends Creature{
      */
     public int calculateMaxCapacity(double strength){
         return (int) Math.round(strength * 20);
+    }
+    /**
+     * Checks if a given name is valid.
+     * @param name
+     *        the given name that gets checked.
+     * @return True if all the characters in the given name are valid characters, the name is not null
+     *          ,the first character is a capital letter, it does not include more than two apostrophes and
+     *          every colon is followed by a whitespace.
+     *        | name.matches(validCharacters) && name != null && name.matches("^[A-Z].*") && apostrophecount < 3  && allColonsFollowedBySpace
+     */
+    @Raw
+    @Override
+    public boolean isValidName(String name){
+        int apostrophecount = 0;
+        for (int i = 0; i < name.length(); i++) {
+            if (name.charAt(i) == '\'') {
+                apostrophecount++;
+            }
+        }
+        Pattern pattern = Pattern.compile(":\\S");
+        Matcher matcher = pattern.matcher(name);
+        boolean allColonsFollowedBySpace = !matcher.find() && !(name.charAt(name.length() - 1) == ':');
+        return (name.matches(validCharacters) && name != null && name.matches("^[A-Z].*") && apostrophecount < 3  && allColonsFollowedBySpace);
     }
 
     /**
