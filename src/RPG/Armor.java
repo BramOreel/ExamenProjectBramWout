@@ -1,13 +1,23 @@
 package RPG;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Immutable;
+import be.kuleuven.cs.som.annotate.Raw;
+
+import java.util.*;
 import java.lang.Math;
 
 /**
  * A class for Armors within an RPG
+ *
+ *
+ * @invar Each armor must have a valid actual armorvalue
+ *        |isValidArmorValue(getactualarmor());
+ *
+ * @invar Each armor must have a valid creationtime
+ *        |isValidCreationTime(getCreationtime());
+ *
+ *
  */
 public class Armor extends Equipable{
 
@@ -17,9 +27,11 @@ public class Armor extends Equipable{
      */
 
 
-    public Armor(long id, int weight){
+    public Armor(long id, int weight, ArmorType armortype){
         super(weight);
         configurePrime(id);
+        this.maxprotection = armortype;
+        setActualarmor(getMaxProtection());
     }
 
 
@@ -90,7 +102,147 @@ public class Armor extends Equipable{
         primeidSet.add(id);
         }
 
+    /***********
+     * Protection
+     ***********/
+
+    private final ArmorType maxprotection;
+
+    private int actualarmor = 0;
+
+
+    public ArmorType getArmorType(){
+        return maxprotection;
     }
+
+    private int getMaxProtection(){return getArmorType().getMaxvalue();}
+
+    /**
+     * Change the damage of the weapon to the given delta.
+     *
+     * @param delta
+     *        the amount of damage by which the weapon damage must be increased or decreased
+     *
+     * @pre The given delta must not be 0
+     *      |delta !=0
+     * @effect The damage of this weapon is adapted with the given delta.
+     *         | setDamage(getDamage()+delta)
+     */
+    private void changeArmor(int delta){
+        setActualarmor(checkarmor()+delta);
+    }
+
+    /**
+     * Increases the actualarmor of this armor with the given delta.
+     *
+     * @param   delta
+     *          The amount of armor by which the actualarmor of this armor
+     *          must be increased.
+     * @pre     The given delta must be strictly positive.
+     *          | delta > 0
+     * @effect  The actualarmor of this armor is increased with the given delta.
+     *          | changeArmor(delta)
+     */
+    public void RepairArmor(int delta){
+        changeArmor(delta);
+    }
+    /**
+     * Decreases the actualarmor of this armor with the given delta.
+     *
+     * @param   delta
+     *          The amount of damage by which the actualarmor of this armor
+     *          must be decreased.
+     * @pre     The given delta must be strictly positive.
+     *          | delta > 0
+     * @effect  The actualarmor of this armor is decreased with the given delta.
+     *          | changeArmor(delta)
+     */
+    public void DecrementArmor(int delta){
+        changeArmor(-delta);
+    }
+
+    public int checkarmor() {
+        int newactualarmorvalue = (int) (getActualarmor() - getWear());
+        if(isValidArmorValue(newactualarmorvalue))
+            setActualarmor(1);
+        else setActualarmor(newactualarmorvalue);
+
+        return getActualarmor();
+    }
+
+    private void setActualarmor(int actualarmor) {
+        this.actualarmor = actualarmor;
+    }
+
+    private int getActualarmor(){return this.actualarmor;}
+
+    public boolean isValidArmorValue(int value){
+        return((value >= 1) && (value <= 100));
+    }
+
+
+
+
+
+    /**
+     * Variable referencing the time the armor was last checked.
+     */
+    private Date checkTime = new Date();
+
+    /**
+     * Return the time at which this disk item was last checked.
+     */
+    @Raw
+    @Basic
+    public Date getCheckTime() {
+        return checkTime;
+    }
+
+
+    private void setCheckTime(Date date){checkTime = date;}
+
+
+
+    /**
+     * Check whether the given date is a valid creation time.
+     *
+     * @param  	date
+     *         	The date to check.
+     * @return 	True if and only if the given date is effective and not
+     * 			in the future.
+     *         	| result ==
+     *         	| 	(date != null) &&
+     *         	| 	(date.getTime() <= System.currentTimeMillis())
+     *
+     * @note	This checker is object-independent (and thus static).
+     *
+     */
+    public static boolean isValidChecktime(Date date) {
+        return 	(date!=null) &&
+                (date.getTime()<=System.currentTimeMillis());
+    }
+
+    private long getWear(){
+        Date now = new Date();
+
+        long difference = (now.getTime() - checkTime.getTime()) / (1000*60*60);
+
+        if(difference >= 1)
+            setCheckTime(now);
+
+        return difference;
+    }
+
+
+
+
+
+
+
+
+
+
+}
 
 
 
