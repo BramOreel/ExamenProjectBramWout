@@ -15,19 +15,32 @@ public class Weapon extends Equipable{
      * CONSTRUCTORS
      */
 
-    public Weapon(int weight, int damagevalue){
+    public Weapon(int weight, int damagevalue){ // value gegenereerd
         super(weight);
         setId(getIdcounter());
         incrementId();
-        setDamage(damagevalue);
+        this.dmgvallink = true;
+        setDamage(damagevalue);  //
 
     }
 
-    public Weapon(int weight){
+    public Weapon(int weight){  //vaste value mee
         super(weight);
         setId(getIdcounter());
         incrementId();
+        this.dmgvallink = true;
         generateRandomDamage();
+        //setValue value
+
+    }
+
+    public Weapon(int weight, int damagevalue, int value){
+        super(weight);
+        setId(getIdcounter());
+        incrementId();
+        this.dmgvallink = false;
+        setDamage(damagevalue); //setDamage moet modify worden
+        //setValue value
 
     }
 
@@ -193,10 +206,52 @@ public class Weapon extends Equipable{
         changeDamage(-delta);
     }
 
+    /**********
+     * Value, defensief programmeren
+     */
 
+    /**
+     * A final variabele stating if the damage and value of this weapon are linked
+     */
+    final boolean dmgvallink;
 
+    /**
+     *
+     * Returns true if damage and value of this weapon are linked
+     */
+    public boolean isDmgvallink() {
+        return dmgvallink;
+    }
 
+    /**
+     * Checks whether a weapon can have this value as its value.
+     * @param value
+     *        the value to be checked
+     *
+     * @return False if the given value is smaller than one or
+     *               if the given value is greater than 200.
+     *         |if(value < 1 || value > 200) then result == False
+     */
+    @Override
+    public boolean isValidValue(int value){
 
+        return(super.isValidValue(value) && value <= 200);
+    }
+
+    private void ModifyDamage(int damage){
+        setDamage(damage);
+        if(isDmgvallink()){
+           int value = getDamage()*2;
+           if(isValidValue(value))
+               setValue(value);
+           else if(value > 200)
+               setValue(200);
+           else if(value < 1)
+               setValue(1);
+
+        }
+
+    }
 
 
 }

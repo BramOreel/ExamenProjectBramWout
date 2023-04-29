@@ -7,6 +7,13 @@ import java.util.UUID;
  *
  * @invar Each equipable item must have a valid identification number.
  *        | canHaveAsId(getId())
+ *
+ * @invar Each equipable item must have a valid weight
+ *        | canHaveAsWeight(getWeight())
+ *
+ * @invar Each equipable item must have a allowed value
+ *        | isValidValue(getValue())
+ *
  */
 public abstract class Equipable {
 
@@ -87,8 +94,63 @@ public abstract class Equipable {
      */
     private final int weight;
 
+    /**
+     *
+     * Returns the weight of this equipable
+     */
     public int getWeight() {
         return weight;
+    }
+
+    /**
+     * Checks if an equipable item can have this value as its weight.
+     *
+     * @param weight
+     *        the weight of the equipable item
+     * @return True if the value is greater than zero
+     *         |if(weight > 0) then result == True
+     */
+    public boolean canHaveAsWeight(long weight){
+        return(weight > 0);
+    }
+
+    /************
+     * Value
+     */
+
+    /**
+     * A variable containing the weight of an Equipable item in 'dukaten'
+     */
+    private int value = 1;
+
+    /**
+     *
+     * Returns the value of the equipable item
+     */
+    public int getValue() {
+        return value;
+    }
+
+    /**
+     *
+     * @param value
+     *        the new value for this equipable item
+     */
+    protected void setValue(int value) {
+        this.value = value;
+    }
+
+    /**
+     * Checks whether an equipable item can have this value as its value.
+     *
+     * @param value
+     *        the value to be checked
+     *
+     * @return False if the given value is smaller than one.
+     *        |if(value < 1) then result == False
+     */
+    protected boolean isValidValue(int value){
+        return(value >= 1);
     }
 }
 
