@@ -65,7 +65,11 @@ public class Armor extends Equipable{
      * Checks if a number is prime or not
      *
      * @param num
-     * @return
+     *        the number to be checked
+     * @return False if the number is not prime
+     *         |for(i< num/2)
+     *         | if(num%i ! 0)
+     *         |then result == False
      */
 
     private boolean isPrime(long num)
@@ -106,30 +110,49 @@ public class Armor extends Equipable{
      * Protection
      ***********/
 
+    /**
+     * A final parameter referencing the maximum protectionvalue of an armorpiece
+     */
     private final ArmorType maxprotection;
 
-    private int actualarmor = 0;
+    /**
+     * A variabele referencing the current protection a armorpiece provides.
+     * This value changes with time.
+     */
+    private int actualarmor = 1;
 
-
-    public ArmorType getArmorType(){
+    /**
+     *
+     * Returns the armortype of this armor
+     */
+    @Immutable
+    private ArmorType getArmorType(){
         return maxprotection;
     }
 
+    /**
+     *
+     * Returns the maximum protectionvalue of the armortype of this armor.
+     */
     private int getMaxProtection(){return getArmorType().getMaxvalue();}
 
     /**
-     * Change the damage of the weapon to the given delta.
+     * Change the protection of this armor to the given delta.
      *
      * @param delta
-     *        the amount of damage by which the weapon damage must be increased or decreased
+     *        the amount of protection by which the armors protecion must be increased or decreased
      *
      * @pre The given delta must not be 0
      *      |delta !=0
-     * @effect The damage of this weapon is adapted with the given delta.
-     *         | setDamage(getDamage()+delta)
+     * @effect The protectionvalue of this armor is adapted with the given delta.
+     *         | setActualarmor(getActualarmor()+delta)
+     * @effect The time when this armor was last checked is updated.
+     *         The effects of wear in time are accounted for here.
+     *         |checkarmor()
      */
     private void changeArmor(int delta){
-        setActualarmor(checkarmor()+delta);
+        setActualarmor(getActualarmor()+delta);
+        checkarmor();
     }
 
     /**
@@ -155,29 +178,79 @@ public class Armor extends Equipable{
      * @pre     The given delta must be strictly positive.
      *          | delta > 0
      * @effect  The actualarmor of this armor is decreased with the given delta.
-     *          | changeArmor(delta)
+     *          | changeArmor(-delta)
      */
     public void DecrementArmor(int delta){
         changeArmor(-delta);
     }
 
-    public int checkarmor() {
+    /**
+     * Checks if the actual armorvalue should be updated to account for degradation
+     * through time.
+     *
+     * if the new armorvalue is valid, the armorvalue is updated to the new armorvalue.
+     * if the new armorvalue is not valid and greater then the maximum armorvalue, the
+     * new armorvalue is set to the maximum protectionvalue for this armor. If
+     * the new armorvalue is smaller then 1, the new armorvalue is set to 1. Rendering
+     * it basically useless.
+     *
+     * |if(!isValidArmorValue(newactualarmorvalue))
+     * |  if(newactualarmorvalue > getMaxProtection())
+     * |      then actualarmorvalue = setActualarmor(getMaxProtection.value)
+     * |  else actualarmorvalue = setActualarmor(1)
+     * |then setActualarmor(newactualarmorvalue)
+     */
+    private void checkarmor() {
         int newactualarmorvalue = (int) (getActualarmor() - getWear());
-        if(isValidArmorValue(newactualarmorvalue))
-            setActualarmor(1);
+        if(!isValidArmorValue(newactualarmorvalue))
+            if(newactualarmorvalue > getMaxProtection())
+                setActualarmor(getMaxProtection());
+            else setActualarmor(1);
         else setActualarmor(newactualarmorvalue);
-
-        return getActualarmor();
     }
 
-    private void setActualarmor(int actualarmor) {
+
+    /**
+     * Set the actual armorvalue to the given value
+     *
+     * @param actualarmor
+     *        the new actual armorvalue
+     */
+
+    private void setActualarmor(int actualarmor)  {
         this.actualarmor = actualarmor;
     }
 
-    private int getActualarmor(){return this.actualarmor;}
+    /**
+     *
+     * Returns the old actual armorvalue
+     */
+
+    private int getActualarmor(){
+        return this.actualarmor;}
+
+    /**
+     *
+     * Returns the actual armorvalue, taking the effects of wear through time into account.
+     */
+
+    public int getCurrentArmor(){
+        checkarmor();
+        return getActualarmor();
+    }
+
+    /**
+     * Checks whether this armor can have the given value as its protectionvalue.
+     * @param value
+     *        The value to be checked
+     * @return False if the given value is smaller than 1 or
+     *               if the given value is greater than the maximum protection value for this armor.
+     *        if(value < 1 || value > getMaxProtection()) then result == False
+     */
+
 
     public boolean isValidArmorValue(int value){
-        return((value >= 1) && (value <= 100));
+        return((value >= 1) && (value <= getMaxProtection()));
     }
 
 
@@ -198,7 +271,12 @@ public class Armor extends Equipable{
         return checkTime;
     }
 
-
+    /**
+     * Set the time the armor was last checked to the given value;
+     *
+     * @param date
+     *        the new date .
+     */
     private void setCheckTime(Date date){checkTime = date;}
 
 
@@ -222,6 +300,10 @@ public class Armor extends Equipable{
                 (date.getTime()<=System.currentTimeMillis());
     }
 
+    /**
+     * Returns the amount of hours that have passed since this method was last called.
+     * If the amount of hours is greater than one, the old time is updated to the new time.
+     */
     private long getWear(){
         Date now = new Date();
 
@@ -232,15 +314,6 @@ public class Armor extends Equipable{
 
         return difference;
     }
-
-
-
-
-
-
-
-
-
 
 }
 

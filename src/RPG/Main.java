@@ -18,7 +18,7 @@ public class Main {
         //System.out.println(bingbong2.getId());
 
         Backpack yeep = new Backpack(25,3);
-        //System.out.println(yeep.getId());
+        System.out.println(jema.getCurrentArmor());
 
 
 
