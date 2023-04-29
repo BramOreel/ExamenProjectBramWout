@@ -27,11 +27,15 @@ public class Armor extends Equipable{
      */
 
 
-    public Armor(long id, int weight, ArmorType armortype){
+    public Armor(long id, int weight, ArmorType armortype, int value) throws IllegalArgumentException{
         super(weight);
         configurePrime(id);
         this.maxprotection = armortype;
         setActualarmor(getMaxProtection());
+        if(!isValidValue(value))
+            throw new IllegalArgumentException();
+        this.maxvalue = value;
+
     }
 
 
@@ -185,13 +189,13 @@ public class Armor extends Equipable{
     }
 
     /**
-     * Checks if the actual armorvalue should be updated to account for degradation
-     * through time.
+     * Checks if the actual protection value should be updated to account for degradation
+     * through time and updates the value for this armor if needed.
      *
-     * if the new armorvalue is valid, the armorvalue is updated to the new armorvalue.
-     * if the new armorvalue is not valid and greater then the maximum armorvalue, the
-     * new armorvalue is set to the maximum protectionvalue for this armor. If
-     * the new armorvalue is smaller then 1, the new armorvalue is set to 1. Rendering
+     * if the new protection value is valid, the protection value is updated to the new protection value.
+     * if the new protection value is not valid and greater than the maximum protection value, the
+     * new protection value is set to the maximum protection value for this armor. If
+     * the new protection value is smaller than 1, the new protection value is set to 1. Rendering
      * it basically useless.
      *
      * |if(!isValidArmorValue(newactualarmorvalue))
@@ -199,6 +203,11 @@ public class Armor extends Equipable{
      * |      then actualarmorvalue = setActualarmor(getMaxProtection.value)
      * |  else actualarmorvalue = setActualarmor(1)
      * |then setActualarmor(newactualarmorvalue)
+     *
+     * @effect The value for this armor is updated to account for the degradation in time.
+     *          |updateValue()
+     *
+     *
      */
     private void checkarmor() {
         int newactualarmorvalue = (int) (getActualarmor() - getWear());
@@ -207,6 +216,9 @@ public class Armor extends Equipable{
                 setActualarmor(getMaxProtection());
             else setActualarmor(1);
         else setActualarmor(newactualarmorvalue);
+
+        //Value
+        updateValue();
     }
 
 
@@ -314,6 +326,72 @@ public class Armor extends Equipable{
 
         return difference;
     }
+
+    /*************
+     * Value
+     *
+     */
+
+    /**
+     * A variable stating the maximum value a piece of armor can have.
+     */
+    private final int maxvalue;
+
+    /**
+     *
+     * Returns the maximum value of the armorpiece.
+     */
+    public int getMaxvalue() {
+        return maxvalue;
+    }
+
+    /**
+     * Checks if the given value is a valid value for this armorpiece
+     * @param value
+     *        the value to be checked
+     *
+     * @return False if the value for this armor is less than 1 or
+     *               if the value for this armor is greater than 1000.
+     *         if(value < 1 || value > 1000) then result == False.
+     */
+    @Override
+    public boolean isValidValue(int value){
+        return(super.isValidValue(value) && value <= 1000);
+    }
+
+    /**
+     * Updates the protection value of the armorpiece to check if time has degraded it and returns a updated value for this armor
+     * if time has indeed lessened the value of this armor.
+     *
+     * @effect If more than 1 hour has passed since the creation of this armor than
+     *         the current protection value is decremented by 1 for each hour that has passed. Thus, the value of this armor also decreases.
+     *         |checkarmor()
+     * @return Returns the updated value for this armor.
+     */
+    @Override
+    public int getValue(){
+        checkarmor();
+        return super.getValue();
+    }
+
+    /**
+     * Calculates the new value for this armor. It does this by taking the fraction of the current armor value and the maximum armor value
+     * and multiplying this with its maximum price.
+     * Lastly the value for this armor is updated.
+     *
+     * @throws IllegalArgumentException
+     *         The given value is not valid.
+     *         |!isValidValue(newvalue))
+     *
+     */
+    private void updateValue() throws IllegalArgumentException{
+        double fraction = getActualarmor()/getMaxProtection();
+        int newvalue = (int) (getMaxvalue()*fraction);
+        if(!isValidValue(newvalue))
+            throw new IllegalArgumentException();
+        setValue(newvalue);
+    }
+
 
 }
 

@@ -39,7 +39,7 @@ public class Weapon extends Equipable{
         setId(getIdcounter());
         incrementId();
         this.dmgvallink = false;
-        setDamage(damagevalue);
+        ModifyDamage(damagevalue);
         setValue(value);
 
     }
@@ -152,8 +152,8 @@ public class Weapon extends Equipable{
         return((damage > 1) && (damage < getDamageMaxvalue()) && (damage % 7 == 0));
     }
 
-    /***
-     *
+    /**
+     * Returns a random damage value between 1 and the maximum damagevalue which is a multiple of seven.
      */
     private int generateRandomDamage(){
         SecureRandom R = new SecureRandom();
@@ -173,10 +173,12 @@ public class Weapon extends Equipable{
      * @pre The given delta must not be 0
      *      |delta !=0
      * @effect The damage of this weapon is adapted with the given delta.
-     *         | setDamage(getDamage()+delta)
+     *         | ModifyDamage(getDamage()+delta)
+     * @effect If weapon damage and value are linked, the value is also modified
+     *         |setValue((getDamage()+delta)*2)
      */
     private void changeDamage(int delta){
-        ModifyDamage(getDamage()+delta);
+        ModifyDamage(getDamage() + delta);
     }
 
     /**
@@ -189,6 +191,8 @@ public class Weapon extends Equipable{
      *          | delta > 0
      * @effect  The damage of this weapon is increased with the given delta.
      *          | changeDamage(delta)
+     * @effect If the weapon damage and value are linked, the value is also modified with 2 times the given delta
+     *          |setValue(getValue() + 2*delta)
      */
     public void EnhanceDamage(int delta){
         changeDamage(delta);
@@ -203,6 +207,8 @@ public class Weapon extends Equipable{
      *          | delta > 0
      * @effect  The damage of this weapon is decreased with the given delta.
      *          | changeDamage(delta)
+     * @effect If the weapon damage and value are linked, the value is also modified with 2 times the given delta
+     *          |setValue(getValue() - 2*delta)
      */
     public void DecrementDamage(int delta){
         changeDamage(-delta);
@@ -215,7 +221,7 @@ public class Weapon extends Equipable{
     /**
      * A final variabele stating if the damage and value of this weapon are linked
      */
-    final boolean dmgvallink;
+    final private boolean dmgvallink;
 
     /**
      *
@@ -262,8 +268,6 @@ public class Weapon extends Equipable{
      *                 then  setValue(200)
      *                else if(value < 1)
      *                 then setValue(1)
-     *
-     *
      */
     private void ModifyDamage(int damage){
         setDamage(damage);

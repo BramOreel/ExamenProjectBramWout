@@ -136,7 +136,9 @@ public abstract class Equipable {
      * @param value
      *        the new value for this equipable item
      */
-    protected void setValue(int value) {
+    protected void setValue(int value) throws IllegalArgumentException {
+        if(!isValidValue(value))
+            throw new IllegalArgumentException();
         this.value = value;
     }
 

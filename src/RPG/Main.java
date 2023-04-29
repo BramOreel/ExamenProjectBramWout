@@ -5,9 +5,11 @@ public class Main {
     public static void main(String[] args) {
        // System.out.println("Hello world!");
 
-        Weapon yeet = new Weapon(3);
+        //Weapon yeet = new Weapon(3,19);
         //System.out.println(yeet.getId());
         //System.out.println(yeet.getDamage());
+        Weapon woord = new Weapon(11, 49, 17);
+
 
 
         Armor jema = new Armor(25,3,ArmorType.DEFAULT);
@@ -18,7 +20,19 @@ public class Main {
         //System.out.println(bingbong2.getId());
 
         Backpack yeep = new Backpack(25,3);
-        System.out.println(yeet.getId());
+
+
+
+        System.out.println(woord.getDamage());
+        System.out.println(woord.getValue());
+        System.out.println(woord.isDmgValLink());
+        woord.DecrementDamage(14);
+        System.out.println(woord.getDamage());
+        System.out.println(woord.getValue());
+        System.out.println();
+        System.out.println();
+
+
 
 
 

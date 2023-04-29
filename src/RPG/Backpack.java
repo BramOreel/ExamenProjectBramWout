@@ -13,9 +13,13 @@ public class Backpack extends Equipable{
      */
 
 
-    public Backpack(long id, int weight){
+    public Backpack(long id, int weight, int value) throws IllegalArgumentException{
         super(weight);
         configure(id);
+        if(!isValidValue(value))
+            throw new IllegalArgumentException();
+        setValue(value);
+
     }
 
 
@@ -63,9 +67,47 @@ public class Backpack extends Equipable{
     /***************
      * Content
      */
+
+    /***********
+     *Weight
+     */
+
+
+    /**
+     *
+     * Returns the total weight of this backpack
+     */
     public int getTotalWeight(){
         return 1;
     }
+
+    /**************
+     * Value
+     */
+
+
+    /**
+     *
+     * Returns the total value of this backpack.
+     */
+    public int getTotalValue(){
+        return 1;
+    }
+
+    /**
+     * Checks whether the given value is a valid value for this backpack
+     * @param value
+     *        the value to be checked
+     *
+     * @return False if the given value for this backpack is less than 1 or
+     *               if the given value for this backpack is greater than 500.
+     *         |if(value < 1 || value > 500) then result == False
+     */
+    @Override
+    public boolean isValidValue(int value){
+        return(super.isValidValue(value) && value <= 500);
+    }
+
 
 
 }
