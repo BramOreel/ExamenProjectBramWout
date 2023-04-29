@@ -20,17 +20,17 @@ public class Weapon extends Equipable{
         setId(getIdcounter());
         incrementId();
         this.dmgvallink = true;
-        setDamage(damagevalue);  //
+        ModifyDamage(damagevalue);
 
     }
 
-    public Weapon(int weight){  //vaste value mee
+    public Weapon(int weight){
         super(weight);
         setId(getIdcounter());
         incrementId();
         this.dmgvallink = true;
-        generateRandomDamage();
-        //setValue value
+        ModifyDamage(generateRandomDamage());
+
 
     }
 
@@ -39,8 +39,8 @@ public class Weapon extends Equipable{
         setId(getIdcounter());
         incrementId();
         this.dmgvallink = false;
-        setDamage(damagevalue); //setDamage moet modify worden
-        //setValue value
+        setDamage(damagevalue);
+        setValue(value);
 
     }
 
@@ -152,14 +152,16 @@ public class Weapon extends Equipable{
         return((damage > 1) && (damage < getDamageMaxvalue()) && (damage % 7 == 0));
     }
 
-
-    private void generateRandomDamage(){
+    /***
+     *
+     */
+    private int generateRandomDamage(){
         SecureRandom R = new SecureRandom();
         int upperbound = Math.floorDiv(getDamageMaxvalue(),7) - 1;
 
         int int1 = R.nextInt(upperbound);
         int1 = (7 * int1) + 7;
-        setDamage(int1);
+        return int1;
     }
 
     /**
@@ -174,7 +176,7 @@ public class Weapon extends Equipable{
      *         | setDamage(getDamage()+delta)
      */
     private void changeDamage(int delta){
-        setDamage(getDamage()+delta);
+        ModifyDamage(getDamage()+delta);
     }
 
     /**
@@ -207,7 +209,7 @@ public class Weapon extends Equipable{
     }
 
     /**********
-     * Value, defensief programmeren
+     * Value, totaal
      */
 
     /**
@@ -219,7 +221,7 @@ public class Weapon extends Equipable{
      *
      * Returns true if damage and value of this weapon are linked
      */
-    public boolean isDmgvallink() {
+    public boolean isDmgValLink() {
         return dmgvallink;
     }
 
@@ -238,9 +240,34 @@ public class Weapon extends Equipable{
         return(super.isValidValue(value) && value <= 200);
     }
 
+    /**
+     * Modifies the damage of a weapon and its value if and only if damage and value are linked.
+     *
+     * @param damage
+     *        the new damage for this weapon
+     * @pre the damage for the weapon must be valid
+     *      |isValidDamage(damage)
+     *
+     * @post the damagevalue is set to the given damage
+     *      |setDamage(damage)
+     * @effect if damage and value are linked,
+     *             if the new value is valid the value of the weapon is updated to the new damage*2.
+     *             Else if the new value is greater than 200, the new value is set to 200.
+     *             Else if the new value is less than 1, the new value is set to 1.
+     *        |if(isDmgValLink())
+     *          value = getDamage()*2
+     *          then: if(isValidValue(value)
+     *                  then setValue(value)
+     *                else if(value > 200)
+     *                 then  setValue(200)
+     *                else if(value < 1)
+     *                 then setValue(1)
+     *
+     *
+     */
     private void ModifyDamage(int damage){
         setDamage(damage);
-        if(isDmgvallink()){
+        if(isDmgValLink()){
            int value = getDamage()*2;
            if(isValidValue(value))
                setValue(value);
