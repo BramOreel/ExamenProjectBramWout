@@ -154,6 +154,21 @@ public abstract class Equipable {
     protected boolean isValidValue(int value){
         return(value >= 1);
     }
+
+
+    /********
+     * Holder
+     */
+
+    private Creature holder = null;
+
+    public Creature getHolder() {
+        return holder;
+    }
+
+    protected void setHolder(Creature holder) {
+        this.holder = holder;
+    }
 }
 
 
