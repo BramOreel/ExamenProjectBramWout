@@ -159,10 +159,10 @@ public class Backpack extends Equipable{
 
         if(getHolder() == null)
             throw new NullPointerException();
-
+        /** Deze uitzetten nog
         if(item.getHolder() != null)
             throw new OtherPlayersItemException();
-
+        */
         //Bij pickup in creature class kijken of creature niet al dood is en of hij deze kan dragen natuurlijk.
         item.setHolder(this.getHolder());
         long id = item.getId();

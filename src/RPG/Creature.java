@@ -284,8 +284,10 @@ public abstract class Creature {
         for (int i = 0; i < list.size(); i++) {
             Anchor curranchor = getAnchorAt(i);
             if (curranchor.getAnchorType() == anchortype) {
-                anchor = curranchor;
-                break;
+                if(curranchor.getItem() == null){
+                    anchor = curranchor;
+                    break;
+                }
             }
         }
 
