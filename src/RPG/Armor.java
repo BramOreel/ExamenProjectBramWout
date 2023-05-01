@@ -2,6 +2,7 @@ package RPG;
 
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
+import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Raw;
 
 import java.util.*;
@@ -11,11 +12,11 @@ import java.lang.Math;
  * A class for Armors within an RPG
  *
  *
- * @invar Each armor must have a valid actual armorvalue
+ * @invar Each armor must have a valid protection value.
  *        |isValidArmorValue(getactualarmor());
  *
- * @invar Each armor must have a valid creationtime
- *        |isValidCreationTime(getCreationtime());
+ * @invar Each armor must have a valid creationtime.
+ *        |isValidCheckTime(getChecktime());
  *
  *
  */
@@ -26,7 +27,7 @@ public class Armor extends Equipable{
      * CONSTRUCTORS
      */
 
-
+    @Raw
     public Armor(long id, int weight, ArmorType armortype, int value) throws IllegalArgumentException{
         super(weight);
         configurePrime(id);
@@ -60,7 +61,7 @@ public class Armor extends Equipable{
      *         | then result == false
      *
      */
-    @Override
+    @Override @Model @Raw
     protected boolean canHaveAsId(long id){
         return(super.canHaveAsId(id) && isPrime(id) && !primeidSet.contains(id));
     }
@@ -75,7 +76,7 @@ public class Armor extends Equipable{
      *         | if(num%i ! 0)
      *         |then result == False
      */
-
+    @Model
     private boolean isPrime(long num)
     {
         if(num<=1)
@@ -100,7 +101,7 @@ public class Armor extends Equipable{
      * 	     | then new.getId().equals(id)
      * 	     | else new.getId().equals(closestBiggerPrime(id))
      */
-
+    @Model @Raw
     private void configurePrime(long id){
 
         while(!canHaveAsId(id)){
@@ -129,7 +130,7 @@ public class Armor extends Equipable{
      *
      * Returns the armortype of this armor
      */
-    @Immutable
+    @Immutable @Model @Basic
     private ArmorType getArmorType(){
         return maxprotection;
     }
@@ -138,6 +139,7 @@ public class Armor extends Equipable{
      *
      * Returns the maximum protectionvalue of the armortype of this armor.
      */
+    @Immutable @Model @Basic
     private int getMaxProtection(){return getArmorType().getMaxvalue();}
 
     /**
@@ -154,6 +156,7 @@ public class Armor extends Equipable{
      *         The effects of wear in time are accounted for here.
      *         |checkarmor()
      */
+    @Model @Raw
     private void changeArmor(int delta){
         setActualarmor(getActualarmor()+delta);
         checkarmor();
@@ -170,6 +173,7 @@ public class Armor extends Equipable{
      * @effect  The actualarmor of this armor is increased with the given delta.
      *          | changeArmor(delta)
      */
+    @Raw
     public void RepairArmor(int delta){
         changeArmor(delta);
     }
@@ -184,6 +188,7 @@ public class Armor extends Equipable{
      * @effect  The actualarmor of this armor is decreased with the given delta.
      *          | changeArmor(-delta)
      */
+    @Raw
     public void DecrementArmor(int delta){
         changeArmor(-delta);
     }
@@ -209,6 +214,7 @@ public class Armor extends Equipable{
      *
      *
      */
+    @Model @Raw
     private void checkarmor() {
         int newactualarmorvalue = (int) (getActualarmor() - getWear());
         if(!isValidArmorValue(newactualarmorvalue))
@@ -228,7 +234,7 @@ public class Armor extends Equipable{
      * @param actualarmor
      *        the new actual armorvalue
      */
-
+    @Model
     private void setActualarmor(int actualarmor)  {
         this.actualarmor = actualarmor;
     }
@@ -237,7 +243,7 @@ public class Armor extends Equipable{
      *
      * Returns the old actual armorvalue
      */
-
+    @Model @Basic
     private int getActualarmor(){
         return this.actualarmor;}
 
@@ -245,7 +251,7 @@ public class Armor extends Equipable{
      *
      * Returns the actual armorvalue, taking the effects of wear through time into account.
      */
-
+    @Raw
     public int getCurrentArmor(){
         checkarmor();
         return getActualarmor();
@@ -260,7 +266,7 @@ public class Armor extends Equipable{
      *        if(value < 1 || value > getMaxProtection()) then result == False
      */
 
-
+    @Raw
     public boolean isValidArmorValue(int value){
         return((value >= 1) && (value <= getMaxProtection()));
     }
@@ -277,7 +283,7 @@ public class Armor extends Equipable{
     /**
      * Return the time at which this disk item was last checked.
      */
-    @Raw
+
     @Basic
     public Date getCheckTime() {
         return checkTime;
@@ -289,6 +295,7 @@ public class Armor extends Equipable{
      * @param date
      *        the new date .
      */
+    @Model
     private void setCheckTime(Date date){checkTime = date;}
 
 
@@ -307,6 +314,7 @@ public class Armor extends Equipable{
      * @note	This checker is object-independent (and thus static).
      *
      */
+    @Raw
     public static boolean isValidChecktime(Date date) {
         return 	(date!=null) &&
                 (date.getTime()<=System.currentTimeMillis());
@@ -316,6 +324,7 @@ public class Armor extends Equipable{
      * Returns the amount of hours that have passed since this method was last called.
      * If the amount of hours is greater than one, the old time is updated to the new time.
      */
+    @Model
     private long getWear(){
         Date now = new Date();
 
@@ -341,6 +350,7 @@ public class Armor extends Equipable{
      *
      * Returns the maximum value of the armorpiece.
      */
+    @Immutable @Basic
     public int getMaxvalue() {
         return maxvalue;
     }
@@ -354,7 +364,7 @@ public class Armor extends Equipable{
      *               if the value for this armor is greater than 1000.
      *         if(value < 1 || value > 1000) then result == False.
      */
-    @Override
+    @Override @Raw
     public boolean isValidValue(int value){
         return(super.isValidValue(value) && value <= 1000);
     }
@@ -368,7 +378,7 @@ public class Armor extends Equipable{
      *         |checkarmor()
      * @return Returns the updated value for this armor.
      */
-    @Override
+    @Override @Raw
     public int getValue(){
         checkarmor();
         return super.getValue();
@@ -384,6 +394,7 @@ public class Armor extends Equipable{
      *         |!isValidValue(newvalue))
      *
      */
+    @Model @Raw
     private void updateValue() throws IllegalArgumentException{
         double fraction = getActualarmor()/getMaxProtection();
         int newvalue = (int) (getMaxvalue()*fraction);
@@ -391,8 +402,6 @@ public class Armor extends Equipable{
             throw new IllegalArgumentException();
         setValue(newvalue);
     }
-
-
 }
 
 

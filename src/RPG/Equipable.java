@@ -1,5 +1,10 @@
 package RPG;
 
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Immutable;
+import be.kuleuven.cs.som.annotate.Model;
+import be.kuleuven.cs.som.annotate.Raw;
+
 import java.util.UUID;
 
 /**
@@ -31,9 +36,10 @@ public abstract class Equipable {
     /**
      * Initialize a new Equipable item with a given weight and holder
      */
+    @Raw @Model
     protected Equipable(int weight){
-        if(weight > 0)
-        this.weight = weight;
+        if(canHaveAsWeight(weight))
+            this.weight = weight;
         else this.weight = 5;
     }
 
@@ -45,6 +51,7 @@ public abstract class Equipable {
      *
      * Return the Id of the equipable item
      */
+    @Basic @Immutable
     public long getId() {
         return Id;
     }
@@ -61,6 +68,7 @@ public abstract class Equipable {
      *
      *
      */
+    @Raw @Model
     protected final void setId(long id) {
         if(canHaveAsId(id))
             Id = id;
@@ -79,6 +87,7 @@ public abstract class Equipable {
      * @note This checker only checks the common rule between all the subclasses. Whether or not the id is unique is resolved by the subclasses.
      *
      */
+    @Raw @Model
     protected boolean canHaveAsId(long id){
        return(id >= 0 && id < Integer.MAX_VALUE);
 
@@ -98,6 +107,7 @@ public abstract class Equipable {
      *
      * Returns the weight of this equipable
      */
+    @Basic
     public int getWeight() {
         return weight;
     }
@@ -110,6 +120,7 @@ public abstract class Equipable {
      * @return True if the value is greater than zero
      *         |if(weight > 0) then result == True
      */
+    @Raw
     public boolean canHaveAsWeight(long weight){
         return(weight > 0);
     }
@@ -127,15 +138,22 @@ public abstract class Equipable {
      *
      * Returns the value of the equipable item
      */
+    @Basic
     public int getValue() {
         return value;
     }
 
     /**
+     *Sets the value for this equipable item to the given item
      *
      * @param value
      *        the new value for this equipable item
+     *
+     * @throws IllegalArgumentException
+     *         The given value is a integer less then one.
+     *         |value < 1
      */
+    @Raw @Model
     protected void setValue(int value) throws IllegalArgumentException {
         if(!isValidValue(value))
             throw new IllegalArgumentException();
@@ -151,6 +169,7 @@ public abstract class Equipable {
      * @return False if the given value is smaller than one.
      *        |if(value < 1) then result == False
      */
+    @Model @Raw
     protected boolean isValidValue(int value){
         return(value >= 1);
     }
@@ -160,15 +179,39 @@ public abstract class Equipable {
      * Holder
      */
 
+    /**
+     * A variabele referencing the creature object that currently holds this equipable item.
+     */
     private Creature holder = null;
 
+    /**
+     *
+     * Returns the holder of this equipable item
+     */
+    @Basic
     public Creature getHolder() {
         return holder;
     }
 
+    /**
+     * Sets the holder of this equipable item to the given holder
+     * @param holder
+     *        the new holder for this equipable item
+     */
     protected void setHolder(Creature holder) {
         this.holder = holder;
     }
+
+
+    protected void equip(Anchor anchor) throws IllegalArgumentException{
+        anchor.setItem(this);
+        this.setHolder(anchor.getOwner());
+    }
+
+
+
+
+
 }
 
 

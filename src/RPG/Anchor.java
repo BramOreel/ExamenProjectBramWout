@@ -41,7 +41,9 @@ public class Anchor {
         this.item = item;
     }
 
-
+    protected Creature getOwner() {
+        return owner;
+    }
 
     /**
      * Generates a new Anchor that holds a certain item and has an anchortype.
@@ -60,6 +62,7 @@ public class Anchor {
         this.owner = owner;
         //  dit zou beter een functie van Equipable zijn setItem(item);
     }
+
 
     /**
      * Generates a new Anchor that does not hold an item and has a certain anchorType.

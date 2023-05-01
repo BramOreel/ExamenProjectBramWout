@@ -1,4 +1,5 @@
 package RPG;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import be.kuleuven.cs.som.annotate.Raw;
@@ -6,6 +7,59 @@ import be.kuleuven.cs.som.annotate.Raw;
 import java.text.DecimalFormat;
 
 public class Hero extends Creature{
+
+    /**
+     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and a given protetection stat.
+     * Also initialises five Anchors of the anchor class
+     *
+     * @param name
+     *        The given name of the new Hero
+     * @param maxHitPoints
+     *        The given maximum amount of hitpoints the Hero can have
+     * @param strength
+     *        The given strength the hero has
+     * @param protection
+     *        The given protection stat the hero has.
+     *@effect The maxcapacity is calculated with the given strength and then set as the strength.
+     *        |setMaxCapacity(calculateMaxCapacity(strength));
+     *@effect The Hero is generated as a creature with a given name, maxHitPoints and the calculated maxCapacity.
+     *        | super(name, maxHitPoints, maxCapacity)
+     *@effect The protection is set as the protection.
+     *        | setProtection(protection)
+     *@effect The strength is set as the strength.
+     *        | setStrength(strength)
+     *@effect five anchors are initialised and set as the anchors of this hero. One left hand, One right hand, one back, one chest and one belt.
+     *        |initialiseAnchors();
+     *
+     */
+
+    public Hero(String name, int maxHitPoints, double strength, float protection) {
+        super(name, maxHitPoints, (int) (20*strength));
+        setMaxCapacity(calculateMaxCapacity(strength));
+        setProtection(protection);
+        setStrength(strength);
+        initialiseAnchors();
+    }
+
+    /**
+     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and the default protetection stat.
+     * @param name
+     *        The given name of the new Hero
+     * @param maxHitPoints
+     *        The given maximum amount of hitpoints the Hero can have
+     * @param strength
+     *        The given strength the hero has
+     *@effect The hero is generated as a hero with the default protection stat.
+     *        | this(name,maxHitPoints,strength,getDefaultProtection())
+     */
+    public Hero(String name, int maxHitPoints, double strength){
+        this(name,maxHitPoints,strength,getDefaultProtection());
+    }
+
+
+
+
+
     /**
      * variable stating how much protection the hero has, how easily he can dodge or deflect attacks.
      */
@@ -113,46 +167,26 @@ public class Hero extends Creature{
     }
 
     /**
-     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and a given protetection stat.
-     * @param name
-     *        The given name of the new Hero
-     * @param maxHitPoints
-     *        The given maximum amount of hitpoints the Hero can have
-     * @param strength
-     *        The given strength the hero has
-     * @param protection
-     *        The given protection stat the hero has.
-     *@effect The maxcapacity is calculated with the given strength and then set as the strength.
-     *        |setMaxCapacity(calculateMaxCapacity(strength));
-     *@effect The Hero is generated as a creature with a given name, maxHitPoints and the calculated maxCapacity.
-     *        | super(name, maxHitPoints, maxCapacity)
-     *@effect The protection is set as the protection.
-     *        | setProtection(protection)
-     *@effect The strength is set as the strength.
-     *        | setStrength(strength)
+     * Anchors
      */
-
-    public Hero(String name, int maxHitPoints, double strength, float protection) {
-        super(name, maxHitPoints,0);
-        setMaxCapacity(calculateMaxCapacity(strength));
-        setProtection(protection);
-        setStrength(strength);
+    private void initialiseAnchors(){
+        ArrayList<Anchor> list = new ArrayList<Anchor>();
+        list.add(new Anchor(AnchorType.LINKERHAND,this));
+        list.add(new Anchor(AnchorType.RECHTERHAND,this));
+        list.add(new Anchor(AnchorType.RUG,this));
+        list.add(new Anchor(AnchorType.LICHAAM,this));
+        list.add(new Anchor(AnchorType.RIEM,this));
+        setAnchors(list);
     }
 
-    /**
-     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and the default protetection stat.
-     * @param name
-     *        The given name of the new Hero
-     * @param maxHitPoints
-     *        The given maximum amount of hitpoints the Hero can have
-     * @param strength
-     *        The given strength the hero has
-     *@effect The hero is generated as a hero with the default protection stat.
-     *        | this(name,maxHitPoints,strength,getDefaultProtection())
-     */
-    public Hero(String name, int maxHitPoints, double strength){
-        this(name,maxHitPoints,strength,getDefaultProtection());
-    }
+
+
+
+
+
+
+
+
 }
 
 

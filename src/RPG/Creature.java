@@ -3,9 +3,46 @@ import be.kuleuven.cs.som.annotate.Raw;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public abstract class Creature {
-    protected List<Anchor> anchors;
+
+    /**
+     * Creates a new creature with a name, amount of hitpoints and capactity.
+     * @param name
+     *        The name of the new creature.
+     * @param maxHitPoints
+     *        The maximum amount of hitpoints of the creature.
+     * @param maxCapacity
+     *        The maximum capacity of the creature in kg.
+     * @effect The new name is set to the name of the creature, if the name is not valid
+     *         an IllegalArgumentException is thrown.
+     *         |setName(name)
+     * @effect The maximum capacity is set to the given maxCapacity.
+     *         |setMaxCapacity(maxCapacity)
+     * @effect The remaining capacity is set to the given maxCapacity,
+     *          because the creature still has an empty inventory.
+     *         |setCapacity(maxCapacity)
+     * @effect The maximum amount of hitpoints is set to the given maxHitPoints.
+     *         |setMaxHitPoints(maxHitPoints)
+     * @effect The amount of hitpoints is set to the given maxHitPoints,
+     *          so the creature has full health.
+     *         |setHitPoints(maxHitPoints)
+     * @post   The Anchors is set to an empty arraylist to which anchors can later be added.
+     *         |this.anchors = new ArrayList<Anchor>()
+     */
+    protected Creature(String name, int maxHitPoints, int maxCapacity) {
+        setName(name);
+        setMaxCapacity(maxCapacity);
+        setCapacity(maxCapacity);
+        setMaxHitPoints(maxHitPoints);
+        setHitPoints(maxHitPoints);
+
+    }
+
+
+
+    protected ArrayList<Anchor> anchors = new ArrayList<Anchor>();
     /**
      * variable containing the name of the Creature
      */
@@ -196,45 +233,148 @@ public abstract class Creature {
             this.name = name;
         }
     }
+    /********
+     * Anchors
+     */
+
+    public ArrayList<Anchor> getAnchors() {
+        return anchors;
+    }
+
+    protected void setAnchors(ArrayList<Anchor> anchors) {
+        this.anchors = anchors;
+    }
 
     /**
      * Gives the list of anchors
      * @return the list of anchors
      */
-    public List<Anchor> getAnchors() {
-        return anchors;
+
+
+    public Anchor getAnchorAt(int i){
+        return getAnchors().get(i);
+    }
+
+    public Equipable getAnchorItemAt(int i){
+        return getAnchorAt(i).getItem();
     }
 
     /**
-     * Creates a new creature with a name, amount of hitpoints and capactity.
-     * @param name
-     *        The name of the new creature.
-     * @param maxHitPoints
-     *        The maximum amount of hitpoints of the creature.
-     * @param maxCapacity
-     *        The maximum capacity of the creature in kg.
-     * @effect The new name is set to the name of the creature, if the name is not valid
-     *         an IllegalArgumentException is thrown.
-     *         |setName(name)
-     * @effect The maximum capacity is set to the given maxCapacity.
-     *         |setMaxCapacity(maxCapacity)
-     * @effect The remaining capacity is set to the given maxCapacity,
-     *          because the creature still has an empty inventory.
-     *         |setCapacity(maxCapacity)
-     * @effect The maximum amount of hitpoints is set to the given maxHitPoints.
-     *         |setMaxHitPoints(maxHitPoints)
-     * @effect The amount of hitpoints is set to the given maxHitPoints,
-     *          so the creature has full health.
-     *         |setHitPoints(maxHitPoints)
-     * @post   The Anchors is set to an empty arraylist to which anchors can later be added.
-     *         |this.anchors = new ArrayList<Anchor>()
+     * Mss nog compacter maken voor checker
+     * @param item
+     * @param anchortype
+     * @throws ItemAlreadyobtainedException
+     * @throws IllegalArgumentException
+     * @throws AnchorslotOquipiedException
+     * @throws CarryLimitReachedException
      */
-    protected Creature(String name, int maxHitPoints, int maxCapacity) {
-        setName(name);
-        setMaxCapacity(maxCapacity);
-        setCapacity(maxCapacity);
-        setMaxHitPoints(maxHitPoints);
-        setHitPoints(maxHitPoints);
-        this.anchors = new ArrayList<Anchor>();
+
+    public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
+            AnchorslotOquipiedException, CarryLimitReachedException {
+        if (item.getHolder() != null) {
+            throw new ItemAlreadyobtainedException();
+        }
+        if (item == null) {
+            throw new IllegalArgumentException();
+        }
+
+        Anchor anchor = null;
+
+        ArrayList<Anchor> list = getAnchors();
+        for (int i = 0; i < list.size(); i++) {
+            Anchor curranchor = getAnchorAt(i);
+            if (curranchor.getAnchorType() == anchortype) {
+                anchor = curranchor;
+                break;
+            }
+        }
+
+        if(anchor == null)
+            throw new IllegalArgumentException();
+
+        if (anchor.getItem() != null)
+            throw new AnchorslotOquipiedException();
+
+        int weight = item.getWeight();
+        if(item instanceof Backpack)
+            weight = ((Backpack) item).getTotalWeight();
+
+        if (weight > getCapacity())
+            throw new CarryLimitReachedException(item);
+
+        item.equip(anchor);
+        setCapacity(getCapacity()-item.getWeight());
     }
+
+    public void store(Equipable item, Backpack backpack) throws IllegalArgumentException{
+
+        if(backpack.getHolder() != this || backpack == null)
+            throw new IllegalArgumentException();
+
+        if(item.getHolder() != this || item == null)
+            throw new IllegalArgumentException();
+
+        Anchor backpackanchor = null;
+        Anchor itemanchor = null;
+        //als rugzak niet in een anchor, throw error
+        for(int i= 0; i < getAnchors().size(); i++){
+            if(getAnchorItemAt(i) == backpack){
+                backpackanchor = getAnchorAt(i);
+            }
+            else if(getAnchorItemAt(i) == item)
+                itemanchor = getAnchorAt(i);
+        }
+        if(backpackanchor == null || itemanchor == null){
+            throw new IllegalArgumentException();
+        }
+
+        try {
+            backpack.addEquipable(item);
+        } catch (BackPackNotEmptyException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        } catch (OtherPlayersItemException e) {
+            throw new RuntimeException(e);
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        }
+        itemanchor.setItem(null);
+    }
+
+
+    public void pickUpAndStore(Equipable item, Backpack backpack){
+
+        /**
+         * het item in onze hand dat niet de rugzak is wordt even op de grond gelegd om een item op te pakken.
+         */
+        int i = 0;
+        Equipable currholding = getAnchorItemAt(0);
+        if(currholding == backpack){
+            i++;
+            currholding = getAnchorItemAt(i);
+        }
+        getAnchorAt(i).setItem(null);
+
+        //We proberen het item op te pakken
+        try {
+            pickUp(item, getAnchorAt(i).getAnchorType());
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        } catch (AnchorslotOquipiedException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
+
+        //Het item wordt weggestoken in de rugzak
+        store(item, backpack);
+        //Het wapen wordt weer vastgenomen
+        getAnchorAt(i).setItem(currholding);
+    }
+
+
+
+
+
 }
