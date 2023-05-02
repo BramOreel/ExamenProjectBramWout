@@ -48,6 +48,17 @@ public abstract class Equipable {
      */
 
     /**
+     * Checks if the equipable can be equiped by an anchor
+     * @param anchor
+     *        the anchor that would equip the equipable
+     * @return True
+     */
+
+    public boolean isValidAnchor(Anchor anchor){
+        return true;
+    }
+
+    /**
      *
      * Return the Id of the equipable item
      */
@@ -130,12 +141,11 @@ public abstract class Equipable {
      */
 
     /**
-     * A variable containing the weight of an Equipable item in 'dukaten'
+     * A variable containing the value of an Equipable item in 'dukaten'
      */
     private int value = 1;
 
     /**
-     *
      * Returns the value of the equipable item
      */
     @Basic
@@ -203,10 +213,31 @@ public abstract class Equipable {
     }
 
 
-    protected void equip(Anchor anchor) throws IllegalArgumentException{
+    public void equip(Anchor anchor) throws IllegalArgumentException{
         anchor.setItem(this);
         this.setHolder(anchor.getOwner());
     }
+
+    /**
+     * Equips an equipable in a random empty anchor of the creature.
+     * @param monster
+     *        The monster that has to equip the item.
+     * @effect The item will be added to the first empty anchor. If there is no free anchor nothing happens.
+     *        | for(Anchor anchor : monster.getAnchors())
+     *        |     if (anchor.getItem() == null)
+     *        |         equip(anchor);
+     *        |         break;
+     */
+    protected void equip(Monster monster){
+        for(Anchor anchor : monster.getAnchors()) {
+            if (anchor.getItem() == null) {
+                equip(anchor);
+                break;
+            }
+        }
+    }
+
+
 
 
 

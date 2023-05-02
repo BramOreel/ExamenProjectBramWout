@@ -36,11 +36,19 @@ public class Armor extends Equipable{
         if(!isValidValue(value))
             throw new IllegalArgumentException();
         this.maxvalue = value;
-
     }
 
 
-
+    /**
+     * Checks if the equipable can be equiped by an anchor
+     * @param anchor
+     *        the anchor that would equip the equipable
+     * @return True only if the anchortype of the anchor is body.
+     */
+    @Override
+    public boolean isValidAnchor(Anchor anchor){
+        return anchor.getAnchorType() == AnchorType.LICHAAM ||anchor.getAnchorType() == AnchorType.OTHER;
+    }
 
     /**
      * Static variable containing the set of previous Armor id's.

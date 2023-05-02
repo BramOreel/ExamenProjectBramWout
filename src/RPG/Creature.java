@@ -28,8 +28,6 @@ public abstract class Creature {
      * @effect The amount of hitpoints is set to the given maxHitPoints,
      *          so the creature has full health.
      *         |setHitPoints(maxHitPoints)
-     * @post   The Anchors is set to an empty arraylist to which anchors can later be added.
-     *         |this.anchors = new ArrayList<Anchor>()
      */
     protected Creature(String name, int maxHitPoints, int maxCapacity) {
         setName(name);

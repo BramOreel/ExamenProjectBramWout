@@ -28,9 +28,8 @@ public class Hero extends Creature{
      *        | setProtection(protection)
      *@effect The strength is set as the strength.
      *        | setStrength(strength)
-     *@effect five anchors are initialised and set as the anchors of this hero. One left hand, One right hand, one back, one chest and one belt.
+     *@effect five empty anchors are initialised and set as the anchors of this hero. One left hand, One right hand, one back, one chest and one belt.
      *        |initialiseAnchors();
-     *
      */
 
     public Hero(String name, int maxHitPoints, double strength, float protection) {
@@ -39,6 +38,38 @@ public class Hero extends Creature{
         setProtection(protection);
         setStrength(strength);
         initialiseAnchors();
+    }
+
+    /**
+     * Generates a new hero with items equiped.
+     * @param name
+     *        The given name of the new Hero
+     * @param maxHitPoints
+     *        The given maximum amount of hitpoints the Hero can have
+     * @param strength
+     *        The given strength the hero has
+     * @param protection
+     *        The given protection stat the hero has.
+     * @param items
+     *        The given items that the Hero has to equip.
+     * @effect The Hero gets generated with the given name, maxhipoints, strength and protection.
+     *        | this(name, maxHitPoints, strength, protection)
+     * @effect All the given items get equiped in the free anchor slots, if there is no empty
+     *         compatible anchor left the item does not get equiped.
+     *         |for(Equipable item : items)
+     *         |   for(Anchor anchor : getAnchors())
+     *         |       if(item.isValidAnchor(anchor) && anchor.getItem() == null)
+     *         |           item.equip(item)
+     */
+    public Hero(String name, int maxHitPoints, double strength, float protection, Equipable... items) {
+        this(name, maxHitPoints, strength, protection);
+        for(Equipable item : items){
+            for(Anchor anchor : getAnchors()){
+                if(item.isValidAnchor(anchor) && anchor.getItem() == null){
+                    item.equip(anchor);
+                }
+            }
+        }
     }
 
     /**
@@ -178,14 +209,6 @@ public class Hero extends Creature{
         list.add(new Anchor(AnchorType.RIEM,this));
         setAnchors(list);
     }
-
-
-
-
-
-
-
-
 
 }
 

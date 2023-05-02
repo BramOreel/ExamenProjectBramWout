@@ -5,19 +5,43 @@ import java.util.ArrayList;
 public class Monster extends Creature{
 
     /**
-     *
+     * Generates a new monster.
      * @param name
+     *        The name of the monster.
      * @param maxHitPoints
+     *        The maximum amount of hitpoints the monster can have.
      * @param maxCapacity
-     * @param naturalProtection
+     *        The maximum capacity the monster can have.
+     * @param protectionType
+     *        The type of natural armor the monster should have.
      * @param damage
+     *        The damage stat of the monster.
+     * @param nbofanchors
+     *        The amount of anchors that the monster gets.
+     * @param items
+     *        Items that the monster needs to equip.
+     * @pre   The amount of anchors nbofanchors must be equal or higher than the amount of items that are given.
+     * @effect The Hero is generated as a creature with a given name, maxHitPoints and the given maxCapacity.
+     *         | super(name, maxHitPoints, maxCapacity)
+     * @effect A new armor with the given type is generated and set as the naturalProtection.
+     *         The weight, value and ID of the new armor is set to 0.
+     *         | this.naturalProtection == new Armor(0,0, protectionType, 0 )
+     * @effect A new weapon with the given damage value is generated with 0 weight and 0 value.
+     *         | this.damage == new Weapon(0, damage, 0)
+     * @effect The given amount of Anchors are initialized.
+     *         | initialiseAnchors(nbofanchors)
+     * @effect The items are equiped in a random anchor of the monster.
+     *         |for(Equipable item : items)
+     *         |   item.equip(this)
      */
-
-    public Monster(String name, int maxHitPoints, int maxCapacity, Armor naturalProtection, Weapon damage, int nbofanchors) {
+    public Monster(String name, int maxHitPoints, int maxCapacity, ArmorType protectionType, int damage, int nbofanchors, Equipable... items) {
         super(name, maxHitPoints, maxCapacity);
-        this.naturalProtection = naturalProtection;
-        this.damage = damage;
+        this.naturalProtection = new Armor(0,0, protectionType, 0 );
+        this.damage = new Weapon(0, damage, 0);
         initialiseAnchors(nbofanchors);
+        for(Equipable item : items){
+            item.equip(this);
+        }
     }
 
 
@@ -51,7 +75,6 @@ public class Monster extends Creature{
      * @param naturalProtection
      *        the armor that acts as the natural protection.
      */
-
     protected void setNaturalProtection(Armor naturalProtection) {
         this.naturalProtection = naturalProtection;
     }
@@ -66,6 +89,16 @@ public class Monster extends Creature{
         this.damage = damage;
     }
 
+    /**
+     * Gives a new list of empty anchors and sets it as the anchors of the monster.
+     * @param nbofanchors
+     *        The amount of anchors that the monster gets.
+     * @effect Sets the given amount of new anchors with type OTHER and the owner as the Hero in a list as the anchors.
+     *          | ArrayList<Anchor> list = new ArrayList<Anchor>()
+     *          | for(int i=0; i < nbofanchors; i++)
+     *          |     list.add(new Anchor(AnchorType.OTHER,this))
+     *          |setAnchors(list)
+     */
     private void initialiseAnchors(int nbofanchors){
         ArrayList<Anchor> list = new ArrayList<Anchor>();
         for(int i=0; i < nbofanchors; i++){

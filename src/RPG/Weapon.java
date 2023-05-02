@@ -58,6 +58,17 @@ public class Weapon extends Equipable{
     }
 
     /**
+     * Checks if the equipable can be equiped by an anchor
+     * @param anchor
+     *        the anchor that would equip the equipable
+     * @return True only if the anchortype of the anchor is body.
+     */
+    @Override
+    public boolean isValidAnchor(Anchor anchor){
+        return (anchor.getAnchorType() == AnchorType.RECHTERHAND || anchor.getAnchorType() == AnchorType.LINKERHAND||anchor.getAnchorType() == AnchorType.OTHER);
+    }
+
+    /**
      * Sets the idcounter to the specified value.
      * @param idcounter
      *        the value of the next, unused id.
@@ -106,6 +117,7 @@ public class Weapon extends Equipable{
     static final int DAMAGE_MAXVALUE = 100;
 
     /**
+     * A variabele referencing the damage of a weapon
      * A variabele referencing the damage of a weapon
      */
     private int damage = 7;
