@@ -32,7 +32,7 @@ public class Hero extends Creature{
      *        |initialiseAnchors();
      */
 
-    public Hero(String name, int maxHitPoints, double strength, float protection) {
+    public Hero(String name, int maxHitPoints, double strength, int protection) {
         super(name, maxHitPoints, (int) (20*strength));
         setMaxCapacity(calculateMaxCapacity(strength));
         setProtection(protection);
@@ -61,7 +61,7 @@ public class Hero extends Creature{
      *         |       if(item.isValidAnchor(anchor) && anchor.getItem() == null)
      *         |           item.equip(item)
      */
-    public Hero(String name, int maxHitPoints, double strength, float protection, Equipable... items) {
+    public Hero(String name, int maxHitPoints, double strength, int protection, Equipable... items) {
         this(name, maxHitPoints, strength, protection);
         for(Equipable item : items){
             for(Anchor anchor : getAnchors()){
@@ -94,11 +94,11 @@ public class Hero extends Creature{
     /**
      * variable stating how much protection the hero has, how easily he can dodge or deflect attacks.
      */
-    protected float protection;
+    protected int protection;
     /**
      * the default amount of protection for a hero
      */
-    protected static final float defaultProtection = 10;
+    protected static final int defaultProtection = 10;
     /**
      * this static states how many decimal places a strenth variable can have.
      */
@@ -111,15 +111,14 @@ public class Hero extends Creature{
     /**
      * @return the intrinsic protection of the hero
      */
-    public
-    float getProtection() {
+    public int getProtection() {
         return protection;
     }
 
     /**
      * @return the default protection of heroes
      */
-    public static float getDefaultProtection() {
+    public static int getDefaultProtection() {
         return defaultProtection;
     }
 
@@ -141,7 +140,7 @@ public class Hero extends Creature{
      *        | else:
      *        |     this.protection = getDefaultProtection()
      */
-    public void setProtection(float protection) {
+    public void setProtection(int protection) {
         if(protection > 0){
             this.protection = protection;
         }
@@ -209,6 +208,63 @@ public class Hero extends Creature{
         list.add(new Anchor(AnchorType.RIEM,this));
         setAnchors(list);
     }
+
+    /**
+     * Returns the damage that the hero will do if it hits.
+     * @return The intrinsic strength + the damage values of both weapons minus ten and then this number divided in half
+     *         and rounded down.
+     *         |return Math.floor((getStrength() + leftWeapon.getDamage(). + RightWeapon.getDamage - 10)/2)
+     */
+    @Override
+    protected int getTotalDamage(){
+        double damage = getStrength();
+        for(Anchor anchor : getAnchors()){
+            if(anchor.getAnchorType() == AnchorType.LINKERHAND || anchor.getAnchorType() == AnchorType.RECHTERHAND){
+                if(anchor.getItem() != null){
+                    Weapon weapon = (Weapon) anchor.getItem();
+                    damage += weapon.getDamage();
+                }
+            }
+        }
+        return (int) Math.floor((damage-10)/2);
+    }
+
+    /**
+     * Gives the total protection stat of the hero.
+     * @return The total protection stat that is the intrinsic protection with the currentpotection that the
+     *         equiped armor gives.
+     *         |return getProtection() + armor.getCurrentArmor()
+     */
+
+    @Override
+    protected int getTotalProtection(){
+        int protection = getProtection();
+        for(Anchor anchor : getAnchors()){
+            if(anchor.getAnchorType() == AnchorType.LICHAAM){
+                if(anchor.getItem() != null){
+                    Armor armor = (Armor) anchor.getItem();
+                    protection += armor.getCurrentArmor();
+                    break;
+                }
+            }
+        }
+        return protection;
+    }
+    @Override
+    protected void LootAndHeal(ArrayList<Equipable> items){
+        for(Anchor anchor: getAnchors()){
+            for(Equipable item: items){
+                if(item.isValidAnchor(anchor)){
+                    if(item.getValue() > anchor.getItem().getValue()){
+                        if(anchor.getItem().getWeight()-item.getWeight() <= getCapacity())
+                            anchor.getItem().unequip(anchor);
+                            item.equip(anchor);
+                    }
+                }
+            }
+        }
+    }
+
 
 
 }

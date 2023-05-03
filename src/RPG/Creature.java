@@ -101,6 +101,8 @@ public abstract class Creature {
         return capacity;
     }
 
+
+
     /**
      * @return the maximum capacity of the creature.
      */
@@ -143,6 +145,19 @@ public abstract class Creature {
      */
     protected void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    /**
+     * Adds a remaining capacity.
+     * @param capacity
+     *        the given amount, can be negative.
+     * @pre   the given amount must make the new capacity a valid amount.
+     *        | isValidCapacity(getCapacity()-capacity)
+     * @effect  the amount of remaining capacity is now the previous amount plus the given weigt.
+     *        | setCapacity(getCapacity()+capacity)
+     */
+    protected void ChangeCapacity(int capacity) {
+        setCapacity(getCapacity()+capacity);
     }
     /**
      * Sets a new given maximum capacity.
@@ -427,7 +442,7 @@ public abstract class Creature {
         if(creature.getHitPoints() <= 0){
             creature.setHitPoints(0);
             LootAndHeal(creature.die());
-        }}
+        }
     }
 
 
