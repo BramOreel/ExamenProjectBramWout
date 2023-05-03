@@ -1,6 +1,7 @@
 package RPG;
+import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Raw;
-
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
@@ -371,6 +372,62 @@ public abstract class Creature {
         store(item, backpack);
         //Het wapen wordt weer vastgenomen
         getAnchorAt(i).setItem(currholding);
+    }
+
+    /**
+     * Generates a value to see if the attack will hit.
+     * @return A random integer between 0 and 100.
+     *         | return rand.nextInt(101)
+     */
+    @Model
+    protected int getHitValue(){
+        Random rand = new Random();
+        int randomNum = rand.nextInt(101);
+        return randomNum;
+    }
+    /**
+     * @return The total damage including weapons and intrinsic damage.
+     */
+    protected abstract int getTotalDamage();
+
+    /**
+     * @return The total protection stat including armor and intrinsic protection.
+     */
+    protected abstract int getTotalProtection();
+
+    /**
+     * The creature dies and unequips all his items that can now be looted.
+     * @return  a list that contains all the items of the dead creature.
+     * @effect  all the items that the dead creature owned will be unequiped.
+     *          |for(item in items of creature)
+     *          |        unequip(item)
+     */
+    protected ArrayList<Equipable> die(){
+        ArrayList<Equipable> items = new ArrayList<Equipable>();
+        for(Anchor anchor : getAnchors()){
+            if(anchor.getItem() != null){
+                items.add(anchor.getItem());
+                anchor.getItem().unequip(anchor);
+            }
+        }
+        return items;
+    }
+
+    /**
+     * Makes a creature loot and/or heal after a won battle.
+     * @param items
+     *        The items that can be looted.
+     */
+    protected abstract void LootAndHeal(ArrayList<Equipable> items);
+
+    public void Hit(Creature creature){
+        if(getHitValue() >= getTotalProtection()){
+            creature.setHitPoints(creature.getHitPoints() - getTotalDamage());
+            }
+        if(creature.getHitPoints() <= 0){
+            creature.setHitPoints(0);
+            LootAndHeal(creature.die());
+        }}
     }
 
 

@@ -237,6 +237,36 @@ public abstract class Equipable {
         }
     }
 
+    public void unequip(Anchor anchor) throws IllegalArgumentException{
+        anchor.setItem(null);
+        this.setHolder(null);
+    }
+
+    /**
+     * Unequips an item if the creature has the item equiped
+     * @param creature
+     *        The creature that holds the item.
+     * @effect  The first anchor of the creature that holds this item has its item set to null.
+     *        |for(Anchor anchor : creature.getAnchors()) {
+     *        |    if (anchor.getItem() == this) {
+     *        |        anchor.setItem(null);
+     * @effect  The holder of this item is set to null it the item is held by the creature.
+     *        | if(creature has this)
+     *        |     this.setHolder(null);
+     */
+
+    public void unequip(Creature creature){
+        for(Anchor anchor : creature.getAnchors()) {
+            if (anchor.getItem() == this) {
+                anchor.setItem(null);
+                this.setHolder(null);
+                break;
+            }
+        }
+    }
+
+
+
 
 
 

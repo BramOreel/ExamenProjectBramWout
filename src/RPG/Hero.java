@@ -111,7 +111,8 @@ public class Hero extends Creature{
     /**
      * @return the intrinsic protection of the hero
      */
-    public float getProtection() {
+    public
+    float getProtection() {
         return protection;
     }
 
@@ -160,7 +161,6 @@ public class Hero extends Creature{
     public void setStrength(double strength) {
         Strength = Math.round(strength * Math.pow(10, decimalPlacesStrength)) / Math.pow(10, decimalPlacesStrength);
     }
-
     /**
      * Calculates the maximum capacity with the given strength.
      * @param strength
@@ -209,6 +209,7 @@ public class Hero extends Creature{
         list.add(new Anchor(AnchorType.RIEM,this));
         setAnchors(list);
     }
+
 
 }
 
