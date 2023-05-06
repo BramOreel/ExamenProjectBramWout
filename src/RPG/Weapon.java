@@ -1,5 +1,10 @@
 package RPG;
 
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Immutable;
+import be.kuleuven.cs.som.annotate.Model;
+import be.kuleuven.cs.som.annotate.Raw;
+
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -53,6 +58,7 @@ public class Weapon extends Equipable{
      *
      * Returns the current value of the idcounter
      */
+    @Basic @Model
     private static long getIdcounter() {
         return idcounter;
     }
@@ -78,6 +84,7 @@ public class Weapon extends Equipable{
      * 	     | then new.getId().equals(id)
      * 	     | else new.getId().equals(0)
      */
+    @Model @Raw
     private void setIdcounter(long idcounter) {
         if(canHaveAsId(idcounter))
             Weapon.idcounter = idcounter;
@@ -87,6 +94,7 @@ public class Weapon extends Equipable{
     /**
      * Increments the value of the idcounter by 6. Thus guaranteeing it will always be divisible by two and three.
      */
+    @Model @Raw
     private void incrementId(){
         setIdcounter(getIdcounter() + 6);
     }
@@ -100,7 +108,7 @@ public class Weapon extends Equipable{
      *         | if(idcounter < 0 || idcounter > Integer.MAX_VALUE || idcounter % 2 !=0 || idcounter % 3 !=0 )
      *         | then result == false
      */
-    @Override
+    @Override @Raw
     protected boolean canHaveAsId(long idcounter){
         return(super.canHaveAsId(idcounter) && idcounter % 2 == 0 && idcounter % 3 ==0);
 
@@ -126,6 +134,7 @@ public class Weapon extends Equipable{
      *
      * Return the damage of this weapon
      */
+    @Basic
     public int getDamage() {
         return damage;
     }
@@ -134,6 +143,7 @@ public class Weapon extends Equipable{
      *
      * Return the Maximum damagevalue of all weapons
      */
+    @Basic @Immutable
     public static int getDamageMaxvalue(){
         return Weapon.DAMAGE_MAXVALUE;
     }
@@ -151,6 +161,7 @@ public class Weapon extends Equipable{
      *       |new.getDamage() == damage
      *
      */
+    @Model
     private void setDamage(int damage) {this.damage = damage;}
 
     /**
@@ -160,13 +171,15 @@ public class Weapon extends Equipable{
      * @return True if the damage is greater than 1, smaller than the listed maximum value and a multiple of seven
      *         |result == ((damage > 1) && (damage < getDamageMaxvalue()) && (damage % 7 == 0));
      */
-    private boolean isValidDamage(int damage){
+    @Raw
+    public boolean isValidDamage(int damage){
         return((damage > 1) && (damage < getDamageMaxvalue()) && (damage % 7 == 0));
     }
 
     /**
      * Returns a random damage value between 1 and the maximum damagevalue which is a multiple of seven.
      */
+    @Model
     private int generateRandomDamage(){
         SecureRandom R = new SecureRandom();
         int upperbound = Math.floorDiv(getDamageMaxvalue(),7) - 1;
@@ -189,6 +202,7 @@ public class Weapon extends Equipable{
      * @effect If weapon damage and value are linked, the value is also modified
      *         |setValue((getDamage()+delta)*2)
      */
+    @Model @Raw
     private void changeDamage(int delta){
         ModifyDamage(getDamage() + delta);
     }
@@ -206,6 +220,7 @@ public class Weapon extends Equipable{
      * @effect If the weapon damage and value are linked, the value is also modified with 2 times the given delta
      *          |setValue(getValue() + 2*delta)
      */
+    @Raw
     public void EnhanceDamage(int delta){
         changeDamage(delta);
     }
@@ -222,6 +237,7 @@ public class Weapon extends Equipable{
      * @effect If the weapon damage and value are linked, the value is also modified with 2 times the given delta
      *          |setValue(getValue() - 2*delta)
      */
+    @Raw
     public void DecrementDamage(int delta){
         changeDamage(-delta);
     }
@@ -239,6 +255,7 @@ public class Weapon extends Equipable{
      *
      * Returns true if damage and value of this weapon are linked
      */
+    @Immutable @Basic
     public boolean isDmgValLink() {
         return dmgvallink;
     }
@@ -252,7 +269,7 @@ public class Weapon extends Equipable{
      *               if the given value is greater than 200.
      *         |if(value < 1 || value > 200) then result == False
      */
-    @Override
+    @Override @Raw
     public boolean isValidValue(int value){
 
         return(super.isValidValue(value) && value <= 200);
@@ -281,6 +298,7 @@ public class Weapon extends Equipable{
      *                else if(value < 1)
      *                 then setValue(1)
      */
+    @Raw @Model
     private void ModifyDamage(int damage){
         setDamage(damage);
         if(isDmgValLink()){

@@ -8,7 +8,7 @@ import be.kuleuven.cs.som.annotate.Raw;
 import java.util.UUID;
 
 /**
- * An abstract class of equipable items of heroes and monsters
+ * An abstract class of equipable items for heroes and monsters
  *
  * @invar Each equipable item must have a valid identification number.
  *        | canHaveAsId(getId())
@@ -19,33 +19,56 @@ import java.util.UUID;
  * @invar Each equipable item must have a allowed value
  *        | isValidValue(getValue())
  *
+ * @note Subclasses may only add/strengthen invariants (Liskov principle).
+ *
+ * @author Bram Oreel
+ * @version 1.0
+ *
  */
 public abstract class Equipable {
 
-
-    /**
-     * Variable listing the Identification Number of the item.
-     */
-    private long Id;
-
-
-    /**
-     * CONSTRUCTORS
-     */
-
     /**
      * Initialize a new Equipable item with a given weight and holder
+     *
+     * @param weight
+     *        The weight of the equipable item in kilograms
+     * @param holder
+     *        The current holder of the equipable item
+     * @effect if the given weight is valid, the weight is set to the specified value, else the weight of this item is set to 5 kilograms.
+     *          |if(canHaveAsWeight(weight))
+     *              this.weight = weight
+     *          else this.weight = 5
      */
     @Raw @Model
-    protected Equipable(int weight){
+    protected Equipable(int weight, Creature holder){
         if(canHaveAsWeight(weight))
             this.weight = weight;
         else this.weight = 5;
+        setHolder(holder);
     }
+
+    /**
+     * Initialize a new Equipable item with a given weight without a holder. In the game this 'spawns' a new item.
+     * @param weight
+     *        The weight of the equipable item in kilograms.
+     * @effect An equipable is initialised with given weight and a 'null' type holder.
+     *         |this(weight, null)
+     */
+    @Raw @Model
+    protected Equipable(int weight){
+        this(weight,null);
+    }
+
+
 
     /***********************
      * Identification
      */
+
+    /**
+     * Variable listing the Identification number of the item.
+     */
+    private long Id;
 
     /**
      * Checks if the equipable can be equiped by an anchor
@@ -212,6 +235,26 @@ public abstract class Equipable {
         this.holder = holder;
     }
 
+    /**
+     * A variable referencing the backpack this equipable item is stored in.
+     * Null means that the item is currently not stored within a backpack.
+     */
+    private Backpack parentbackpack = null;
+
+    public Backpack getParentbackpack() {
+        return parentbackpack;
+    }
+
+    protected void setParentbackpack(Backpack parentbackpack) {
+        this.parentbackpack = parentbackpack;
+    }
+
+    /**
+     *
+     * @param anchor
+     * @throws IllegalArgumentException
+     */
+
 
     public void equip(Anchor anchor) throws IllegalArgumentException{
         anchor.setItem(this);
@@ -262,6 +305,8 @@ public abstract class Equipable {
             }
         }
     }
+
+
 
 
 

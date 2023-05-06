@@ -113,66 +113,6 @@ public class Backpack extends Equipable{
         return content;
     }
 
-    /**
-     * Add the given equipable item to the items registered in this backpack
-     * and sets the indentification of the item as the key in the hashmap.
-     * @param item
-     *        The equipable item to be added.
-     *
-     * @effect The holder of the item is set to the current holder of this backpack.
-     *         |item.setHolder(this.getHolder())
-     * @post if the identification number is already used as an identification number,
-     *       the list linked to the key is appended with the given item.
-     *       if the identification number hasn't been used yet, a new entry is created.
-     *       |  if(!containsID(id)){
-     *       |      getContent().put(id, new ArrayList<Equipable>())
-     *       |  getContent().get(id).add(item);
-     *
-     * @throws BackPackNotEmptyException
-     *         The item to be added is a backpack that hasn't been emptied.
-     *         |(Backpack) item.getWeight != (Backpack) item.getTotalWeight()
-     * @throws CarryLimitReachedException
-     *         The item cannot be added because the maximum carrying capacity has been reached.
-     *         |this.getCapacity() < this.getTotalWeight()+item.getWeight()
-     * @throws ItemAlreadyobtainedException
-     *         The item is already being stored in this backpack
-     *         |this.contains(item) == True
-     * @throws OtherPlayersItemException
-     *         The item is already being stored in another backpack
-     *         |item.getHolder != null
-     * @throws NullPointerException
-     *         This backpack is not equiped by anyone
-     *         |this.getHolder == null
-     *
-     */
-    protected void addEquipable(Equipable item) throws BackPackNotEmptyException, CarryLimitReachedException, OtherPlayersItemException, ItemAlreadyobtainedException,
-            NullPointerException{
-        if(item instanceof Backpack){
-            if(item.getWeight() != ((Backpack) item).getTotalWeight())
-                throw new BackPackNotEmptyException((Backpack) item);
-        }
-        if(getCapacity() < getTotalWeight()+item.getWeight())
-            throw new CarryLimitReachedException(item);
-
-        if(contains(item))
-            throw new ItemAlreadyobtainedException();
-
-        if(getHolder() == null)
-            throw new NullPointerException();
-        /** Deze uitzetten nog
-        if(item.getHolder() != null)
-            throw new OtherPlayersItemException();
-        */
-        //Bij pickup in creature class kijken of creature niet al dood is en of hij deze kan dragen natuurlijk.
-        item.setHolder(this.getHolder());
-        long id = item.getId();
-
-        if(!containsID(id)){
-            getContent().put(id, new ArrayList<Equipable>());
-        }
-
-        getContent().get(id).add(item);
-    }
 
     /**
      * Checks if the content of this backpack contains an equipable item with the given id as its id.
@@ -208,35 +148,7 @@ public class Backpack extends Equipable{
 
     }
 
-    /**
-     * Remove the given equipable item from the content of this backpack.
-     *
-     * @param item
-     *        The item to remove.
-     * @effect The holder of the given item is set to null
-     *         |item.setHolder(null)
-     * @post If the size of the arraylist, belonging to the id key of the content hashmap is equal to one,
-     *       the entire entry is deleted, else only the item at the index where the equipable item was located is deleted,
-     *       decrementing the size of the arraylist by one
-     *       |getContent().get(id).remove(item);
-     *       |if(getContent().get(id).size() == 0) {getContent().remove(id)}
-     *
-     * @throws IllegalArgumentException
-     *         The item to be removed is not contained within the contents of content.
-     *         |(this.contains(item) == False
-     */
-    protected void removeEquipable(Equipable item) throws IllegalArgumentException{
-        if(!contains(item))
-            throw new IllegalArgumentException();
-        item.setHolder(null);
 
-        long id = item.getId();
-        getContent().get(id).remove(item);
-
-        if(getContent().get(id).size() == 0){
-            getContent().remove(id);
-        }
-    }
 
 
     /***********
@@ -327,6 +239,105 @@ public class Backpack extends Equipable{
     public int getCapacity() {
         return capacity;
     }
+
+    /**
+     * Add the given equipable item to the items registered in this backpack
+     * and sets the indentification of the item as the key in the hashmap.
+     * @param item
+     *        The equipable item to be added.
+     *
+     * @effect The holder of the item is set to the current holder of this backpack.
+     *         |item.setHolder(this.getHolder())
+     * @effect The parent backpack of the equipable item is set to this backpack
+     *         |item.setParentbackpack(this)
+     * @post if the identification number is already used as an identification number,
+     *       the list linked to the key is appended with the given item.
+     *       if the identification number hasn't been used yet, a new entry is created.
+     *       |  if(!containsID(id)){
+     *       |      getContent().put(id, new ArrayList<Equipable>())
+     *       |  getContent().get(id).add(item);
+     *
+     * @throws BackPackNotEmptyException
+     *         The item to be added is a backpack that hasn't been emptied.
+     *         |(Backpack) item.getWeight != (Backpack) item.getTotalWeight()
+     * @throws CarryLimitReachedException
+     *         The item cannot be added because the maximum carrying capacity has been reached.
+     *         |this.getCapacity() < this.getTotalWeight()+item.getWeight()
+     * @throws ItemAlreadyobtainedException
+     *         The item is already being stored in this backpack
+     *         |this.contains(item) == True
+     * @throws OtherPlayersItemException
+     *         The item is already being stored in another backpack
+     *         |item.getHolder != null
+     * @throws NullPointerException
+     *         This backpack is not equiped by anyone
+     *         |this.getHolder == null
+     *
+     */
+    protected void addEquipable(Equipable item) throws BackPackNotEmptyException, CarryLimitReachedException, OtherPlayersItemException, ItemAlreadyobtainedException,
+            NullPointerException{
+        if(item instanceof Backpack){
+            if(item.getWeight() != ((Backpack) item).getTotalWeight())
+                throw new BackPackNotEmptyException((Backpack) item);
+        }
+        if(getCapacity() < getTotalWeight()+item.getWeight())
+            throw new CarryLimitReachedException(item);
+
+        if(contains(item))
+            throw new ItemAlreadyobtainedException();
+
+        if(getHolder() == null)
+            throw new NullPointerException();
+        /** Deze uitzetten nog
+         if(item.getHolder() != null)
+         throw new OtherPlayersItemException();
+         */
+        //Bij pickup in creature class kijken of creature niet al dood is en of hij deze kan dragen natuurlijk.
+        item.setHolder(this.getHolder());
+        long id = item.getId();
+
+        if(!containsID(id)){
+            getContent().put(id, new ArrayList<Equipable>());
+        }
+
+        getContent().get(id).add(item);
+        item.setParentbackpack(this);
+    }
+
+    /**
+     * Remove the given equipable item from the content of this backpack.
+     *
+     * @param item
+     *        The item to remove.
+     * @effect The holder of the given item is set to null
+     *         |item.setHolder(null)
+     * @effect The parent backpack of the equipable item is set to null
+     *         |item.setParentbackpack(null)
+     * @post If the size of the arraylist, belonging to the id key of the content hashmap is equal to one,
+     *       the entire entry is deleted, else only the item at the index where the equipable item was located is deleted,
+     *       decrementing the size of the arraylist by one
+     *       |getContent().get(id).remove(item);
+     *       |if(getContent().get(id).size() == 0) {getContent().remove(id)}
+     *
+     * @throws IllegalArgumentException
+     *         The item to be removed is not contained within the contents of content.
+     *         |(this.contains(item) == False
+     */
+    protected void removeEquipable(Equipable item) throws IllegalArgumentException{
+        if(!contains(item))
+            throw new IllegalArgumentException();
+        item.setHolder(null);
+
+        long id = item.getId();
+        getContent().get(id).remove(item);
+
+        if(getContent().get(id).size() == 0){
+            getContent().remove(id);
+        }
+        item.setParentbackpack(null);
+    }
+
+
 }
 
 

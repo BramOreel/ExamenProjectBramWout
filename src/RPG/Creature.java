@@ -322,72 +322,83 @@ public abstract class Creature {
         setCapacity(getCapacity()-item.getWeight());
     }
 
-    public void store(Equipable item, Backpack backpack) throws IllegalArgumentException{
 
-        if(backpack.getHolder() != this || backpack == null)
+
+    /**
+     * Drops an equiped item
+     * @param equipable
+     */
+    public void drop(Equipable equipable) throws IllegalArgumentException, OtherPlayersItemException{
+        if(equipable == null)
             throw new IllegalArgumentException();
+        if(equipable.getHolder() != this)
+            throw new OtherPlayersItemException();
 
-        if(item.getHolder() != this || item == null)
-            throw new IllegalArgumentException();
 
-        Anchor backpackanchor = null;
         Anchor itemanchor = null;
-        //als rugzak niet in een anchor, throw error
-        for(int i= 0; i < getAnchors().size(); i++){
-            if(getAnchorItemAt(i) == backpack){
-                backpackanchor = getAnchorAt(i);
-            }
-            else if(getAnchorItemAt(i) == item)
+        boolean hasItem = false;
+        for(int i =0; i<getAnchors().size();i++){
+
+            Equipable currItem = getAnchorItemAt(i);
+
+            if(currItem == equipable){
                 itemanchor = getAnchorAt(i);
+                hasItem = true;
+                break;}
+
+            else if(currItem instanceof Backpack){
+                if(((Backpack) currItem).contains(equipable)){
+                    ((Backpack) currItem).removeEquipable(equipable);
+                    hasItem = true;
+                    break;
+                }
+            }
         }
-        if(backpackanchor == null || itemanchor == null){
+        if(hasItem == false)
             throw new IllegalArgumentException();
-        }
 
-        try {
-            backpack.addEquipable(item);
-        } catch (BackPackNotEmptyException e) {
-            throw new RuntimeException(e);
-        } catch (CarryLimitReachedException e) {
-            throw new RuntimeException(e);
-        } catch (OtherPlayersItemException e) {
-            throw new RuntimeException(e);
-        } catch (ItemAlreadyobtainedException e) {
-            throw new RuntimeException(e);
-        }
-        itemanchor.setItem(null);
+        if(itemanchor != null)
+            itemanchor.setItem(null);
+
+        equipable.setHolder(null);
+
+        int totalWeight = equipable.getWeight();
+        if(equipable instanceof Backpack)
+            totalWeight = ((Backpack) equipable).getTotalWeight();
+
+        ChangeCapacity(-totalWeight);
+
+
+    }
+    /**
+     * Drops the item currently stored in the specified Anchor.
+     */
+    public void dropItemAtAnchor(Anchor anchor) throws OtherPlayersItemException {
+        drop(anchor.getItem());
     }
 
 
-    public void pickUpAndStore(Equipable item, Backpack backpack){
 
-        /**
-         * het item in onze hand dat niet de rugzak is wordt even op de grond gelegd om een item op te pakken.
-         */
-        int i = 0;
-        Equipable currholding = getAnchorItemAt(0);
-        if(currholding == backpack){
-            i++;
-            currholding = getAnchorItemAt(i);
+
+    /**
+     * Drops all items
+     */
+    public void dropAllItems() throws OtherPlayersItemException {
+        for(int i=0; i < getAnchors().size();i++){
+            dropItemAtAnchor(getAnchorAt(i));
         }
-        getAnchorAt(i).setItem(null);
-
-        //We proberen het item op te pakken
-        try {
-            pickUp(item, getAnchorAt(i).getAnchorType());
-        } catch (ItemAlreadyobtainedException e) {
-            throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
-            throw new RuntimeException(e);
-        } catch (CarryLimitReachedException e) {
-            throw new RuntimeException(e);
-        }
-
-        //Het item wordt weggestoken in de rugzak
-        store(item, backpack);
-        //Het wapen wordt weer vastgenomen
-        getAnchorAt(i).setItem(currholding);
     }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Generates a value to see if the attack will hit.

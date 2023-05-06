@@ -4,14 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="begonnen met monster">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="Gewicht van Equipables en damage van wapens geïmplementeerd">
-      <change afterPath="$PROJECT_DIR$/src/RPG/ArmorType.java" afterDir="false" />
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="Kleine bug voor monsters gefikst">
+      <change afterPath="$PROJECT_DIR$/src/RPG/BeltAnchorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_04_2023_14_09_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_04_2023_14_09__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_04_2023_16_33_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_04_2023_16_33__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_04_2023_21_12_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_04_2023_21_12__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Anchor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Anchor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Armor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Armor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Backpack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Equipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Equipable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Weapon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +29,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -41,21 +48,18 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/ExamenProjectBramWout",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "preferences.editor",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -79,23 +83,6 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/woutt/Downloads/AnnotationsDoclets_v17.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.editor",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -107,6 +94,13 @@
       <workItem from="1682493009655" duration="2000" />
       <workItem from="1682495227075" duration="20387000" />
       <workItem from="1682686382687" duration="7218000" />
+      <workItem from="1682783690778" duration="6520000" />
+      <workItem from="1682862326382" duration="17601000" />
+      <workItem from="1682955414409" duration="13205000" />
+      <workItem from="1682981522832" duration="165000" />
+      <workItem from="1683019024939" duration="4623000" />
+      <workItem from="1683213889039" duration="3524000" />
+      <workItem from="1683380268212" duration="10148000" />
     </task>
     <task id="LOCAL-00001" summary="al de basis setters, getters en checkers gemaakt, bezig met constructor">
       <created>1682503734612</created>
@@ -164,14 +158,6 @@
       <option name="project" value="LOCAL" />
       <updated>1682602946401</updated>
     </task>
-    <task id="LOCAL-00009" summary="Gewicht van Equipables en damage van wapens geïmplementeerd">
-      <created>1682547104506</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1682547104506</updated>
-    </task>
-    <option name="localTasksCounter" value="10" />
     <task id="LOCAL-00009" summary="begonnen met monster">
       <created>1682604429034</created>
       <option name="number" value="00009" />
@@ -179,7 +165,56 @@
       <option name="project" value="LOCAL" />
       <updated>1682604429034</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Armor protection geïmplementeerd met tijdsafhankelijke slijtage.">
+      <created>1682775466943</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1682775466943</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Begonnen aan value">
+      <created>1682778794557</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1682778794557</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Value voor wapens geïmplementeerd">
+      <created>1682779894729</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682779894729</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Value volledig geïmplementeerd">
+      <created>1682794403377</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1682794403377</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Capacity en Contents van backpack volledig geïmplementeerd">
+      <created>1682882414293</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1682882414293</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Het oppakken van een item dat op de grond ligt en het wegsteken ervan in een rugzak geïmplementeerd">
+      <created>1682980932657</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1682980932657</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Kleine bug voor monsters gefikst">
+      <created>1682981682620</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1682981682620</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,7 +226,14 @@
     <MESSAGE value="constructor afgewerkt" />
     <MESSAGE value="Identificatie van Items geïmplementeerd" />
     <MESSAGE value="Gewicht van Equipables en damage van wapens geïmplementeerd" />
-    <option name="LAST_COMMIT_MESSAGE" value="Gewicht van Equipables en damage van wapens geïmplementeerd" />
+    <MESSAGE value="Armor protection geïmplementeerd met tijdsafhankelijke slijtage." />
+    <MESSAGE value="Begonnen aan value" />
+    <MESSAGE value="Value voor wapens geïmplementeerd" />
+    <MESSAGE value="Value volledig geïmplementeerd" />
+    <MESSAGE value="Capacity en Contents van backpack volledig geïmplementeerd" />
+    <MESSAGE value="Het oppakken van een item dat op de grond ligt en het wegsteken ervan in een rugzak geïmplementeerd" />
+    <MESSAGE value="Kleine bug voor monsters gefikst" />
+    <option name="LAST_COMMIT_MESSAGE" value="Kleine bug voor monsters gefikst" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -200,19 +242,25 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.RuntimeException" package="java.lang" />
+          <option name="timeStamp" value="19" />
+        </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/RPG/Main.java</url>
-          <line>26</line>
-          <option name="timeStamp" value="7" />
+          <line>106</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <MESSAGE value="setname override klaar" />
-    <MESSAGE value="begonnen met monster" />
-    <option name="LAST_COMMIT_MESSAGE" value="begonnen met monster" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ExamenProjectBramWout$Main.ic" NAME="Main Coverage Results" MODIFIED="1682784192722" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>RPG.*</FILTER>
+    </SUITE>
   </component>
 </project>

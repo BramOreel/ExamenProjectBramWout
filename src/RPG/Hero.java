@@ -265,6 +265,143 @@ public class Hero extends Creature{
         }
     }
 
+    /**
+     * Stores an in item that has already been pickup in away in a specified backpack
+     * @param item
+     * @param backpack
+     * @throws IllegalArgumentException
+     */
+    public void store(Equipable item, Backpack backpack) throws IllegalArgumentException{
+
+        if(backpack.getHolder() != this || backpack == null)
+            throw new IllegalArgumentException();
+
+        if(item.getHolder() != this || item == null)
+            throw new IllegalArgumentException();
+
+        Anchor backpackanchor = null;
+        Anchor itemanchor = null;
+        //als rugzak niet in een anchor, throw error
+        for(int i= 0; i < getAnchors().size(); i++){
+            if(getAnchorItemAt(i) == backpack){
+                backpackanchor = getAnchorAt(i);
+            }
+            else if(getAnchorItemAt(i) == item)
+                itemanchor = getAnchorAt(i);
+        }
+        if(backpackanchor == null || itemanchor == null){
+            throw new IllegalArgumentException();
+        }
+
+        try {
+            backpack.addEquipable(item);
+        } catch (BackPackNotEmptyException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        } catch (OtherPlayersItemException e) {
+            throw new RuntimeException(e);
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        }
+        itemanchor.setItem(null);
+    }
+
+
+    public void pickUpAndStore(Equipable item, Backpack backpack){
+
+        /**
+         * het item in onze hand dat niet de rugzak is wordt even op de grond gelegd om een item op te pakken.
+         */
+        int i = 0;
+        Equipable currholding = getAnchorItemAt(0);
+        if(currholding == backpack){
+            i++;
+            currholding = getAnchorItemAt(i);
+        }
+        getAnchorAt(i).setItem(null);
+
+        //We proberen het item op te pakken
+        try {
+            pickUp(item, getAnchorAt(i).getAnchorType());
+            //Het item wordt weggestoken in de rugzak
+            store(item, backpack);
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        } catch (AnchorslotOquipiedException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            //Het wapen wordt weer vastgenomen
+            getAnchorAt(i).setItem(currholding);
+        }
+    }
+
+    /**
+     * Takes an item out of the backpack that the item is stored in and moves it to the specified Anchor.
+     *
+     * @param item
+     * @param location
+     */
+    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOquipiedException{
+
+        Backpack parent = item.getParentbackpack();
+        if(parent == null)
+            throw new IllegalArgumentException();
+        if(parent.getHolder() != this)
+            throw new OtherPlayersItemException();
+
+        Anchor anchor = null;
+
+        for (int i = 0; i < getAnchors().size(); i++) {
+            Anchor curranchor = getAnchorAt(i);
+            if (curranchor.getAnchorType() == location) {
+                if(curranchor.getItem() == null){
+                    anchor = curranchor;
+                    break;
+                }
+            }
+        }
+        if(anchor == null)
+            throw new AnchorslotOquipiedException();
+
+        parent.removeEquipable(item);
+        anchor.setItem(item);
+
+
+
+    }
+
+    /**
+     * Moves an item from the first specified anchor to the second anchor if the second Anchor is empty.
+     * @param start
+     * @param end
+     */
+    public void moveAnchorItemtoAnchor(AnchorType start, AnchorType end) throws AnchorslotOquipiedException{
+
+        Anchor startanchor = null;
+        Anchor endanchor = null;
+
+        for (int i = 0; i < getAnchors().size(); i++) {
+            Anchor curranchor = getAnchorAt(i);
+            if (curranchor.getAnchorType() == start)
+                startanchor = curranchor;
+            if(curranchor.getAnchorType() == end)
+                endanchor = curranchor;
+        }
+        if(startanchor != endanchor){
+            Equipable startitem = startanchor.getItem();
+            if(endanchor.getItem() != null)
+                throw new AnchorslotOquipiedException();
+            startanchor.setItem(null);
+            endanchor.setItem(startitem);
+             }
+    }
+
+    public void swapArmors(){}
+
+
 
 
 }

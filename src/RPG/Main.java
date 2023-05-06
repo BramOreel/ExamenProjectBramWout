@@ -54,6 +54,18 @@ public class Main {
         Backpack rugzak = new Backpack(25,2,50,100);
         Backpack satchel = new Backpack(25,3,55,25);
         try {
+            satchel.addEquipable(bingbong);
+        } catch (BackPackNotEmptyException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        } catch (OtherPlayersItemException e) {
+            throw new RuntimeException(e);
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
             Bram.pickUp(rugzak,AnchorType.LINKERHAND);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
@@ -68,6 +80,32 @@ public class Main {
         System.out.println(rugzak.getContent());
         System.out.println(Bram.getCapacity());
         System.out.println(Bram.getAnchorItemAt(1));
+
+        Weapon gsm = new Weapon(1);
+        Weapon koala = new Weapon(20,7,100);
+        Hero Arlen = new Hero("Arlen",20,5,5);
+
+        try {
+            Arlen.pickUp(koala,AnchorType.LINKERHAND);
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        } catch (AnchorslotOquipiedException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
+        Backpack dinseytas = new Backpack(7454,4,25,200);
+        try {
+            Arlen.pickUp(dinseytas,AnchorType.RUG);
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        } catch (AnchorslotOquipiedException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
+        Arlen.pickUpAndStore(gsm,dinseytas);
+        System.out.println(dinseytas.contains(gsm));
 
 
     }
