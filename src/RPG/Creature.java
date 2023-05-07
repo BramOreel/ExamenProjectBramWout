@@ -428,10 +428,13 @@ public abstract class Creature {
      *          |for(item in items of creature)
      *          |        unequip(item)
      */
-    protected ArrayList<Equipable> die(){
+    protected ArrayList<Equipable> die() throws ItemNotEquipedException{
         ArrayList<Equipable> items = new ArrayList<Equipable>();
         for(Anchor anchor : getAnchors()){
             if(anchor.getItem() != null){
+                if(anchor.getItem() instanceof Backpack){
+
+                }
                 items.add(anchor.getItem());
                 anchor.getItem().unequip(anchor);
             }
@@ -444,9 +447,9 @@ public abstract class Creature {
      * @param items
      *        The items that can be looted.
      */
-    protected abstract void LootAndHeal(ArrayList<Equipable> items);
+    protected abstract void LootAndHeal(ArrayList<Equipable> items) throws ItemNotEquipedException, ItemAlreadyobtainedException, CarryLimitReachedException, AnchorslotOquipiedException;
 
-    public void Hit(Creature creature){
+    public void Hit(Creature creature) throws ItemNotEquipedException, ItemAlreadyobtainedException, CarryLimitReachedException, AnchorslotOquipiedException {
         if(getHitValue() >= getTotalProtection()){
             creature.setHitPoints(creature.getHitPoints() - getTotalDamage());
             }
@@ -455,9 +458,4 @@ public abstract class Creature {
             LootAndHeal(creature.die());
         }
     }
-
-
-
-
-
 }

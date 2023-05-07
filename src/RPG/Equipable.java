@@ -256,7 +256,18 @@ public abstract class Equipable {
      */
 
 
-    public void equip(Anchor anchor) throws IllegalArgumentException{
+    public void equip(Anchor anchor) throws IllegalArgumentException, CarryLimitReachedException,
+            ItemAlreadyobtainedException, AnchorslotOquipiedException{
+        if(anchor.getOwner() == null)
+            throw new IllegalArgumentException();
+        if(getWeight() > anchor.getOwner().getCapacity()) {
+                    throw new CarryLimitReachedException(this);}
+        if(getHolder() != null){
+            throw new ItemAlreadyobtainedException();
+        }
+        if(anchor.getItem() != null){
+            throw new AnchorslotOquipiedException();
+        }
         anchor.setItem(this);
         this.setHolder(anchor.getOwner());
         anchor.getOwner().ChangeCapacity(getWeight());
@@ -272,7 +283,13 @@ public abstract class Equipable {
      *        |         equip(anchor);
      *        |         break;
      */
-    protected void equip(Monster monster){
+    protected void equip(Monster monster) throws IllegalArgumentException, ItemAlreadyobtainedException, CarryLimitReachedException, AnchorslotOquipiedException{
+        if (getHolder() != null) {
+            throw new ItemAlreadyobtainedException();
+        }
+        if (monster == null) {
+            throw new IllegalArgumentException();
+        }
         for(Anchor anchor : monster.getAnchors()) {
             if (anchor.getItem() == null) {
                 equip(anchor);
@@ -281,7 +298,8 @@ public abstract class Equipable {
         }
     }
 
-    public void unequip(Anchor anchor) throws IllegalArgumentException{
+    public void unequip(Anchor anchor) throws IllegalArgumentException, ItemNotEquipedException{
+        if(anchor.getItem() != this) throw new ItemNotEquipedException();
         anchor.setItem(null);
         this.setHolder(null);
         anchor.getOwner().ChangeCapacity(-getWeight());
@@ -296,17 +314,20 @@ public abstract class Equipable {
      *         |   if (anchor.getItem() == this)
      *         |       unequip(anchor);
      */
-
-    public void unequip(Creature creature){
+    public void unequip(Creature creature)throws ItemNotEquipedException, IllegalArgumentException{
+        if(creature == null){
+            throw new IllegalArgumentException();
+        }
+        boolean done = false;
         for(Anchor anchor : creature.getAnchors()) {
             if (anchor.getItem() == this) {
+                done = true;
                 unequip(anchor);
                 break;
             }
         }
+        if(!done) throw new ItemNotEquipedException();
     }
-
-
 
 
 
