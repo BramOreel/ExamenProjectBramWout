@@ -389,17 +389,6 @@ public abstract class Creature {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Generates a value to see if the attack will hit.
      * @return A random integer between 0 and 100.
@@ -433,7 +422,7 @@ public abstract class Creature {
         for(Anchor anchor : getAnchors()){
             if(anchor.getItem() != null){
                 if(anchor.getItem() instanceof Backpack){
-
+                    ArrayList<Equipable> itemsInBackpack = ((Backpack) anchor.getItem()).getAllItems();
                 }
                 items.add(anchor.getItem());
                 anchor.getItem().unequip(anchor);

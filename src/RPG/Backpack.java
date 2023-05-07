@@ -106,11 +106,23 @@ public class Backpack extends Equipable{
     private HashMap<Long, ArrayList<Equipable>> content = new HashMap<Long, ArrayList<Equipable>>();
 
     /**
-     *
      * Returns the content of the hashmap
      */
     public HashMap<Long, ArrayList<Equipable>> getContent() {
         return content;
+    }
+
+    /**
+     * Gives all the items in the backpack in a list.
+     */
+    public ArrayList<Equipable> getAllItems(){
+        ArrayList<Equipable> AllItems = new ArrayList<Equipable>();
+        for(ArrayList<Equipable> list : getContent().values()){
+           for(Equipable item:list){
+               AllItems.add(item);
+           }
+        }
+        return AllItems;
     }
 
 

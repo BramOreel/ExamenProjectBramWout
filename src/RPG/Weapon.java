@@ -309,10 +309,6 @@ public class Weapon extends Equipable{
                setValue(200);
            else if(value < 1)
                setValue(1);
-
         }
-
     }
-
-
 }

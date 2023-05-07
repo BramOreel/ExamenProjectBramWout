@@ -89,32 +89,6 @@ public class Hero extends Creature{
         this(name,maxHitPoints,strength,getDefaultProtection());
     }
 
-    /**
-     * Function to determine if a number is prime.
-     * @param number
-     *        the number
-     * @return True if it is prime and false if it is not. Prime means that it is only divisible by 1 and itself.
-     *         |if (number <= 1)
-     *         |        return false
-     *         |
-     *         |for (int i = 2; i <= Math.sqrt(number); i++)
-     *         |        if (number % i == 0)
-     *         |                return false
-     */
-    @Model
-    private static boolean isPrime(int number) {
-        if (number <= 1) {
-            return false;
-        }
-        for (int i = 2; i <= Math.sqrt(number); i++) {
-            if (number % i == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
 
     /**
      * variable stating how much protection the hero has, how easily he can dodge or deflect attacks.
@@ -462,6 +436,32 @@ public class Hero extends Creature{
                 larger++;}
         }
     }
+
+    /**
+     * Function to determine if a number is prime.
+     * @param number
+     *        the number
+     * @return True if it is prime and false if it is not. Prime means that it is only divisible by 1 and itself.
+     *         |if (number <= 1)
+     *         |        return false
+     *         |
+     *         |for (int i = 2; i <= Math.sqrt(number); i++)
+     *         |        if (number % i == 0)
+     *         |                return false
+     */
+    @Model
+    private static boolean isPrime(int number) {
+        if (number <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
 
 
