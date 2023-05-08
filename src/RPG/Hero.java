@@ -2,8 +2,10 @@ package RPG;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import be.kuleuven.cs.som.annotate.Raw;
 
+import be.kuleuven.cs.som.annotate.Model;
+import be.kuleuven.cs.som.annotate.Raw;
+import java.util.Random;
 import java.text.DecimalFormat;
 
 /**
@@ -69,7 +71,7 @@ public class Hero extends Creature{
      *         |       if(item.isValidAnchor(anchor) && anchor.getItem() == null)
      *         |           item.equip(item)
      */
-    public Hero(String name, int maxHitPoints, double strength, int protection, Equipable... items) {
+    public Hero(String name, int maxHitPoints, double strength, int protection, Equipable... items) throws CarryLimitReachedException,ItemAlreadyobtainedException,AnchorslotOquipiedException {
         this(name, maxHitPoints, strength, protection);
         for(Equipable item : items){
             for(Anchor anchor : getAnchors()){
@@ -102,9 +104,6 @@ public class Hero extends Creature{
     public Hero(String name, int maxHitPoints, double strength){
         this(name,maxHitPoints,strength,getDefaultProtection());
     }
-
-
-
 
 
     /**
@@ -267,7 +266,7 @@ public class Hero extends Creature{
         return protection;
     }
     @Override
-    protected void LootAndHeal(ArrayList<Equipable> items){
+    protected void LootAndHeal(ArrayList<Equipable> items) throws ItemNotEquipedException, ItemAlreadyobtainedException, CarryLimitReachedException, AnchorslotOquipiedException {
         for(Anchor anchor: getAnchors()){
             for(Equipable item: items){
                 if(item.isValidAnchor(anchor)){
@@ -279,6 +278,10 @@ public class Hero extends Creature{
                 }
             }
         }
+        Random random = new Random();
+        double percentage = random.nextDouble();
+        int hp = (int) Math.round((getMaxHitPoints() - getHitPoints()) * percentage + getHitPoints());
+        setHitPoints(findClosestPrime(hp,getMaxHitPoints()));
     }
     @Override
     public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
@@ -496,6 +499,61 @@ public class Hero extends Creature{
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Gives the closest positive prime number to a number that isn't bigger than a given maximum.
+     * @param number
+     *        The number that you want the closest prime of.
+     * @param max
+     *        The maximum, the returned prime number can't be bigger than this value.
+     * @return The closest prime number.
+     * @pre    The given maximum must be 2 or higher, otherwise there will be no prime number.
+     */
+    @Model
+    private static int findClosestPrime(int number, int max) {
+        if (isPrime(number)) {
+            return number;  // If the number itself is prime, return it
+        }
+        int smaller = number - 1;
+        int larger = number + 1;
+        while (true) {
+            if (isPrime(smaller)) {
+                return smaller;
+            }
+            if (isPrime(larger)) {
+                return larger;
+            }
+            if(smaller > 0){
+                smaller--;}
+            if(larger < max){
+                larger++;}
+        }
+    }
+
+    /**
+     * Function to determine if a number is prime.
+     * @param number
+     *        the number
+     * @return True if it is prime and false if it is not. Prime means that it is only divisible by 1 and itself.
+     *         |if (number <= 1)
+     *         |        return false
+     *         |
+     *         |for (int i = 2; i <= Math.sqrt(number); i++)
+     *         |        if (number % i == 0)
+     *         |                return false
+     */
+    @Model
+    private static boolean isPrime(int number) {
+        if (number <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
 
 

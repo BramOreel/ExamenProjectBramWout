@@ -34,7 +34,7 @@ public class Monster extends Creature{
      *         |for(Equipable item : items)
      *         |   item.equip(this)
      */
-    public Monster(String name, int maxHitPoints, int maxCapacity, ArmorType protectionType, int damage, int nbofanchors, Equipable... items) {
+    public Monster(String name, int maxHitPoints, int maxCapacity, ArmorType protectionType, int damage, int nbofanchors, Equipable... items) throws ItemAlreadyobtainedException, CarryLimitReachedException,AnchorslotOquipiedException {
         super(name, maxHitPoints, maxCapacity);
         this.naturalProtection = new Armor(0,0, protectionType, 0 );
         this.damage = new Weapon(0, damage, 0);

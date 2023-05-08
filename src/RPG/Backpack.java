@@ -142,6 +142,19 @@ public class Backpack extends Equipable{
         return content;
     }
 
+    /**
+     * Gives all the items in the backpack in a list.
+     */
+    public ArrayList<Equipable> getAllItems(){
+        ArrayList<Equipable> AllItems = new ArrayList<Equipable>();
+        for(ArrayList<Equipable> list : getContent().values()){
+           for(Equipable item:list){
+               AllItems.add(item);
+           }
+        }
+        return AllItems;
+    }
+
 
     /**
      * Checks if the content of this backpack contains an equipable item with the given id as its id.
