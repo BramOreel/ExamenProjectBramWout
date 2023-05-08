@@ -265,6 +265,7 @@ public abstract class Equipable {
      * @effect The holder of this equipable item is set to the owner of the anchor
      *         |setHolder(anchor.getOwner());
      */
+    @Model @Raw
     protected void equip(Anchor anchor){
         anchor.setItem(this);
         setHolder(anchor.getOwner());

@@ -1,4 +1,5 @@
 package RPG;
+import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Raw;
 import java.util.Random;
@@ -39,9 +40,6 @@ public abstract class Creature {
 
     }
 
-
-
-    protected ArrayList<Anchor> anchors = new ArrayList<Anchor>();
     /**
      * variable containing the name of the Creature
      */
@@ -251,36 +249,85 @@ public abstract class Creature {
      * Anchors
      */
 
+    /**
+     * A list containing 'anchors' referencing the anchors for this creature.
+     */
+    protected ArrayList<Anchor> anchors = new ArrayList<Anchor>();
+
+    /**
+     * Returns the list of anchors of this creature
+     */
+    @Basic
     public ArrayList<Anchor> getAnchors() {
         return anchors;
     }
 
+    /**
+     * Sets the list of anchors to the given list.
+     *
+     * @param anchors
+     *        The new anchors for this creature
+     */
+    @Model
     protected void setAnchors(ArrayList<Anchor> anchors) {
         this.anchors = anchors;
     }
 
     /**
-     * Gives the list of anchors
-     * @return the list of anchors
+     * returns the anchor with index i in the arraylist of anchors.
+     *
+     * @param i
+     *        The given index for the anchor in the arraylist of anchors
      */
-
-
     public Anchor getAnchorAt(int i){
         return getAnchors().get(i);
     }
 
+    /**
+     * Returns the item being stored in the anchor with given index i in the arraylist of anchors.
+     *
+     * @param i
+     *        The given index for the anchor in the arraylist of anchors.
+     */
     public Equipable getAnchorItemAt(int i){
         return getAnchorAt(i).getItem();
     }
 
     /**
-     * Mss nog compacter maken voor checker
+     * Picks an item up from the ground and equips it in a specified anchorslot.
+     *
      * @param item
+     *        the item that will be picked up.
      * @param anchortype
+     *        the name of the anchor where the item has to be equiped to.
+     *
+     * @effect The carry capacity for this creature is updated to account for the extra weight of the item that was picked up.
+     *         In case the item is a backpack, the contents of this backpack are also considered for the calculation
+     *         of the weight of the item.
+     *         |ChangeCapacity(item.totalweight);
+     * @effect The item gets picked up and the unidirectional relation between the item and the given anchor gets set up.
+     *         |item.equip(anchor)
+     *
      * @throws ItemAlreadyobtainedException
+     *         The item already has a holder which means it can't be picked up.
+     *         |item.getHolder == null
      * @throws IllegalArgumentException
+     *         The item is not effective
+     *         |item == null
+     * @throws BeltAnchorException
+     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the creature.
+     *         |anchortype.getName() == "Riem" && item not instanceof Purse
+     * @throws IllegalArgumentException
+     *         The creature does not have an anchor with the given type as its type.
+     *         |Anchors.contains(anchortype) == false
      * @throws AnchorslotOquipiedException
+     *         The creature is already holding an item in the anchor with the given name
+     *         |anchor.getItem() != null
      * @throws CarryLimitReachedException
+     *         The given item is can't be picked up because the creature cannot carry it anymore
+     *         because the maximum carry capacity has been reached. In case the user wants to pick up a backpack,
+     *         the contents of this backpack are also considered for the calculation of the weight of the item.
+     *         |item.getTotalWeight > getCapacity
      */
 
     public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
