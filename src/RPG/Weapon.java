@@ -13,40 +13,105 @@ import java.util.Random;
  *
  * @invar the damage of a weapon must be valid
  *        |isValidDamage(getWeapon())
+ *
+ * @author Bram Oreel
+ * @version 1.2.
  */
 public class Weapon extends Equipable{
 
     /**
      * CONSTRUCTORS
      */
-
+    /**
+     * Initialize a new weapon with given weight and damage value.
+     *
+     * @param weight
+     *        The weight of the weapon in kilograms
+     * @param damagevalue
+     *        The damage value for this weapon
+     *
+     * @pre damagevalue is a valid damagevalue
+     *      |isValidDamage(damagevalue)
+     *
+     * @effect A unique identification number is generated for this weapon
+     *         |setId(getIdcounter())
+     * @effect The id counter is incremented to the next allowed value and updated for all weapons
+     *         |incrementId()
+     * @effect The parameter which calculates the value of this weapon, based on the weapons damage
+     *         is set to true.
+     *         |dmgvallink = true
+     * @effect The new weapon is an equipable with the given weight
+     *         |super(weight)
+     * @effect The value for this weapon is calculated using the weapons damage and set to the calculated value
+     *         |ModifyDamage(damagevalue)
+     *
+     * @post The weapon has the given damage as its damage value.
+     */
+    @Raw
     public Weapon(int weight, int damagevalue){ // value gegenereerd
         super(weight);
         setId(getIdcounter());
         incrementId();
         this.dmgvallink = true;
         ModifyDamage(damagevalue);
-
     }
 
+    /**
+     * Initialize a new weapon with given weight and random damage.
+     *
+     * @param weight
+     *        The weight of the new weapon in kilograms.
+     *
+     * @effect This new file is initialized with the given weight.
+     *         The weapon has a random, allowed value.
+     *         |this(weight, Weapon.generateRandomDamage())
+     */
+    @Raw
     public Weapon(int weight){
-        super(weight);
-        setId(getIdcounter());
-        incrementId();
-        this.dmgvallink = true;
-        ModifyDamage(generateRandomDamage());
-
-
+       this(weight, Weapon.generateRandomDamage());
     }
 
-    public Weapon(int weight, int damagevalue, int value){
+    /**
+     * Initialize a new weapon with given weight, damage and value
+     *
+     * @param weight
+     *        The weight of this weapon in kilograms
+     * @param damagevalue
+     *        The damage value of this weapon
+     * @param value
+     *        The value in 'dukaten' for this weapon.
+     *
+     * @pre damagevalue is a valid damagevalue
+     *      |isValidDamage(damagevalue)
+     *
+     * @effect A unique identification number is generated for this weapon
+     *         |setId(getIdcounter())
+     * @effect The id counter is incremented to the next allowed value and updated for all weapons
+     *         |incrementId()
+     * @effect The parameter which calculates the value of this weapon, based on the weapons damage
+     *         is set to false
+     *         |dmgvallink = false
+     * @effect The new weapon is an equipable with the given weight
+     *         |super(weight)
+     * @effect if the given value is valid, the weapon has the given value as its value.
+     *         |setValue(value)
+     *
+     * @post The weapon has the given damage as its damage
+     *
+     * @throws IllegalArgumentException
+     *         the given value is not postive or greater than 200
+     *         |value < 0 || value > 200
+     */
+    @Raw
+    public Weapon(int weight, int damagevalue, int value) throws IllegalArgumentException{
         super(weight);
         setId(getIdcounter());
         incrementId();
         this.dmgvallink = false;
         ModifyDamage(damagevalue);
+        if(!isValidValue(value))
+            throw new IllegalArgumentException();
         setValue(value);
-
     }
 
     /**
@@ -180,7 +245,7 @@ public class Weapon extends Equipable{
      * Returns a random damage value between 1 and the maximum damagevalue which is a multiple of seven.
      */
     @Model
-    private int generateRandomDamage(){
+    private static int generateRandomDamage(){
         SecureRandom R = new SecureRandom();
         int upperbound = Math.floorDiv(getDamageMaxvalue(),7) - 1;
 
@@ -313,6 +378,4 @@ public class Weapon extends Equipable{
         }
 
     }
-
-
 }

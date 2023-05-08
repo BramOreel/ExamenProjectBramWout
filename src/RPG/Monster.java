@@ -107,7 +107,11 @@ public class Monster extends Creature{
         setAnchors(list);
     }
 
-
-
-
+    @Override
+    public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
+            AnchorslotOquipiedException, CarryLimitReachedException, BeltAnchorException{
+        if(anchortype.getName() == "Lichaam" && item instanceof Armor)
+            throw new IllegalArgumentException();
+        super.pickUp(item,anchortype);
+    }
 }

@@ -1,5 +1,5 @@
 package RPG;
 
-public class BeltAnchorException {
+public class BeltAnchorException extends RuntimeException {
     public BeltAnchorException(){}
 }

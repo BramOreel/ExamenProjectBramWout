@@ -1,6 +1,9 @@
 package RPG;
 
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Immutable;
 import be.kuleuven.cs.som.annotate.Model;
+import be.kuleuven.cs.som.annotate.Raw;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,14 +15,42 @@ import java.util.Set;
  *
  * @invar Each backpack must have a valid capacity
  *        |isValidCapacity(capacity)
+ *
+ * @author Bram Oreel
+ * @version 1.2.
+ *
  */
 public class Backpack extends Equipable{
 
     /**
-     * CONSTRUCTORS
+     * Initialize a new backpack with given identification number, weight, value and capacity
+     *
+     * @param id
+     *        The identification number for this backpack
+     * @param weight
+     *        The weight in kilograms of this new backpack
+     * @param value
+     *        The value in 'dukaten' of this new backpack
+     * @param capacity
+     *        The maximum capacity for this backpack in kilograms.
+     * @effect The new backpack is an equipable with the given weight as its weight.
+     *         |super(weight)
+     * @effect The identification number is configured so that it is unique and positive
+     *         |configure(id)
+     * @effect If the given value is valid, the value for this backpack is set to the given value, else an exception is thrown.
+     *         |if(isValidValue(value)) then this.value = value
+     * @effect If the given maximum capacity is valid, the maximum capacity for this backpack is set to the given maximum capacity,
+     *         else the capacity for this backpack is set to 30 kilograms.
+     *         |if(canHaveAsCapacity(capacity))
+     *         |    then this.capacity = capacity
+     *         |else this.capacity = 30
+     *
+     * @throws IllegalArgumentException
+     *         The given value is smaller than one or greater than 500.
+     *         |value < 1 || value > 500
      */
 
-
+    @Raw
     public Backpack(long id, int weight, int value, int capacity) throws IllegalArgumentException{
         super(weight);
         configure(id);
@@ -35,7 +66,6 @@ public class Backpack extends Equipable{
 
     /**
      * Static variable containing the set of previous Backpack id's.
-     *
      */
     private static Set<Long> idSet = new HashSet<>();
 
@@ -47,9 +77,8 @@ public class Backpack extends Equipable{
      * @return False if the idcounter is negative, greater than the maximum integer value or already an existant id for another backpack.
      *         |if(idcounter < 0 || idcounter > Integer.MAX_VALUE || idSet.contains(id))
      *         | then result == false
-     *
      */
-    @Override
+    @Override @Raw @Model
     protected boolean canHaveAsId(long id){
         return(super.canHaveAsId(id) && !idSet.contains(id));
     }
@@ -64,7 +93,7 @@ public class Backpack extends Equipable{
      * 	     | then new.getId().equals(id)
      * 	     | else new.getId().equals(closestBiggerInteger(id))
      */
-    @Model
+    @Model @Raw
     private void configure(long id){
 
         while(!canHaveAsId(id)){
@@ -76,7 +105,7 @@ public class Backpack extends Equipable{
 
     /***************
      * Content
-     */
+     **************/
 
     /**
      * A variable referencing a hashmap which contains the equipable items
@@ -106,9 +135,9 @@ public class Backpack extends Equipable{
     private HashMap<Long, ArrayList<Equipable>> content = new HashMap<Long, ArrayList<Equipable>>();
 
     /**
-     *
      * Returns the content of the hashmap
      */
+    @Basic
     public HashMap<Long, ArrayList<Equipable>> getContent() {
         return content;
     }
@@ -148,13 +177,23 @@ public class Backpack extends Equipable{
 
     }
 
-
-
-
-    /***********
-     *Weight
+    /**
+     * Returns the number of armors stored in a backpack
      */
+    public int getNbOfBackpacks(){
+        int total = 0;
+        for(ArrayList<Equipable> list : getContent().values()){
+            for(int i=0; i<list.size(); i++){
+                 if(list.get(i) instanceof Armor)
+                     total++;
+            }
+        }
+      return total;
+    }
 
+    /**************
+     *Weight
+     **************/
 
     /**
      * Returns the total weight of this backpack
@@ -176,7 +215,7 @@ public class Backpack extends Equipable{
 
     /**************
      * Value
-     */
+     **************/
 
 
     /**
@@ -206,7 +245,7 @@ public class Backpack extends Equipable{
      *               if the given value for this backpack is greater than 500.
      *         |if(value < 1 || value > 500) then result == False
      */
-    @Override
+    @Override @Raw
     public boolean isValidValue(int value){
         return(super.isValidValue(value) && value <= 500);
     }
@@ -228,14 +267,15 @@ public class Backpack extends Equipable{
      *        the capacity value to be checked
      * @return True if the capacity is a positive value.
      */
+    @Raw
     public boolean canHaveAsCapacity(int capacity){
         return(capacity >= 0);
     }
 
     /**
-     *
      * Returns the capacity for this backpack
      */
+    @Basic @Immutable
     public int getCapacity() {
         return capacity;
     }
@@ -274,6 +314,7 @@ public class Backpack extends Equipable{
      *         |this.getHolder == null
      *
      */
+    @Model
     protected void addEquipable(Equipable item) throws BackPackNotEmptyException, CarryLimitReachedException, OtherPlayersItemException, ItemAlreadyobtainedException,
             NullPointerException{
         if(item instanceof Backpack){
@@ -288,11 +329,8 @@ public class Backpack extends Equipable{
 
         if(getHolder() == null)
             throw new NullPointerException();
-        /** Deze uitzetten nog
-         if(item.getHolder() != null)
-         throw new OtherPlayersItemException();
-         */
-        //Bij pickup in creature class kijken of creature niet al dood is en of hij deze kan dragen natuurlijk.
+
+        //Bij pickup in creature class kijken of creature niet al dood is.
         item.setHolder(this.getHolder());
         long id = item.getId();
 
@@ -323,6 +361,7 @@ public class Backpack extends Equipable{
      *         The item to be removed is not contained within the contents of content.
      *         |(this.contains(item) == False
      */
+    @Model
     protected void removeEquipable(Equipable item) throws IllegalArgumentException{
         if(!contains(item))
             throw new IllegalArgumentException();
@@ -336,8 +375,6 @@ public class Backpack extends Equipable{
         }
         item.setParentbackpack(null);
     }
-
-
 }
 
 

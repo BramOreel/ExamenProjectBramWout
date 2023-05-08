@@ -284,13 +284,15 @@ public abstract class Creature {
      */
 
     public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
-            AnchorslotOquipiedException, CarryLimitReachedException {
+            AnchorslotOquipiedException, CarryLimitReachedException, BeltAnchorException {
         if (item.getHolder() != null) {
             throw new ItemAlreadyobtainedException();
         }
-        if (item == null) {
+        if (item == null)
             throw new IllegalArgumentException();
-        }
+
+        if (anchortype.getName() == "Riem" && !(item instanceof Purse))
+            throw new BeltAnchorException();
 
         Anchor anchor = null;
 
@@ -319,7 +321,7 @@ public abstract class Creature {
             throw new CarryLimitReachedException(item);
 
         item.equip(anchor);
-        setCapacity(getCapacity()-item.getWeight());
+        ChangeCapacity(weight);
     }
 
 
@@ -455,9 +457,4 @@ public abstract class Creature {
             LootAndHeal(creature.die());
         }
     }
-
-
-
-
-
 }

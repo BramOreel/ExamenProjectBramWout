@@ -6,6 +6,14 @@ import be.kuleuven.cs.som.annotate.Raw;
 
 import java.text.DecimalFormat;
 
+/**
+ *
+ *
+ *
+ *
+ * @invar a hero may only carry up to 2 armors at a time.
+ *       |canCarryArmor
+ */
 public class Hero extends Creature{
 
     /**
@@ -66,7 +74,15 @@ public class Hero extends Creature{
         for(Equipable item : items){
             for(Anchor anchor : getAnchors()){
                 if(item.isValidAnchor(anchor) && anchor.getItem() == null){
-                    item.equip(anchor);
+                    try {
+                        pickUp(item, anchor.getAnchorType());
+                    } catch (ItemAlreadyobtainedException e) {
+                        throw new RuntimeException(e);
+                    } catch (AnchorslotOquipiedException e) {
+                        throw new RuntimeException(e);
+                    } catch (CarryLimitReachedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
@@ -264,9 +280,16 @@ public class Hero extends Creature{
             }
         }
     }
+    @Override
+    public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
+            AnchorslotOquipiedException, CarryLimitReachedException, BeltAnchorException{
+        if(!canPickUpArmor() && item instanceof Armor)
+            throw new CarryLimitReachedException(item);
+        super.pickUp(item, anchortype);
+    }
 
     /**
-     * Stores an in item that has already been pickup in away in a specified backpack
+     * Stores an in item that has already been picked up away in a specified backpack
      * @param item
      * @param backpack
      * @throws IllegalArgumentException
@@ -344,13 +367,15 @@ public class Hero extends Creature{
      * @param item
      * @param location
      */
-    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOquipiedException{
+    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOquipiedException, BeltAnchorException{
 
         Backpack parent = item.getParentbackpack();
         if(parent == null)
             throw new IllegalArgumentException();
         if(parent.getHolder() != this)
             throw new OtherPlayersItemException();
+        if (location.getName() == "Riem" && !(item instanceof Purse))
+            throw new BeltAnchorException();
 
         Anchor anchor = null;
 
@@ -394,16 +419,83 @@ public class Hero extends Creature{
             Equipable startitem = startanchor.getItem();
             if(endanchor.getItem() != null)
                 throw new AnchorslotOquipiedException();
+            if (end.getName() == "Riem" && !(startitem instanceof Purse))
+                throw new BeltAnchorException();
+
             startanchor.setItem(null);
             endanchor.setItem(startitem);
              }
     }
 
-    public void swapArmors(){}
+    private int getNbOfArmors(){
+       int total = 0;
+        for (int i = 0; i < getAnchors().size(); i++){
+            Equipable currItem = getAnchorItemAt(i);
+            if(currItem instanceof Armor)
+                total++;
+            else if (currItem instanceof Backpack) {
+                total= total +((Backpack) currItem).getNbOfBackpacks();
+            }
+        }
+        return total;
+    }
+
+    private boolean canPickUpArmor(){
+        return (getNbOfArmors() < 2);
+    }
 
 
 
+    /**
+     * Swaps the postion of the two armors that a hero is currently carrying with him
+     */
+    public void swapArmors(Armor armor) throws CantFindArmortoSwapException, CarryLimitReachedException, OtherPlayersItemException {
+        if(getNbOfArmors() != 2)
+            throw new CantFindArmortoSwapException();
+        Equipable bodyitem = getAnchorItemAt(3);
+        if(!(bodyitem instanceof Armor))
+            throw new CantFindArmortoSwapException();
 
+
+        Backpack parent = armor.getParentbackpack();
+        if(parent != null){ //armor zit in een rugzak
+            int weight = parent.getTotalWeight() - armor.getWeight() + bodyitem.getWeight();
+            if(weight > parent.getCapacity())
+                throw new CarryLimitReachedException(bodyitem);
+
+            drop(armor);
+            store(bodyitem,parent);
+
+            try {
+                pickUp(bodyitem,AnchorType.LICHAAM);
+            } catch (ItemAlreadyobtainedException e) {
+                throw new RuntimeException(e);
+            } catch (AnchorslotOquipiedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        //armor zit in een Anchor
+
+        Anchor curranchor = null;
+        for (int i = 0; i < getAnchors().size(); i++) {
+            curranchor = getAnchorAt(i);
+            if(curranchor.getItem() == armor)
+                break;
+        }
+        drop(bodyitem);
+        try {
+            moveAnchorItemtoAnchor(curranchor.getAnchorType(), AnchorType.LICHAAM);
+        } catch (AnchorslotOquipiedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pickUp(bodyitem,curranchor.getAnchorType());
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        } catch (AnchorslotOquipiedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 
