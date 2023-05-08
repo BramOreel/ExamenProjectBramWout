@@ -321,7 +321,7 @@ public abstract class Creature {
      *         The creature does not have an anchor with the given type as its type.
      *         |Anchors.contains(anchortype) == false
      * @throws AnchorslotOquipiedException
-     *         The creature is already holding an item in the anchor with the given name
+     *         The creature is already holding an item in the anchor with the given anchortype
      *         |anchor.getItem() != null
      * @throws CarryLimitReachedException
      *         The given item is can't be picked up because the creature cannot carry it anymore
@@ -329,8 +329,8 @@ public abstract class Creature {
      *         the contents of this backpack are also considered for the calculation of the weight of the item.
      *         |item.getTotalWeight > getCapacity
      */
-
-    public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
+    @Raw @Model
+    protected void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
             AnchorslotOquipiedException, CarryLimitReachedException, BeltAnchorException {
         if (item.getHolder() != null) {
             throw new ItemAlreadyobtainedException();
@@ -371,12 +371,39 @@ public abstract class Creature {
         ChangeCapacity(weight);
     }
 
-
-
     /**
-     * Drops an equiped item
+     * Drops an item that has been picked up back on the ground.
+     *
      * @param equipable
+     *        The equipable to be dropped
+     *
+     * @effect if the given equipable is currently being stored in a backpack then
+     *         the item is removed from the content of that backpack. Else, if the item is being stored
+     *         in an anchor, the item is removed from the anchor.
+     *         |if(equipable.getParentbackpack != null){
+     *         |  equipable.getParentback.removeEquipable(equipable)
+     *         |}
+     *         |else{
+     *         |    itemanchor.setItem(null)
+     *         |}
+     * @effect The holder of the item is set to null.
+     *         |equipable.setHolder(null)
+     * @effect The maximum carry capacity for this creature is updated to account for the removed weight of the item.
+     *         If the removed item is a backpack with content,
+     *         the contents of this backpack are also considered for the calculation of the removed weight for the item.
+     *         |totalWeight = equipable.getWeight()
+     *         |if(equipable instanceof Backpack)
+     *         |    totalWeight = ((Backpack) equipable).getTotalWeight();
+     *         |ChangeCapacity(-totalWeight);
+     *
+     * @throws IllegalArgumentException
+     *         The equipable item is not effective
+     *         |equipable == null
+     * @throws OtherPlayersItemException
+     *         The holder of the item isn't the creature that executes this method.
+     *         |equipable.getHolder() != this
      */
+    @Raw
     public void drop(Equipable equipable) throws IllegalArgumentException, OtherPlayersItemException{
         if(equipable == null)
             throw new IllegalArgumentException();
@@ -385,26 +412,22 @@ public abstract class Creature {
 
 
         Anchor itemanchor = null;
-        boolean hasItem = false;
+
         for(int i =0; i<getAnchors().size();i++){
 
             Equipable currItem = getAnchorItemAt(i);
 
             if(currItem == equipable){
                 itemanchor = getAnchorAt(i);
-                hasItem = true;
                 break;}
 
             else if(currItem instanceof Backpack){
                 if(((Backpack) currItem).contains(equipable)){
                     ((Backpack) currItem).removeEquipable(equipable);
-                    hasItem = true;
                     break;
                 }
             }
         }
-        if(hasItem == false)
-            throw new IllegalArgumentException();
 
         if(itemanchor != null)
             itemanchor.setItem(null);
@@ -416,25 +439,47 @@ public abstract class Creature {
             totalWeight = ((Backpack) equipable).getTotalWeight();
 
         ChangeCapacity(-totalWeight);
-
-
     }
+
     /**
      * Drops the item currently stored in the specified Anchor.
+     *
+     * @param anchor
+     *        the anchor of which we want to remove the item.
+     *
+     * @effect The item in the given anchor gets dropped
+     *         |drop(anchor.getItem())
+     *
+     * @throws IllegalArgumentException
+     *         The equipable item is not effective
+     *         |equipable == null
+     * @throws OtherPlayersItemException
+     *         The specified anchor is an anchor of another player or the item in the anchor belongs to another player
+     *         |(anchor.getowner != this) || (anhor.getItem.getHolder != this)
      */
-    public void dropItemAtAnchor(Anchor anchor) throws OtherPlayersItemException {
+    @Raw
+    public void dropItemAtAnchor(Anchor anchor) throws IllegalArgumentException, OtherPlayersItemException {
         drop(anchor.getItem());
     }
 
 
-
-
     /**
-     * Drops all items
+     * Drops all the items that this creature currently has equiped in its anchors.
+     *
+     * @effect Each anchor that has a non-null item, will drop its item.
+     *         |if (getAnchorAt(i).getItem() != null)
+     *         |    dropItemAtAnchor(getAnchorAt(i));
      */
-    public void dropAllItems() throws OtherPlayersItemException {
+    @Raw
+    public void dropAllItems() {
         for(int i=0; i < getAnchors().size();i++){
-            dropItemAtAnchor(getAnchorAt(i));
+            if (getAnchorAt(i).getItem() != null) {
+                try {
+                    dropItemAtAnchor(getAnchorAt(i));
+                } catch (OtherPlayersItemException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
