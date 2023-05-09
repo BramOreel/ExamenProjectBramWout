@@ -156,6 +156,10 @@ public class Backpack extends Equipable{
     }
 
 
+
+
+
+
     /**
      * Checks if the content of this backpack contains an equipable item with the given id as its id.
      * @param id
