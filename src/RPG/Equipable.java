@@ -328,15 +328,6 @@ public abstract class Equipable {
         }
         if(!done) throw new ItemNotEquipedException();
     }
-
-
-
-
-
-
-
-
-
 }
 
 

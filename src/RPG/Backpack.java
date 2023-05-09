@@ -29,7 +29,6 @@ public class Backpack extends Equipable{
         if(!canHaveAsCapacity(capacity))
             this.capacity = 30;
         else this.capacity = capacity;
-
     }
 
 
@@ -108,7 +107,8 @@ public class Backpack extends Equipable{
     /**
      * Returns the content of the hashmap
      */
-    public HashMap<Long, ArrayList<Equipable>> getContent() {
+    @Model
+    protected HashMap<Long, ArrayList<Equipable>> getContent() {
         return content;
     }
 

@@ -251,7 +251,7 @@ public abstract class Creature {
      * Anchors
      */
 
-    public ArrayList<Anchor> getAnchors() {
+    protected ArrayList<Anchor> getAnchors() {
         return anchors;
     }
 
