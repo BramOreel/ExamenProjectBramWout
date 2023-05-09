@@ -59,7 +59,4 @@ public enum ArmorType {
      *         |result == (maxvalue > 0)
      */
     public static boolean isValidArmorValue(int maxvalue){return maxvalue > 0;}
-
-
-
 }

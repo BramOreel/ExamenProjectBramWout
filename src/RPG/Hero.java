@@ -8,6 +8,14 @@ import be.kuleuven.cs.som.annotate.Raw;
 import java.util.Random;
 import java.text.DecimalFormat;
 
+/**
+ *
+ *
+ *
+ *
+ * @invar a hero may only carry up to 2 armors at a time.
+ *       |canCarryArmor
+ */
 public class Hero extends Creature{
 
     /**
@@ -68,7 +76,15 @@ public class Hero extends Creature{
         for(Equipable item : items){
             for(Anchor anchor : getAnchors()){
                 if(item.isValidAnchor(anchor) && anchor.getItem() == null){
-                    item.equip(anchor);
+                    try {
+                        pickUp(item, anchor.getAnchorType());
+                    } catch (ItemAlreadyobtainedException e) {
+                        throw new RuntimeException(e);
+                    } catch (AnchorslotOquipiedException e) {
+                        throw new RuntimeException(e);
+                    } catch (CarryLimitReachedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
@@ -269,11 +285,68 @@ public class Hero extends Creature{
     }
 
     /**
-     * Stores an in item that has already been pickup in away in a specified backpack
+     * Lets a hero pick up an equipable item of the ground and equip it in one of its anchor points.
+     *
      * @param item
-     * @param backpack
+     *        the item that will be picked up.
+     * @param anchortype
+     *        the name of the anchor where the item has to be equipped to.
+     *
+     * @effect The item gets picked up and equipped it in the anchorslot with the given type.
+     *         super.pickUp(item, anchortype)
+     *
+     * @throws ItemAlreadyobtainedException
+     *         The item already has a holder which means it can't be picked up.
+     *         |item.getHolder == null
      * @throws IllegalArgumentException
+     *         The item is not effective
+     *         |item == null
+     * @throws AnchorslotOquipiedException
+     *         The creature is already holding an item in the anchor with the given anchortype
+     *         |anchor.getItem() != null
+     * @throws CarryLimitReachedException
+     *         The given item is can't be picked up because the creature cannot carry it anymore
+     *         because the maximum carry capacity has been reached. In case the user wants to pick up a backpack,
+     *         the contents of this backpack are also considered for the calculation of the weight of the item.
+     *         If the user tries to pick up more than 2 armors this error is also thrown.
+     *         |item.getTotalWeight > getCapacity || (item instanceof Armor && this.getNbOfArmors = 2)
+     * @throws BeltAnchorException
+     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the hero.
+     *         |anchortype.getName() == "Riem" && item not instanceof Purse
      */
+    @Override @Raw
+    public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
+            AnchorslotOquipiedException, CarryLimitReachedException, BeltAnchorException{
+        if(!canPickUpArmor() && item instanceof Armor)
+            throw new CarryLimitReachedException(item);
+        super.pickUp(item, anchortype);
+    }
+
+    /**
+     * Stores an item, equipped in an anchorslot, away in a specified backpack.
+     *
+     * @param item
+     *        The item to be stored away.
+     * @param backpack
+     *        The backpack to store the item away in.
+     *
+     * @effect The specified item is added to the contents of the specified backpack
+     *         |backpack.addEquipable(item);
+     * @effect The anchoritem of the anchor that the item was previously being stored in, is set to null
+     *         |itemanchor.setItem(null);
+     *
+     * @throws IllegalArgumentException
+     *         The backpack is not effective or the specified backpack is not a backpack of this hero
+     *         |(backpack.getHolder() != this || backpack == null)
+     * @throws IllegalArgumentException
+     *         The item is not effective or the specified item is not a item of this hero
+     *         |(item.getHolder() != this || item == null)
+     * @throws IllegalArgumentException
+     *         The backpack or the item is currently not being stored in an anchor, meaning that they are being stored in a backpack.
+     *         Because backpacks in backpacks may not contain items and items already in a backpack cannot be stored away, an exception
+     *         is thrown.
+     */
+    @Raw
     public void store(Equipable item, Backpack backpack) throws IllegalArgumentException{
 
         if(backpack.getHolder() != this || backpack == null)
@@ -310,8 +383,59 @@ public class Hero extends Creature{
         itemanchor.setItem(null);
     }
 
+    /**
+     * Picks an item of the ground and immediately stores it away in a specified backpack.
+     *
+     * @param item
+     *        the item to be picked up.
+     * @param backpack
+     *        the backpack to store the item away in.
+     * @effect The item in the left or right hand that isn't the specified backpack is saved and temporarily set to null, the
+     *         specified item gets picked up.
+     *         |Equipable currholding = getAnchorItemAt(i);
+     *         |getAnchorAt(i).setItem(null);
+     *         |pickUp(item, getAnchorAt(i).getAnchorType());
+     * @effect The newly picked up item gets stored away in the specified backpack. Finally, the saved item is equiped again in the original anchorslot.
+     *         |store(item,backpack)
+     *
+     * @throws IllegalArgumentException
+     *         the item or the backpack is not effective
+     *         |(item == null || backpack == null)
+     * @throws ItemAlreadyobtainedException
+     *         This hero already has this item
+     *         |item.getholder == this
+     * @throws OtherPlayersItemException
+     *        the backpack or the item belongs the another player.
+     *        |backpack.getHolder() != this || item.getHolder() != null
+     * @throws CarryLimitReachedException
+     *         The item cannot be picked up because the specified backpack doesn't have enough capacity left
+     *         |backpack.getCapacity() < backpack.getTotalWeight() + item.getWeight()
+     * @throws IllegalArgumentException
+     *         The item we want to pick up is a backpack which isn't empty.
+     *         |((Backpack) item).getTotalWeight() != item.getWeight()
+     * @throws IllegalArgumentException
+     *         The specified backpack is already being stored within another backpack.
+     *         |backpack.getParentbackpack() != null
+     */
+    @Raw
+    public void pickUpAndStore(Equipable item, Backpack backpack) throws OtherPlayersItemException, CarryLimitReachedException,
+            ItemAlreadyobtainedException, IllegalArgumentException{
 
-    public void pickUpAndStore(Equipable item, Backpack backpack){
+        //checkers invoeren i suppose om error te voorkomen in try catch blok
+        // is item of backapck niet al van iemand anders
+        if(item == null || backpack == null)
+            throw new IllegalArgumentException();
+        if(item.getHolder() == this)
+            throw new ItemAlreadyobtainedException();
+        if(backpack.getHolder() != this || item.getHolder() != null)
+            throw new OtherPlayersItemException();
+        if(backpack.getCapacity() < backpack.getTotalWeight() + item.getWeight())
+            throw new CarryLimitReachedException(item);
+        if(item instanceof Backpack)
+            if(((Backpack) item).getTotalWeight() != item.getWeight())
+                throw new IllegalArgumentException();
+        if(backpack.getParentbackpack() != null)
+            throw new IllegalArgumentException();
 
         /**
          * het item in onze hand dat niet de rugzak is wordt even op de grond gelegd om een item op te pakken.
@@ -327,15 +451,10 @@ public class Hero extends Creature{
         //We proberen het item op te pakken
         try {
             pickUp(item, getAnchorAt(i).getAnchorType());
-            //Het item wordt weggestoken in de rugzak
             store(item, backpack);
-        } catch (ItemAlreadyobtainedException e) {
+        }  catch (AnchorslotOquipiedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
-            throw new RuntimeException(e);
-        } catch (CarryLimitReachedException e) {
-            throw new RuntimeException(e);
-        } finally {
+        }finally {
             //Het wapen wordt weer vastgenomen
             getAnchorAt(i).setItem(currholding);
         }
@@ -347,13 +466,15 @@ public class Hero extends Creature{
      * @param item
      * @param location
      */
-    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOquipiedException{
+    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOquipiedException, BeltAnchorException{
 
         Backpack parent = item.getParentbackpack();
         if(parent == null)
             throw new IllegalArgumentException();
         if(parent.getHolder() != this)
             throw new OtherPlayersItemException();
+        if (location.getName() == "Riem" && !(item instanceof Purse))
+            throw new BeltAnchorException();
 
         Anchor anchor = null;
 
@@ -397,16 +518,83 @@ public class Hero extends Creature{
             Equipable startitem = startanchor.getItem();
             if(endanchor.getItem() != null)
                 throw new AnchorslotOquipiedException();
+            if (end.getName() == "Riem" && !(startitem instanceof Purse))
+                throw new BeltAnchorException();
+
             startanchor.setItem(null);
             endanchor.setItem(startitem);
              }
     }
 
-    public void swapArmors(){}
+    private int getNbOfArmors(){
+       int total = 0;
+        for (int i = 0; i < getAnchors().size(); i++){
+            Equipable currItem = getAnchorItemAt(i);
+            if(currItem instanceof Armor)
+                total++;
+            else if (currItem instanceof Backpack) {
+                total= total +((Backpack) currItem).getNbOfBackpacks();
+            }
+        }
+        return total;
+    }
+
+    private boolean canPickUpArmor(){
+        return (getNbOfArmors() < 2);
+    }
 
 
 
+    /**
+     * Swaps the postion of the two armors that a hero is currently carrying with him
+     */
+    public void swapArmors(Armor armor) throws CantFindArmortoSwapException, CarryLimitReachedException, OtherPlayersItemException {
+        if(getNbOfArmors() != 2)
+            throw new CantFindArmortoSwapException();
+        Equipable bodyitem = getAnchorItemAt(3);
+        if(!(bodyitem instanceof Armor))
+            throw new CantFindArmortoSwapException();
 
+
+        Backpack parent = armor.getParentbackpack();
+        if(parent != null){ //armor zit in een rugzak
+            int weight = parent.getTotalWeight() - armor.getWeight() + bodyitem.getWeight();
+            if(weight > parent.getCapacity())
+                throw new CarryLimitReachedException(bodyitem);
+
+            drop(armor);
+            store(bodyitem,parent);
+
+            try {
+                pickUp(bodyitem,AnchorType.LICHAAM);
+            } catch (ItemAlreadyobtainedException e) {
+                throw new RuntimeException(e);
+            } catch (AnchorslotOquipiedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        //armor zit in een Anchor
+
+        Anchor curranchor = null;
+        for (int i = 0; i < getAnchors().size(); i++) {
+            curranchor = getAnchorAt(i);
+            if(curranchor.getItem() == armor)
+                break;
+        }
+        drop(bodyitem);
+        try {
+            moveAnchorItemtoAnchor(curranchor.getAnchorType(), AnchorType.LICHAAM);
+        } catch (AnchorslotOquipiedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            pickUp(bodyitem,curranchor.getAnchorType());
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        } catch (AnchorslotOquipiedException e) {
+            throw new RuntimeException(e);
+        }
+    }
     /**
      * Gives the closest positive prime number to a number that isn't bigger than a given maximum.
      * @param number

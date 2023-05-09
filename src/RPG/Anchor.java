@@ -77,7 +77,4 @@ public class Anchor {
     public Anchor(AnchorType anchorType, Creature owner) {
         this(anchorType, owner, null);
     }
-
-
-
 }

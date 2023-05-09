@@ -70,16 +70,6 @@ public abstract class Equipable {
      */
     private long Id;
 
-    /**
-     * Checks if the equipable can be equiped by an anchor
-     * @param anchor
-     *        the anchor that would equip the equipable
-     * @return True
-     */
-
-    public boolean isValidAnchor(Anchor anchor){
-        return true;
-    }
 
     /**
      *
@@ -183,7 +173,7 @@ public abstract class Equipable {
      *        the new value for this equipable item
      *
      * @throws IllegalArgumentException
-     *         The given value is a integer less then one.
+     *         The given value is a integer less thann one.
      *         |value < 1
      */
     @Raw @Model
@@ -231,6 +221,7 @@ public abstract class Equipable {
      * @param holder
      *        the new holder for this equipable item
      */
+    @Model
     protected void setHolder(Creature holder) {
         this.holder = holder;
     }
@@ -241,13 +232,21 @@ public abstract class Equipable {
      */
     private Backpack parentbackpack = null;
 
-    public Backpack getParentbackpack() {
-        return parentbackpack;
-    }
+    /**
+     * Returns the backpack that the equipable is currently being stored in.
+     *
+     */
+    @Basic
+    public Backpack getParentbackpack() { return parentbackpack;}
 
-    protected void setParentbackpack(Backpack parentbackpack) {
-        this.parentbackpack = parentbackpack;
-    }
+    /**
+     * Sets the parent backpack for this item to the specified backpack.
+     *
+     * @param parentbackpack
+     *        The new parent backpack for this equipable item.
+     */
+    @Model
+    protected void setParentbackpack(Backpack parentbackpack) {this.parentbackpack = parentbackpack;}
 
     /**
      *
@@ -255,26 +254,28 @@ public abstract class Equipable {
      * @throws IllegalArgumentException
      */
 
-
-    public void equip(Anchor anchor) throws IllegalArgumentException, CarryLimitReachedException,
-            ItemAlreadyobtainedException, AnchorslotOquipiedException{
-        if(anchor.getOwner() == null)
-            throw new IllegalArgumentException();
-        if(getWeight() > anchor.getOwner().getCapacity()) {
-                    throw new CarryLimitReachedException(this);}
-        if(getHolder() != null){
-            throw new ItemAlreadyobtainedException();
-        }
-        if(anchor.getItem() != null){
-            throw new AnchorslotOquipiedException();
-        }
+    /**
+     * Sets up the unidirectional relation between the anchors of a creature and the items stored in them.
+     *
+     * @param anchor
+     *        The anchor that this equipable item will be stored in.
+     *
+     * @effect The item equiped in the given anchorslot is set to this item.
+     *         |anchor.setItem(this)
+     * @effect The holder of this equipable item is set to the owner of the anchor
+     *         |setHolder(anchor.getOwner());
+     */
+    @Model @Raw
+    protected void equip(Anchor anchor){
         anchor.setItem(this);
-        this.setHolder(anchor.getOwner());
-        anchor.getOwner().ChangeCapacity(getWeight());
+        setHolder(anchor.getOwner());
     }
 
+
+    //Gelieve de shit aan te passen zodat ze de methodes gebruiken in creature en hero want hier zitten echt teveel fouten in
+
     /**
-     * Equips an equipable in a random empty anchor of the creature.
+     * Equips an equipable in a random empty anchor of the monster.
      * @param monster
      *        The monster that has to equip the item.
      * @effect The item will be added to the first empty anchor. If there is no free anchor nothing happens.
@@ -328,6 +329,19 @@ public abstract class Equipable {
         }
         if(!done) throw new ItemNotEquipedException();
     }
+
+    /**
+     * Checks if the equipable can be equiped by an anchor
+     * @param anchor
+     *        the anchor that would equip the equipable
+     * @return True
+     */
+
+    public boolean isValidAnchor(Anchor anchor){
+        return true;
+    }
+
+
 }
 
 

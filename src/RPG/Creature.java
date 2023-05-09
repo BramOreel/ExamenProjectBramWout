@@ -1,4 +1,5 @@
 package RPG;
+import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Raw;
 import java.util.Random;
@@ -39,9 +40,6 @@ public abstract class Creature {
 
     }
 
-
-
-    protected ArrayList<Anchor> anchors = new ArrayList<Anchor>();
     /**
      * variable containing the name of the Creature
      */
@@ -251,46 +249,97 @@ public abstract class Creature {
      * Anchors
      */
 
+    /**
+     * A list containing 'anchors' referencing the anchors for this creature.
+     */
+    protected ArrayList<Anchor> anchors = new ArrayList<Anchor>();
+
+    /**
+     * Returns the list of anchors of this creature
+     */
+    @Basic
     protected ArrayList<Anchor> getAnchors() {
         return anchors;
     }
 
+    /**
+     * Sets the list of anchors to the given list.
+     *
+     * @param anchors
+     *        The new anchors for this creature
+     */
+    @Model
     protected void setAnchors(ArrayList<Anchor> anchors) {
         this.anchors = anchors;
     }
 
     /**
-     * Gives the list of anchors
-     * @return the list of anchors
+     * returns the anchor with index i in the arraylist of anchors.
+     *
+     * @param i
+     *        The given index for the anchor in the arraylist of anchors
      */
-
-
     public Anchor getAnchorAt(int i){
         return getAnchors().get(i);
     }
 
+    /**
+     * Returns the item being stored in the anchor with given index i in the arraylist of anchors.
+     *
+     * @param i
+     *        The given index for the anchor in the arraylist of anchors.
+     */
     public Equipable getAnchorItemAt(int i){
         return getAnchorAt(i).getItem();
     }
 
     /**
-     * Mss nog compacter maken voor checker
+     * Picks an item up from the ground and equips it in a specified anchorslot.
+     *
      * @param item
+     *        the item that will be picked up.
      * @param anchortype
+     *        the name of the anchor where the item has to be equiped to.
+     *
+     * @effect The carry capacity for this creature is updated to account for the extra weight of the item that was picked up.
+     *         In case the item is a backpack, the contents of this backpack are also considered for the calculation
+     *         of the weight of the item.
+     *         |ChangeCapacity(item.totalweight);
+     * @effect The item gets picked up and the unidirectional relation between the item and the given anchor gets set up.
+     *         |item.equip(anchor)
+     *
      * @throws ItemAlreadyobtainedException
+     *         The item already has a holder which means it can't be picked up.
+     *         |item.getHolder == null
      * @throws IllegalArgumentException
+     *         The item is not effective
+     *         |item == null
+     * @throws BeltAnchorException
+     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the creature.
+     *         |anchortype.getName() == "Riem" && item not instanceof Purse
+     * @throws IllegalArgumentException
+     *         The creature does not have an anchor with the given type as its type.
+     *         |Anchors.contains(anchortype) == false
      * @throws AnchorslotOquipiedException
+     *         The creature is already holding an item in the anchor with the given anchortype
+     *         |anchor.getItem() != null
      * @throws CarryLimitReachedException
+     *         The given item is can't be picked up because the creature cannot carry it anymore
+     *         because the maximum carry capacity has been reached. In case the user wants to pick up a backpack,
+     *         the contents of this backpack are also considered for the calculation of the weight of the item.
+     *         |item.getTotalWeight > getCapacity
      */
-
-    public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
-            AnchorslotOquipiedException, CarryLimitReachedException {
+    @Raw @Model
+    protected void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
+            AnchorslotOquipiedException, CarryLimitReachedException, BeltAnchorException {
         if (item.getHolder() != null) {
             throw new ItemAlreadyobtainedException();
         }
-        if (item == null) {
+        if (item == null)
             throw new IllegalArgumentException();
-        }
+
+        if (anchortype.getName() == "Riem" && !(item instanceof Purse))
+            throw new BeltAnchorException();
 
         Anchor anchor = null;
 
@@ -319,15 +368,42 @@ public abstract class Creature {
             throw new CarryLimitReachedException(item);
 
         item.equip(anchor);
-        setCapacity(getCapacity()-item.getWeight());
+        ChangeCapacity(weight);
     }
 
-
-
     /**
-     * Drops an equiped item
+     * Drops an item that has been picked up back on the ground.
+     *
      * @param equipable
+     *        The equipable to be dropped
+     *
+     * @effect if the given equipable is currently being stored in a backpack then
+     *         the item is removed from the content of that backpack. Else, if the item is being stored
+     *         in an anchor, the item is removed from the anchor.
+     *         |if(equipable.getParentbackpack != null){
+     *         |  equipable.getParentback.removeEquipable(equipable)
+     *         |}
+     *         |else{
+     *         |    itemanchor.setItem(null)
+     *         |}
+     * @effect The holder of the item is set to null.
+     *         |equipable.setHolder(null)
+     * @effect The maximum carry capacity for this creature is updated to account for the removed weight of the item.
+     *         If the removed item is a backpack with content,
+     *         the contents of this backpack are also considered for the calculation of the removed weight for the item.
+     *         |totalWeight = equipable.getWeight()
+     *         |if(equipable instanceof Backpack)
+     *         |    totalWeight = ((Backpack) equipable).getTotalWeight();
+     *         |ChangeCapacity(-totalWeight);
+     *
+     * @throws IllegalArgumentException
+     *         The equipable item is not effective
+     *         |equipable == null
+     * @throws OtherPlayersItemException
+     *         The holder of the item isn't the creature that executes this method.
+     *         |equipable.getHolder() != this
      */
+    @Raw
     public void drop(Equipable equipable) throws IllegalArgumentException, OtherPlayersItemException{
         if(equipable == null)
             throw new IllegalArgumentException();
@@ -336,26 +412,22 @@ public abstract class Creature {
 
 
         Anchor itemanchor = null;
-        boolean hasItem = false;
+
         for(int i =0; i<getAnchors().size();i++){
 
             Equipable currItem = getAnchorItemAt(i);
 
             if(currItem == equipable){
                 itemanchor = getAnchorAt(i);
-                hasItem = true;
                 break;}
 
             else if(currItem instanceof Backpack){
                 if(((Backpack) currItem).contains(equipable)){
                     ((Backpack) currItem).removeEquipable(equipable);
-                    hasItem = true;
                     break;
                 }
             }
         }
-        if(hasItem == false)
-            throw new IllegalArgumentException();
 
         if(itemanchor != null)
             itemanchor.setItem(null);
@@ -367,25 +439,47 @@ public abstract class Creature {
             totalWeight = ((Backpack) equipable).getTotalWeight();
 
         ChangeCapacity(-totalWeight);
-
-
     }
+
     /**
      * Drops the item currently stored in the specified Anchor.
+     *
+     * @param anchor
+     *        the anchor of which we want to remove the item.
+     *
+     * @effect The item in the given anchor gets dropped
+     *         |drop(anchor.getItem())
+     *
+     * @throws IllegalArgumentException
+     *         The equipable item is not effective
+     *         |equipable == null
+     * @throws OtherPlayersItemException
+     *         The specified anchor is an anchor of another player or the item in the anchor belongs to another player
+     *         |(anchor.getowner != this) || (anhor.getItem.getHolder != this)
      */
-    public void dropItemAtAnchor(Anchor anchor) throws OtherPlayersItemException {
+    @Raw
+    public void dropItemAtAnchor(Anchor anchor) throws IllegalArgumentException, OtherPlayersItemException {
         drop(anchor.getItem());
     }
 
 
-
-
     /**
-     * Drops all items
+     * Drops all the items that this creature currently has equiped in its anchors.
+     *
+     * @effect Each anchor that has a non-null item, will drop its item.
+     *         |if (getAnchorAt(i).getItem() != null)
+     *         |    dropItemAtAnchor(getAnchorAt(i));
      */
-    public void dropAllItems() throws OtherPlayersItemException {
+    @Raw
+    public void dropAllItems() {
         for(int i=0; i < getAnchors().size();i++){
-            dropItemAtAnchor(getAnchorAt(i));
+            if (getAnchorAt(i).getItem() != null) {
+                try {
+                    dropItemAtAnchor(getAnchorAt(i));
+                } catch (OtherPlayersItemException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 

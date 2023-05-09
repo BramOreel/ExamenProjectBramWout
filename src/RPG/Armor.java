@@ -4,9 +4,8 @@ import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Raw;
-
 import java.util.*;
-import java.lang.Math;
+
 
 /**
  * A class for Armors within an RPG
@@ -18,7 +17,8 @@ import java.lang.Math;
  * @invar Each armor must have a valid creationtime.
  *        |isValidCheckTime(getChecktime());
  *
- *
+ * @author Bram Oreel
+ * @version 1.2.
  */
 public class Armor extends Equipable{
 
@@ -26,7 +26,32 @@ public class Armor extends Equipable{
     /**
      * CONSTRUCTORS
      */
-
+    /**
+     * Initialize a new armor with given identification number, weight, armortype and maximum value.
+     * @param id
+     *        The identification number for this armor
+     * @param weight
+     *        The weight in kilograms of the new armor
+     * @param armortype
+     *        The type of armor, picked from the available list for this armor
+     * @param value
+     *        The maximum value in dukaten for this armor.
+     *
+     * @effect The new armor is an equipable item with the given weight
+     *         |super(weight)
+     * @effect The identification number is configured so that it is unique, positive and prime
+     *         |configurePrime(id)
+     * @effect The actual armorvalue for this armor is set to the maximum armorvalue that the armortype provides.
+     *         |setActualarmor(getMaxProtection())
+     * @effect If the given value is valid, the value for this armor is set to the given value, else an exception is thrown
+     *         |if(isValidValue(value)) then this.value = value
+     *
+     * @post The armor has the given armortype as its maxprotection
+     *
+     * @throws IllegalArgumentException
+     *         the given maximum value is smaller than 1 or bigger than 1000
+     *         value < 1 || value > 1000
+     */
     @Raw
     public Armor(long id, int weight, ArmorType armortype, int value) throws IllegalArgumentException{
         super(weight);
@@ -38,17 +63,6 @@ public class Armor extends Equipable{
         this.maxvalue = value;
     }
 
-
-    /**
-     * Checks if the equipable can be equiped by an anchor
-     * @param anchor
-     *        the anchor that would equip the equipable
-     * @return True only if the anchortype of the anchor is body.
-     */
-    @Override
-    public boolean isValidAnchor(Anchor anchor){
-        return anchor.getAnchorType() == AnchorType.LICHAAM ||anchor.getAnchorType() == AnchorType.OTHER;
-    }
 
     /**
      * Static variable containing the set of previous Armor id's.
@@ -235,7 +249,6 @@ public class Armor extends Equipable{
         updateValue();
     }
 
-
     /**
      * Set the actual armorvalue to the given value
      *
@@ -248,7 +261,6 @@ public class Armor extends Equipable{
     }
 
     /**
-     *
      * Returns the old actual armorvalue
      */
     @Model @Basic
@@ -298,15 +310,13 @@ public class Armor extends Equipable{
     }
 
     /**
-     * Set the time the armor was last checked to the given value;
+     * Set the time the armor was last checked to the given time;
      *
      * @param date
-     *        the new date .
+     *        the new date that the armor was last checked for this armor.
      */
     @Model
     private void setCheckTime(Date date){checkTime = date;}
-
-
 
     /**
      * Check whether the given date is a valid creation time.
@@ -330,7 +340,10 @@ public class Armor extends Equipable{
 
     /**
      * Returns the amount of hours that have passed since this method was last called.
-     * If the amount of hours is greater than one, the old time is updated to the new time.
+     *
+     * @effect If the amount of hours is greater than one, the old time is also updated to the new time.
+     *         |if(difference >= 1)
+     *         |    setCheckTime(now)
      */
     @Model
     private long getWear(){
@@ -346,8 +359,7 @@ public class Armor extends Equipable{
 
     /*************
      * Value
-     *
-     */
+     **************/
 
     /**
      * A variable stating the maximum value a piece of armor can have.
@@ -395,20 +407,26 @@ public class Armor extends Equipable{
     /**
      * Calculates the new value for this armor. It does this by taking the fraction of the current armor value and the maximum armor value
      * and multiplying this with its maximum price.
-     * Lastly the value for this armor is updated.
      *
-     * @throws IllegalArgumentException
-     *         The given value is not valid.
-     *         |!isValidValue(newvalue))
-     *
+     * @effect The old value is updated to the new, calculated value.
+     *         |setValue(newvalue)
      */
     @Model @Raw
-    private void updateValue() throws IllegalArgumentException{
+    private void updateValue(){
         double fraction = getActualarmor()/getMaxProtection();
         int newvalue = (int) (getMaxvalue()*fraction);
-        if(!isValidValue(newvalue))
-            throw new IllegalArgumentException();
         setValue(newvalue);
+    }
+
+    /**
+     * Checks if the equipable can be equiped by an anchor
+     * @param anchor
+     *        the anchor that would equip the equipable
+     * @return True only if the anchortype of the anchor is body.
+     */
+    @Override @Raw
+    public boolean isValidAnchor(Anchor anchor){
+        return anchor.getAnchorType() == AnchorType.LICHAAM ||anchor.getAnchorType() == AnchorType.OTHER;
     }
 }
 
