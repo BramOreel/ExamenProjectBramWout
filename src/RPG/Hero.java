@@ -461,11 +461,32 @@ public class Hero extends Creature{
     }
 
     /**
-     * Takes an item out of the backpack that the item is stored in and moves it to the specified Anchor.
+     * Takes an item out of the backpack that the item is stored in and moves it to the specified Anchor if that anchor is empty.
      *
      * @param item
+     *        The item to be taken out of its backpack
      * @param location
+     *        The anchorpoint of the hero to move the item to
+     *
+     * @effect The item is removed from the content of the backpack
+     *         |item.getParentbackpack().removeEquipable(item);
+     * @effet The item of the specified anchor is set to the given item
+     *        |anchor.setItem(item)
+     *
+     * @throws IllegalArgumentException
+     *         the given item is currently not being stored in a backpack.
+     *         |item.getParentbackpack() = null
+     * @throws OtherPlayersItemException
+     *         the item is being stored in a backpack that isn't a backpack of this hero
+     *         |item.getParent.getHolder() != this
+     * @throws BeltAnchorException
+     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the hero.
+     *         |anchortype.getName() == "Riem" && item not instanceof Purse
+     * @throws AnchorslotOquipiedException
+     *         The anchor location does not exist or already has an item equiped in this slot
+     *         |anchor.getItem() != null || getAnchors.contains(anchortype) == false
      */
+    @Raw
     public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOquipiedException, BeltAnchorException{
 
         Backpack parent = item.getParentbackpack();
@@ -492,17 +513,29 @@ public class Hero extends Creature{
 
         parent.removeEquipable(item);
         anchor.setItem(item);
-
-
-
     }
 
     /**
      * Moves an item from the first specified anchor to the second anchor if the second Anchor is empty.
+     *
      * @param start
+     *        the anchor to move the item from
      * @param end
+     *        the anchor to move the item to
+     *
+     * @effect the item in the start anchor is set to null
+     *         |start.setItem(null)
+     * @effect the item in the end anchor is set to the item in the start anchor
+     *         |end.setItem(start.getItem())
+     *
+     * @throws AnchorslotOquipiedException
+     *         The endAnchor already has an item equiped to it
+     *         |end.getItem() != null
+     * @throws BeltAnchorException
+     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the creature.
+     *         |anchortype.getName() == "Riem" && item not instanceof Purse
      */
-    public void moveAnchorItemtoAnchor(AnchorType start, AnchorType end) throws AnchorslotOquipiedException{
+    public void moveAnchorItemtoAnchor(AnchorType start, AnchorType end) throws AnchorslotOquipiedException, BeltAnchorException{
 
         Anchor startanchor = null;
         Anchor endanchor = null;
@@ -533,7 +566,7 @@ public class Hero extends Creature{
             if(currItem instanceof Armor)
                 total++;
             else if (currItem instanceof Backpack) {
-                total= total +((Backpack) currItem).getNbOfBackpacks();
+                total= total +((Backpack) currItem).getNbOfArmors();
             }
         }
         return total;

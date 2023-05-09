@@ -138,7 +138,7 @@ public class Backpack extends Equipable{
      * Returns the content of the hashmap
      */
     @Basic
-    public HashMap<Long, ArrayList<Equipable>> getContent() {
+    protected HashMap<Long, ArrayList<Equipable>> getContent() {
         return content;
     }
 
@@ -191,9 +191,21 @@ public class Backpack extends Equipable{
     }
 
     /**
+     * Returns the total number of items stored in this backpack
+     */
+    public int getNbOfItems() {
+        int total = 0;
+        for (ArrayList<Equipable> list : getContent().values()) {
+            total = total + list.size();
+        }
+        return total;
+    }
+
+
+    /**
      * Returns the number of armors stored in a backpack
      */
-    public int getNbOfBackpacks(){
+    public int getNbOfArmors(){
         int total = 0;
         for(ArrayList<Equipable> list : getContent().values()){
             for(int i=0; i<list.size(); i++){
