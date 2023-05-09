@@ -266,14 +266,19 @@ public class Hero extends Creature{
         return protection;
     }
     @Override
-    protected void LootAndHeal(ArrayList<Equipable> items) throws ItemNotEquipedException, ItemAlreadyobtainedException, CarryLimitReachedException, AnchorslotOquipiedException {
+    protected void LootAndHeal(ArrayList<Equipable> items) {
         for(Anchor anchor: getAnchors()){
             for(Equipable item: items){
                 if(item.isValidAnchor(anchor)){
                     if(item.getValue() > anchor.getItem().getValue()){
-                        if(anchor.getItem().getWeight()-item.getWeight() <= getCapacity())
-                            anchor.getItem().unequip(anchor);
+                        if(anchor.getItem().getWeight()-item.getWeight() <= getCapacity()) {
+                            try {
+                                drop(anchor.getItem());
+                            } catch (OtherPlayersItemException e) {
+                                throw new RuntimeException(e);
+                            }
                             item.equip(anchor);
+                        }
                     }
                 }
             }

@@ -40,7 +40,7 @@ public class Monster extends Creature{
         this.damage = new Weapon(0, damage, 0);
         initialiseAnchors(nbofanchors);
         for(Equipable item : items){
-            item.equip(this);
+            pickUp(item, AnchorType.OTHER);
         }
     }
 

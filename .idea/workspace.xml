@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="healen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Backpack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Equipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Equipable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,7 +225,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683470077335</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="healen">
+      <created>1683636633443</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1683636633443</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

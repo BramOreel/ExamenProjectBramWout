@@ -511,7 +511,7 @@ public abstract class Creature {
      *          |for(item in items of creature)
      *          |        unequip(item)
      */
-    protected ArrayList<Equipable> die() throws ItemNotEquipedException{
+    protected ArrayList<Equipable> die() throws{
         ArrayList<Equipable> items = new ArrayList<Equipable>();
         for(Anchor anchor : getAnchors()){
             if(anchor.getItem() != null){
@@ -519,7 +519,11 @@ public abstract class Creature {
                     ArrayList<Equipable> itemsInBackpack = ((Backpack) anchor.getItem()).getAllItems();
                 }
                 items.add(anchor.getItem());
-                anchor.getItem().unequip(anchor);
+                try {
+                    drop(anchor.getItem());
+                } catch (OtherPlayersItemException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         return items;
