@@ -437,6 +437,10 @@ public abstract class Creature {
         int totalWeight = equipable.getWeight();
         if(equipable instanceof Backpack)
             totalWeight = ((Backpack) equipable).getTotalWeight();
+            //all the items in the backpack also have no owner anymore.
+            for(Equipable item : ((Backpack) equipable).getAllItems()){
+                item.setHolder(null);
+            }
 
         ChangeCapacity(-totalWeight);
     }
@@ -462,7 +466,7 @@ public abstract class Creature {
         drop(anchor.getItem());
     }
 
-
+    // dit mag eigenlijk weg.
     /**
      * Drops all the items that this creature currently has equiped in its anchors.
      *
@@ -511,12 +515,15 @@ public abstract class Creature {
      *          |for(item in items of creature)
      *          |        unequip(item)
      */
-    protected ArrayList<Equipable> die() throws{
+    protected ArrayList<Equipable> die(){
         ArrayList<Equipable> items = new ArrayList<Equipable>();
         for(Anchor anchor : getAnchors()){
             if(anchor.getItem() != null){
                 if(anchor.getItem() instanceof Backpack){
                     ArrayList<Equipable> itemsInBackpack = ((Backpack) anchor.getItem()).getAllItems();
+                    for(Equipable item : itemsInBackpack){
+                        items.add(item);
+                    }
                 }
                 items.add(anchor.getItem());
                 try {

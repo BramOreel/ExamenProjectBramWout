@@ -1,6 +1,7 @@
 package RPG;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Monster extends Creature{
 
@@ -113,5 +114,23 @@ public class Monster extends Creature{
         if(anchortype.getName() == "Lichaam" && item instanceof Armor)
             throw new IllegalArgumentException();
         super.pickUp(item,anchortype);
+    }
+
+    @Override
+    protected void LootAndHeal(ArrayList<Equipable> items) {
+        for(Anchor anchor: getAnchors()){
+            for(Equipable item: items){
+                if(item.getShinyValue() > anchor.getItem().getShinyValue()){
+                    if(anchor.getItem().getWeight()-item.getWeight() <= getCapacity()) {
+                        try {
+                            drop(anchor.getItem());
+                        } catch (OtherPlayersItemException e) {
+                            throw new RuntimeException(e);
+                        }
+                        item.equip(anchor);
+                    }
+                }
+            }
+        }
     }
 }

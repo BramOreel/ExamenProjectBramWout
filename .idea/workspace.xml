@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="healen">
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="equip dingen naar Hero verplaatst">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Backpack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Equipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Equipable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
     </list>
@@ -232,7 +234,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683636633443</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="equip dingen naar Hero verplaatst">
+      <created>1683644839857</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1683644839857</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,7 +272,8 @@
     <MESSAGE value="Het oppakken van een item dat op de grond ligt en het wegsteken ervan in een rugzak geïmplementeerd" />
     <MESSAGE value="Kleine bug voor monsters gefikst" />
     <MESSAGE value="healen" />
-    <option name="LAST_COMMIT_MESSAGE" value="healen" />
+    <MESSAGE value="equip dingen naar Hero verplaatst" />
+    <option name="LAST_COMMIT_MESSAGE" value="equip dingen naar Hero verplaatst" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

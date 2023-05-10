@@ -341,6 +341,23 @@ public abstract class Equipable {
         return true;
     }
 
+    /**
+     * Gives a value of how shiny an equipable is, depending on the type of equipable.
+     * @return 1 if it's a weapon, 2 if it's a piece of armor and 3 if it's a purse.
+     *        | if this instanceof Weapon then result == 1;
+     *        | if this instanceof Armor then result == 2;
+     *        | if this instanceof Purse then result == 3;
+     *        | else result == 0;
+     *
+     */
+    public int getShinyValue(){
+        if(this instanceof Weapon) return 1;
+        if(this instanceof Armor) return 2;
+        if(this instanceof Purse) return 3;
+        else return 0;
+        
+    }
+
 
 }
 

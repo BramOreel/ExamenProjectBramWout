@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Raw;
 import java.util.Random;
-import java.text.DecimalFormat;
 
 /**
  *
@@ -30,6 +29,8 @@ public class Hero extends Creature{
      *        The given strength the hero has
      * @param protection
      *        The given protection stat the hero has.
+     * @param armor
+     *        The armor that the hero wears at birth.
      *@effect The maxcapacity is calculated with the given strength and then set as the strength.
      *        |setMaxCapacity(calculateMaxCapacity(strength));
      *@effect The Hero is generated as a creature with a given name, maxHitPoints and the calculated maxCapacity.
@@ -40,14 +41,25 @@ public class Hero extends Creature{
      *        | setStrength(strength)
      *@effect five empty anchors are initialised and set as the anchors of this hero. One left hand, One right hand, one back, one chest and one belt.
      *        |initialiseAnchors();
+     *@effect The anchor gets equiped on the LICHAAM anchor.
+     *        |pickUp(armor, AnchorType.LICHAAM)
      */
 
-    public Hero(String name, int maxHitPoints, double strength, int protection) {
+    public Hero(String name, int maxHitPoints, double strength, int protection, Armor armor) {
         super(name, maxHitPoints, (int) (20*strength));
         setMaxCapacity(calculateMaxCapacity(strength));
         setProtection(protection);
         setStrength(strength);
         initialiseAnchors();
+        try {
+            pickUp(armor, AnchorType.LICHAAM);
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        } catch (AnchorslotOquipiedException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -60,22 +72,24 @@ public class Hero extends Creature{
      *        The given strength the hero has
      * @param protection
      *        The given protection stat the hero has.
+     * @param armor
+     *        The armor that the hero wears at birth.
      * @param items
-     *        The given items that the Hero has to equip.
-     * @effect The Hero gets generated with the given name, maxhipoints, strength and protection.
-     *        | this(name, maxHitPoints, strength, protection)
-     * @effect All the given items get equiped in the free anchor slots, if there is no empty
-     *         compatible anchor left the item does not get equiped.
-     *         |for(Equipable item : items)
-     *         |   for(Anchor anchor : getAnchors())
-     *         |       if(item.isValidAnchor(anchor) && anchor.getItem() == null)
-     *         |           item.equip(item)
+     *        The given items that the Hero has to equip in random anchor slots.
+     * @effect The Hero gets generated with the given name, maxhitpoints, strength, protection and armor.
+     *        | this(name, maxHitPoints, strength, protection, armor)
+     * @effect All the given items get equipped in the free anchor slots, if there is no empty
+     *         anchor left the item does not get equipped.
+     *         |for each item in items
+     *         |   for each anchor in getAnchors()
+     *         |       if the anchor is empty
+     *         |       then pickUp(item, anchor.getAnchorType())
      */
-    public Hero(String name, int maxHitPoints, double strength, int protection, Equipable... items) throws CarryLimitReachedException,ItemAlreadyobtainedException,AnchorslotOquipiedException {
-        this(name, maxHitPoints, strength, protection);
+    public Hero(String name, int maxHitPoints, double strength, int protection,Armor armor, Equipable... items) throws CarryLimitReachedException,ItemAlreadyobtainedException,AnchorslotOquipiedException {
+        this(name, maxHitPoints, strength, protection, armor);
         for(Equipable item : items){
             for(Anchor anchor : getAnchors()){
-                if(item.isValidAnchor(anchor) && anchor.getItem() == null){
+                if(anchor.getItem() == null){
                     try {
                         pickUp(item, anchor.getAnchorType());
                     } catch (ItemAlreadyobtainedException e) {
@@ -101,8 +115,8 @@ public class Hero extends Creature{
      *@effect The hero is generated as a hero with the default protection stat.
      *        | this(name,maxHitPoints,strength,getDefaultProtection())
      */
-    public Hero(String name, int maxHitPoints, double strength){
-        this(name,maxHitPoints,strength,getDefaultProtection());
+    public Hero(String name, int maxHitPoints, double strength, Armor armor){
+        this(name,maxHitPoints,strength,getDefaultProtection(), armor);
     }
 
 
@@ -226,7 +240,7 @@ public class Hero extends Creature{
 
     /**
      * Returns the damage that the hero will do if it hits.
-     * @return The intrinsic strength + the damage values of both weapons minus ten and then this number divided in half
+     * @return The intrinsic strength + the damage values of weapons in left and right hand minus ten and then this number divided in half
      *         and rounded down.
      *         |return Math.floor((getStrength() + leftWeapon.getDamage(). + RightWeapon.getDamage - 10)/2)
      */
@@ -246,9 +260,12 @@ public class Hero extends Creature{
 
     /**
      * Gives the total protection stat of the hero.
-     * @return The total protection stat that is the intrinsic protection with the currentpotection that the
-     *         equiped armor gives.
-     *         |return getProtection() + armor.getCurrentArmor()
+     * @return The total protection stat is the intrinsic protection in addition with the currentpotection that the
+     *         equiped armor gives if the armor is equiped in the LICHAAM anchor.
+     *         |for anchor in getAnchors()
+     *         |    if anchor.getAnchortype == AnchorType.LICHAAM
+     *         |    then armor = anchor.getItem()
+     *         | result == getProtection() + armor.getCurrentArmor
      */
 
     @Override
