@@ -42,7 +42,7 @@ public abstract class Creature {
      * @effect The maximum capacity is set to the given maxCapacity.
      *         |setMaxCapacity(maxCapacity)
      * @effect The remaining capacity is set to the given maxCapacity,
-     *          because the creature still has an empty inventory.
+     *          because the creature still² has an empty inventory.
      *         |setCapacity(maxCapacity)
      * @effect The maximum amount of hitpoints is set to the given maxHitPoints.
      *         |setMaxHitPoints(maxHitPoints)
@@ -53,6 +53,7 @@ public abstract class Creature {
      *         if the name is not a valid name for the creature.
      *         |!canHaveAsName(name)
      */
+    @Raw @Model
     protected Creature(String name, int maxHitPoints, int maxCapacity) throws IllegalArgumentException{
         if(!canHaveAsName(name)){
             throw new IllegalArgumentException();
@@ -76,7 +77,7 @@ public abstract class Creature {
     protected int maxHitPoints;
 
     /**
-     * vatiable containing the amount of hitpoints
+     * variable containing the amount of hitpoints
      */
     protected int hitPoints;
 
@@ -92,34 +93,39 @@ public abstract class Creature {
 
 
     /**
-     * a list containing all valid characters for the name.
+     * a list containing all valid characters for names of creatures.
      */
+    @Basic
     protected final static String validCharacters = "[a-zA-Z': ]+";
 
     /**
-     * @return  the name of the creature
+     * returns the name of the creature.
      */
+    @Basic
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
-     * @return  the maximum hitpoints of the creature.
+     * returns the maximum amount of hitpoints of the creature.
      */
+    @Basic
     public int getMaxHitPoints() {
-        return maxHitPoints;
+        return this.maxHitPoints;
     }
 
     /**
-     * @return  the hitpoints of the creature.
+     * returns the remaining hitpoints of the creature.
      */
+    @Basic
     public int getHitPoints() {
         return hitPoints;
     }
 
     /**
-     * @return the current remaining capacity of the creature.
+     * returns the current remaining capacity of the creature.
      */
+    @Basic
     public int getCapacity() {
         return capacity;
     }
@@ -127,8 +133,9 @@ public abstract class Creature {
 
 
     /**
-     * @return the maximum capacity of the creature.
+     * returns the maximum capacity of the creature.
      */
+    @Basic
     public int getMaxCapacity() {
         return maxCapacity;
     }
@@ -142,7 +149,8 @@ public abstract class Creature {
      * @post  the amount of maxhitpoints is now the given amount.
      *        | this.maxHitPoints == maxHitPoints
      */
-    protected void setMaxHitPoints(int maxHitPoints) {
+    @Raw @Model
+    public void setMaxHitPoints(int maxHitPoints) {
         this.maxHitPoints = maxHitPoints;
     }
     /**
@@ -154,6 +162,7 @@ public abstract class Creature {
      * @post  the amount of hitpoints is now the given amount.
      *        | this.hitPoints == hitPoints
      */
+    @Raw @Model
     protected void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
     }
@@ -166,6 +175,7 @@ public abstract class Creature {
      * @post  the amount of remaining capacity is now the given amount.
      *        | this.capacity == capacity
      */
+    @Raw @Model
     protected void setCapacity(int capacity) {
         this.capacity = capacity;
     }
@@ -179,6 +189,7 @@ public abstract class Creature {
      * @effect  the amount of remaining capacity is now the previous amount plus the given weight.
      *        | setCapacity(getCapacity() + capacity)
      */
+    @Model
     protected void ChangeCapacity(int capacity) {
         setCapacity(getCapacity() + capacity);
     }
@@ -191,6 +202,7 @@ public abstract class Creature {
      * @post  the maximum capacity is now the given amount.
      *        | this.maxCapacity == maxCapacity
      */
+    @Model @Raw
     protected void setMaxCapacity(int maxCapacity) {
             this.maxCapacity = maxCapacity;
     }
@@ -202,6 +214,7 @@ public abstract class Creature {
      * @return  True if the amount is a non-negative integer, false if not.
      *          | maxCapacity > -1
      */
+    @Raw
     public static boolean isValidMaxCapacity(int maxCapacity){
         return maxCapacity > -1;
     }
@@ -211,8 +224,9 @@ public abstract class Creature {
      * @param   capacity
      *          the remaining capacity that needs to be checked.
      * @return  True if the amount is a non-negative integer smaller than the maximum capacity, false if not.
-     *          | getMaxCapacity() > capacity &&  capacity > -1
+     *          | result == getMaxCapacity() > capacity &&  capacity > -1
      */
+    @Raw
     public boolean canHaveAsCapacity(int capacity){
         return  getMaxCapacity() > capacity &&  capacity > -1;
     }
@@ -224,6 +238,7 @@ public abstract class Creature {
      * @return  True if the amount is a non-negative integer smaller than the maximum amount, false if not.
      *          |result == getMaxHitPoints() > hitPoints &&  hitPoints > -1
      */
+    @Raw
     public boolean canHaveAsHitpoints(int hitPoints){
         return  (getMaxHitPoints() > hitPoints &&  hitPoints > -1);
     }
