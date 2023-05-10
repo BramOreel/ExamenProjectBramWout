@@ -4,11 +4,31 @@ import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Raw;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
 
+/**
+ * An abstract class of creatures.
+ *
+ * @invar	Each creature must have a properly spelled name.
+ * 			| canHaveAsName(getName())
+ * @invar   Each creature must always have a valid amount of hitpoints.
+ *          | canHaveAsHitPoints()
+ * @invar   Each creature must always have a valid maximum amount of hitpoints.
+ *          | isValidMaxHitPoints()
+ * @invar   Each creature must always have a valid amount of remaining capacity.
+ *          | canHaveAsCapacity()
+ * @invar   Each creature must always have a valid maximum capacity.
+ *          | isValidMaxCapacity()
+ * @author 	Wout Thiers & Bram Oreel
+ * @version 1.0
+ *
+ * @note 	The name invariant has become object-dependent, so the name of
+ * 			the checker changed to canHaveAsX (instead of isValidX).
+ * 			Although we do not rely on properties/attributes of the object itself
+ * 			to determine the validity of the name, it still is important
+ * 			which subclass the object belongs to.
+ * 			Hence the object-dependency of the checker.
+ */
 public abstract class Creature {
-
     /**
      * Creates a new creature with a name, amount of hitpoints and capactity.
      * @param name
@@ -17,8 +37,7 @@ public abstract class Creature {
      *        The maximum amount of hitpoints of the creature.
      * @param maxCapacity
      *        The maximum capacity of the creature in kg.
-     * @effect The new name is set to the name of the creature, if the name is not valid
-     *         an IllegalArgumentException is thrown.
+     * @effect The new name is set to the name of the creature.
      *         |setName(name)
      * @effect The maximum capacity is set to the given maxCapacity.
      *         |setMaxCapacity(maxCapacity)
@@ -30,8 +49,14 @@ public abstract class Creature {
      * @effect The amount of hitpoints is set to the given maxHitPoints,
      *          so the creature has full health.
      *         |setHitPoints(maxHitPoints)
+     * @throws IllegalArgumentException
+     *         if the name is not a valid name for the creature.
+     *         |!canHaveAsName(name)
      */
-    protected Creature(String name, int maxHitPoints, int maxCapacity) {
+    protected Creature(String name, int maxHitPoints, int maxCapacity) throws IllegalArgumentException{
+        if(!canHaveAsName(name)){
+            throw new IllegalArgumentException();
+        }
         setName(name);
         setMaxCapacity(maxCapacity);
         setCapacity(maxCapacity);
@@ -125,7 +150,7 @@ public abstract class Creature {
      * @param hitPoints
      *        the given amount.
      * @pre   the given amount must be a valid amount.
-     *        | isValidHitPoints(hitPoints)
+     *        | canHaveAsHitpoints(hitPoints)
      * @post  the amount of hitpoints is now the given amount.
      *        | this.hitPoints == hitPoints
      */
@@ -137,7 +162,7 @@ public abstract class Creature {
      * @param capacity
      *        the given amount.
      * @pre   the given amount must be a valid amount.
-     *        | isValidCapacity(capacity)
+     *        | canHaveAsCapacity(capacity)
      * @post  the amount of remaining capacity is now the given amount.
      *        | this.capacity == capacity
      */
@@ -150,12 +175,12 @@ public abstract class Creature {
      * @param capacity
      *        the given amount, can be negative.
      * @pre   the given amount must make the new capacity a valid amount.
-     *        | isValidCapacity(getCapacity()-capacity)
-     * @effect  the amount of remaining capacity is now the previous amount plus the given weigt.
-     *        | setCapacity(getCapacity()+capacity)
+     *        | canHaveAsCapacity(getCapacity()-capacity)
+     * @effect  the amount of remaining capacity is now the previous amount plus the given weight.
+     *        | setCapacity(getCapacity() + capacity)
      */
     protected void ChangeCapacity(int capacity) {
-        setCapacity(getCapacity()+capacity);
+        setCapacity(getCapacity() + capacity);
     }
     /**
      * Sets a new given maximum capacity.
@@ -177,7 +202,7 @@ public abstract class Creature {
      * @return  True if the amount is a non-negative integer, false if not.
      *          | maxCapacity > -1
      */
-    public boolean isValidMaxCapacity(int maxCapacity){
+    public static boolean isValidMaxCapacity(int maxCapacity){
         return maxCapacity > -1;
     }
 
@@ -188,19 +213,8 @@ public abstract class Creature {
      * @return  True if the amount is a non-negative integer smaller than the maximum capacity, false if not.
      *          | getMaxCapacity() > capacity &&  capacity > -1
      */
-    public boolean isValidCapacity(int capacity){
+    public boolean canHaveAsCapacity(int capacity){
         return  getMaxCapacity() > capacity &&  capacity > -1;
-    }
-
-    /**
-     * checks if the maxHitPoints is a valid amount.
-     * @param   maxHitPoints
-     *          the maximum amount of hitpoints that needs to be checked.
-     * @return  True if the amount is a non-negative integer, false if not.
-     *          | maxHitPoints > -1
-     */
-    public boolean isValidMaxHitPoints(int maxHitPoints){
-        return maxHitPoints > -1;
     }
 
     /**
@@ -208,11 +222,22 @@ public abstract class Creature {
      * @param   hitPoints
      *          the remaining amount of hitpoints that needs to be checked.
      * @return  True if the amount is a non-negative integer smaller than the maximum amount, false if not.
-     *          | getMaxHitPoints() > hitPoints &&  hitPoints > -1
+     *          |result == getMaxHitPoints() > hitPoints &&  hitPoints > -1
      */
-    public boolean isValidHitpoints(int hitPoints){
-        return  getMaxHitPoints() > hitPoints &&  hitPoints > -1;
+    public boolean canHaveAsHitpoints(int hitPoints){
+        return  (getMaxHitPoints() > hitPoints &&  hitPoints > -1);
     }
+    /**
+     * checks if the maximum amount of hitpoints is a valid amount.
+     * @param   maxHitPoints
+     *          the max amount of hitpoints that needs to be checked.
+     * @return  True if the amount is a non-negative integer, false if not.
+     *          |result == maxHitPoints > -1
+     */
+    public static boolean isValidMaxHitpoints(int maxHitPoints){
+        return  (maxHitPoints > -1);
+    }
+
 
     /**
      * Checks if a given name is valid.
@@ -223,7 +248,7 @@ public abstract class Creature {
      *        | name.matches(validCharacters) && name != null && name.matches("^[A-Z].*")
      */
     @Raw
-    public boolean isValidName(String name){
+    public boolean canHaveAsName(String name){
         return name.matches(validCharacters) && name != null && name.matches("^[A-Z].*");
     }
 
@@ -233,12 +258,12 @@ public abstract class Creature {
      *         The new name.
      * @throws IllegalArgumentException
      *         If the given name is not valid this exception is thrown.
-     *         | !isValidName(name)
+     *         | !canHaveAsName(name)
      * @post   The new name is set as the given name.
      *         | this.name == name
      */
     protected void setName(String name) throws IllegalArgumentException{
-        if(!isValidName(name)){
+        if(!canHaveAsName(name)){
             throw new IllegalArgumentException();
         }
         else {
@@ -504,7 +529,7 @@ public abstract class Creature {
     /**
      * Generates a value to see if the attack will hit.
      * @return A random integer between 0 and 100.
-     *         | return rand.nextInt(101)
+     *         | result == rand.nextInt(101)
      */
     @Model
     protected int getHitValue(){

@@ -1,5 +1,7 @@
 package RPG;
 
+import be.kuleuven.cs.som.annotate.Model;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -116,6 +118,44 @@ public class Monster extends Creature{
         super.pickUp(item,anchortype);
     }
 
+    /**
+     * Gives the total damage that the monster does.
+     * @return Simply the damage stat.
+     *         | result == getDamage()
+     */
+    @Override
+    protected int getTotalDamage() {
+        return getDamage();
+    }
+
+    /**
+     * Gives the total protection of the monster.
+     * @return Simply the natural protection
+     *         | result == getNaturalProtection()
+     */
+    @Override
+    protected int getTotalProtection() {
+        return getNaturalProtection();
+    }
+    /**
+     * Generates a value to see if the attack will hit.
+     * @return A random integer between 0 and 100 however if this integer however is higher than the current
+     *         amount of hitpoints then the amount of hipoints is returned.
+     *         |int randomNum = rand.nextInt(101)
+     *         |if randomNum > getHitPoints()
+     *         |    then result == getHitPoints()
+     *         |else result == randomNum
+     */
+    @Model @Override
+    protected int getHitValue(){
+        Random rand = new Random();
+        int randomNum = rand.nextInt(101);
+        if(randomNum > getHitPoints()){
+            return getHitPoints();
+        }
+        return randomNum;
+    }
+
     @Override
     protected void LootAndHeal(ArrayList<Equipable> items) {
         for(Anchor anchor: getAnchors()){
@@ -126,6 +166,9 @@ public class Monster extends Creature{
                             drop(anchor.getItem());
                         } catch (OtherPlayersItemException e) {
                             throw new RuntimeException(e);
+                        }
+                        if(item.getParentbackpack() != null){
+                            item.getParentbackpack().removeEquipable(item);
                         }
                         item.equip(anchor);
                     }

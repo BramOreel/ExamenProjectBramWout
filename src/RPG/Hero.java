@@ -296,6 +296,9 @@ public class Hero extends Creature{
                             } catch (OtherPlayersItemException e) {
                                 throw new RuntimeException(e);
                             }
+                            if(item.getParentbackpack() != null){
+                                item.getParentbackpack().removeEquipable(item);
+                            }
                             item.equip(anchor);
                         }
                     }
