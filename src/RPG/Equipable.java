@@ -192,8 +192,8 @@ public abstract class Equipable {
      * @return False if the given value is smaller than one.
      *        |if(value < 1) then result == False
      */
-    @Model @Raw
-    protected boolean isValidValue(int value){
+    @Raw //refactor
+    public boolean isValidValue(int value){
         return(value >= 1);
     }
 

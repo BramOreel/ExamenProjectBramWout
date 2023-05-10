@@ -13,7 +13,9 @@ import java.util.Random;
  *
  *
  * @invar a hero may only carry up to 2 armors at a time.
- *       |canCarryArmor
+ *       |canCarryArmor()
+ * @invar the 'belt' AnchorSlot may only contain equipables of the 'purse' type.
+ *      |hier nog shit schrijven
  */
 public class Hero extends Creature{
 
@@ -581,6 +583,10 @@ public class Hero extends Creature{
              }
     }
 
+    /**
+     * Returns the total number of armors that a hero is currently carrying in his anchors and backpacks.
+     */
+    @Model
     private int getNbOfArmors(){
        int total = 0;
         for (int i = 0; i < getAnchors().size(); i++){
@@ -594,14 +600,18 @@ public class Hero extends Creature{
         return total;
     }
 
-    private boolean canPickUpArmor(){
+    /**
+     * @return True if the total number of armors that this hero is currently carrying is smaller than 2. False otherwise.
+     */
+    @Raw
+    public boolean canPickUpArmor(){
         return (getNbOfArmors() < 2);
     }
 
 
 
     /**
-     * Swaps the postion of the two armors that a hero is currently carrying with him
+     * Swaps the postion of the two armors that a hero is currently carrying with him. Deze shit fiksen zodat pickup en drop in 1 stap worden afgehandelt. FUN!
      */
     public void swapArmors(Armor armor) throws CantFindArmortoSwapException, CarryLimitReachedException, OtherPlayersItemException {
         if(getNbOfArmors() != 2)
@@ -610,45 +620,61 @@ public class Hero extends Creature{
         if(!(bodyitem instanceof Armor))
             throw new CantFindArmortoSwapException();
 
-
         Backpack parent = armor.getParentbackpack();
-        if(parent != null){ //armor zit in een rugzak
-            int weight = parent.getTotalWeight() - armor.getWeight() + bodyitem.getWeight();
-            if(weight > parent.getCapacity())
-                throw new CarryLimitReachedException(bodyitem);
+        if(armor.getHolder() == this) {
+            if (parent != null) { //armor zit in een rugzak
+                int weight = parent.getTotalWeight() - armor.getWeight() + bodyitem.getWeight();
+                if (weight > parent.getCapacity())
+                    throw new CarryLimitReachedException(bodyitem);
 
-            drop(armor);
-            store(bodyitem,parent);
+                parent.removeEquipable(armor);
+                store(bodyitem, parent);
 
+                try {
+                    pickUp(armor, AnchorType.LICHAAM);
+                } catch (ItemAlreadyobtainedException e) {
+                    throw new RuntimeException(e);
+                } catch (AnchorslotOquipiedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            //armor zit in een Anchor
+            else {
+                Anchor curranchor = null;
+                for (int i = 0; i < getAnchors().size(); i++) {
+                    curranchor = getAnchorAt(i);
+                    if (curranchor.getItem() == armor)
+                        break;
+                }
+                drop(bodyitem);
+                try {
+                    moveAnchorItemtoAnchor(curranchor.getAnchorType(), AnchorType.LICHAAM);
+                } catch (AnchorslotOquipiedException e) {
+                    throw new RuntimeException(e);
+                }
+                try {
+                    pickUp(bodyitem, curranchor.getAnchorType());
+                } catch (ItemAlreadyobtainedException e) {
+                    throw new RuntimeException(e);
+                } catch (AnchorslotOquipiedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } else if (armor.getHolder() == null) {
+            if(getCapacity() - bodyitem.getWeight() + armor.getWeight() > getMaxCapacity())
+                throw new CarryLimitReachedException(armor);
+            drop(bodyitem);
             try {
-                pickUp(bodyitem,AnchorType.LICHAAM);
+                pickUp(armor, AnchorType.LICHAAM);
             } catch (ItemAlreadyobtainedException e) {
                 throw new RuntimeException(e);
             } catch (AnchorslotOquipiedException e) {
                 throw new RuntimeException(e);
             }
-        }
-        //armor zit in een Anchor
 
-        Anchor curranchor = null;
-        for (int i = 0; i < getAnchors().size(); i++) {
-            curranchor = getAnchorAt(i);
-            if(curranchor.getItem() == armor)
-                break;
-        }
-        drop(bodyitem);
-        try {
-            moveAnchorItemtoAnchor(curranchor.getAnchorType(), AnchorType.LICHAAM);
-        } catch (AnchorslotOquipiedException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            pickUp(bodyitem,curranchor.getAnchorType());
-        } catch (ItemAlreadyobtainedException e) {
-            throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
-            throw new RuntimeException(e);
-        }
+
+        } else
+            throw new IllegalArgumentException();
     }
     /**
      * Gives the closest positive prime number to a number that isn't bigger than a given maximum.

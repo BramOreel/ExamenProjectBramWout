@@ -257,7 +257,7 @@ public abstract class Creature {
     /**
      * Returns the list of anchors of this creature
      */
-    @Basic
+    @Basic @Model
     protected ArrayList<Anchor> getAnchors() {
         return anchors;
     }
@@ -274,12 +274,26 @@ public abstract class Creature {
     }
 
     /**
+     *Returns the number of anchors for this creature
+     */
+    @Basic
+    public int getNbOfAnchors(){
+        return getAnchors().size();
+    }
+
+
+    /**
      * returns the anchor with index i in the arraylist of anchors.
      *
      * @param i
      *        The given index for the anchor in the arraylist of anchors
+     * @throws IllegalArgumentException
+     *         the index i is out of range
+     *         |i > getNbOfAnchors()
      */
-    public Anchor getAnchorAt(int i){
+    public Anchor getAnchorAt(int i) throws  IllegalArgumentException{
+        if(i > getNbOfAnchors())
+            throw new IllegalArgumentException();
         return getAnchors().get(i);
     }
 
