@@ -404,6 +404,26 @@ public class Backpack extends Equipable{
         }
         item.setParentbackpack(null);
     }
+
+    /**
+     * Sets up the unidirectional relation between the anchors of a creature and the items stored in them.
+     *
+     * @param anchor
+     *        The anchor that this backpack will be stored in.
+     *
+     * @effect The item equiped in the given anchorslot is set to this item.
+     *         |anchor.setItem(this)
+     * @effect The holder of this backpack is set to the owner of the anchor
+     *         |setHolder(anchor.getOwner());
+     */
+    @Model @Raw @Override
+    protected void equip(Anchor anchor){
+        anchor.setItem(this);
+        setHolder(anchor.getOwner());
+        for(Equipable item: getAllItems()){
+            setHolder(anchor.getOwner());
+        }
+    }
 }
 
 

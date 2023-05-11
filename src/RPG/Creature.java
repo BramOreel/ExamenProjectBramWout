@@ -95,7 +95,6 @@ public abstract class Creature {
     /**
      * a list containing all valid characters for names of creatures.
      */
-    @Basic
     protected final static String validCharacters = "[a-zA-Z': ]+";
 
     /**
@@ -183,9 +182,9 @@ public abstract class Creature {
     /**
      * Adds a remaining capacity.
      * @param capacity
-     *        the given amount, can be negative.
+     *        the given amount of weight to be added, can be negative.
      * @pre   the given amount must make the new capacity a valid amount.
-     *        | canHaveAsCapacity(getCapacity()-capacity)
+     *        | canHaveAsCapacity(getCapacity() - capacity)
      * @effect  the amount of remaining capacity is now the previous amount plus the given weight.
      *        | setCapacity(getCapacity() + capacity)
      */
@@ -212,7 +211,7 @@ public abstract class Creature {
      * @param   maxCapacity
      *          the maxCapacity that needs to be checked.
      * @return  True if the amount is a non-negative integer, false if not.
-     *          | maxCapacity > -1
+     *          | result == (maxCapacity > -1)
      */
     @Raw
     public static boolean isValidMaxCapacity(int maxCapacity){
@@ -236,7 +235,7 @@ public abstract class Creature {
      * @param   hitPoints
      *          the remaining amount of hitpoints that needs to be checked.
      * @return  True if the amount is a non-negative integer smaller than the maximum amount, false if not.
-     *          |result == getMaxHitPoints() > hitPoints &&  hitPoints > -1
+     *          |result == (getMaxHitPoints() > hitPoints &&  hitPoints > -1)
      */
     @Raw
     public boolean canHaveAsHitpoints(int hitPoints){
@@ -249,6 +248,7 @@ public abstract class Creature {
      * @return  True if the amount is a non-negative integer, false if not.
      *          |result == maxHitPoints > -1
      */
+    @Raw
     public static boolean isValidMaxHitpoints(int maxHitPoints){
         return  (maxHitPoints > -1);
     }
@@ -277,7 +277,8 @@ public abstract class Creature {
      * @post   The new name is set as the given name.
      *         | this.name == name
      */
-    protected void setName(String name) throws IllegalArgumentException{
+    @Raw
+    public void setName(String name) throws IllegalArgumentException{
         if(!canHaveAsName(name)){
             throw new IllegalArgumentException();
         }
@@ -285,6 +286,7 @@ public abstract class Creature {
             this.name = name;
         }
     }
+
     /********
      * Anchors
      */
@@ -304,11 +306,12 @@ public abstract class Creature {
 
     /**
      * Sets the list of anchors to the given list.
-     *
      * @param anchors
      *        The new anchors for this creature
+     * @post  The anchors are set to the given list.
+     *        | this.anchors == anchors
      */
-    @Model
+    @Model @Raw
     protected void setAnchors(ArrayList<Anchor> anchors) {
         this.anchors = anchors;
     }
@@ -316,7 +319,7 @@ public abstract class Creature {
     /**
      *Returns the number of anchors for this creature
      */
-    @Basic
+    @Basic @Raw
     public int getNbOfAnchors(){
         return getAnchors().size();
     }
@@ -324,13 +327,15 @@ public abstract class Creature {
 
     /**
      * returns the anchor with index i in the arraylist of anchors.
-     *
      * @param i
      *        The given index for the anchor in the arraylist of anchors
      * @throws IllegalArgumentException
      *         the index i is out of range
      *         |i > getNbOfAnchors()
+     * @return The anchor at the given index.
+     *         |result == getAnchors().get(i)
      */
+    @Basic @Raw
     public Anchor getAnchorAt(int i) throws  IllegalArgumentException{
         if(i > getNbOfAnchors())
             throw new IllegalArgumentException();
@@ -339,29 +344,32 @@ public abstract class Creature {
 
     /**
      * Returns the item being stored in the anchor with given index i in the arraylist of anchors.
-     *
      * @param i
      *        The given index for the anchor in the arraylist of anchors.
+     * @return The item of the anchor at the given index.
+     *         |result == getAnchorAt(i).getItem()
      */
+    @Raw @Basic
     public Equipable getAnchorItemAt(int i){
         return getAnchorAt(i).getItem();
     }
 
     /**
-     * Picks an item up from the ground and equips it in a specified anchorslot.
+     * Picks an item up from the ground and equips it in an empty anchor with the given anchortype.
      *
      * @param item
      *        the item that will be picked up.
      * @param anchortype
-     *        the name of the anchor where the item has to be equiped to.
+     *        the type of the anchor where the item has to be equipped to.
      *
-     * @effect The carry capacity for this creature is updated to account for the extra weight of the item that was picked up.
+     * @effect The remaining capacity for this creature is updated to account for the extra weight of the item that was picked up.
      *         In case the item is a backpack, the contents of this backpack are also considered for the calculation
      *         of the weight of the item.
-     *         |ChangeCapacity(item.totalweight);
+     *         |ChangeCapacity(item.totalweight)
      * @effect The item gets picked up and the unidirectional relation between the item and the given anchor gets set up.
+     *         The holder of the item is also set to the owner of the anchor and if it's a backpack this
+     *         also happens for all the items within the backpack.
      *         |item.equip(anchor)
-     *
      * @throws ItemAlreadyobtainedException
      *         The item already has a holder which means it can't be picked up.
      *         |item.getHolder == null
@@ -374,7 +382,7 @@ public abstract class Creature {
      * @throws IllegalArgumentException
      *         The creature does not have an anchor with the given type as its type.
      *         |Anchors.contains(anchortype) == false
-     * @throws AnchorslotOquipiedException
+     * @throws AnchorslotOccupiedException
      *         The creature is already holding an item in the anchor with the given anchortype
      *         |anchor.getItem() != null
      * @throws CarryLimitReachedException
@@ -385,7 +393,7 @@ public abstract class Creature {
      */
     @Raw @Model
     protected void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
-            AnchorslotOquipiedException, CarryLimitReachedException, BeltAnchorException {
+            AnchorslotOccupiedException, CarryLimitReachedException, BeltAnchorException {
         if (item.getHolder() != null) {
             throw new ItemAlreadyobtainedException();
         }
@@ -412,7 +420,7 @@ public abstract class Creature {
             throw new IllegalArgumentException();
 
         if (anchor.getItem() != null)
-            throw new AnchorslotOquipiedException();
+            throw new AnchorslotOccupiedException();
 
         int weight = item.getWeight();
         if(item instanceof Backpack)
@@ -434,22 +442,18 @@ public abstract class Creature {
      * @effect if the given equipable is currently being stored in a backpack then
      *         the item is removed from the content of that backpack. Else, if the item is being stored
      *         in an anchor, the item is removed from the anchor.
-     *         |if(equipable.getParentbackpack != null){
-     *         |  equipable.getParentback.removeEquipable(equipable)
-     *         |}
-     *         |else{
-     *         |    itemanchor.setItem(null)
-     *         |}
+     *         |if equipable.getParentbackpack != null
+     *         |    then equipable.getParentback.removeEquipable(equipable)
+     *         |else equipable.getAnchor().setItem(null)
      * @effect The holder of the item is set to null.
      *         |equipable.setHolder(null)
      * @effect The maximum carry capacity for this creature is updated to account for the removed weight of the item.
      *         If the removed item is a backpack with content,
      *         the contents of this backpack are also considered for the calculation of the removed weight for the item.
-     *         |totalWeight = equipable.getWeight()
      *         |if(equipable instanceof Backpack)
-     *         |    totalWeight = ((Backpack) equipable).getTotalWeight();
-     *         |ChangeCapacity(-totalWeight);
-     *
+     *         |then totalWeight = ((Backpack) equipable).getTotalWeight()
+     *         |else totalWeight = equipable.getWeight()
+     *         |ChangeCapacity(-totalWeight)
      * @throws IllegalArgumentException
      *         The equipable item is not effective
      *         |equipable == null
@@ -463,7 +467,6 @@ public abstract class Creature {
             throw new IllegalArgumentException();
         if(equipable.getHolder() != this)
             throw new OtherPlayersItemException();
-
 
         Anchor itemanchor = null;
 
@@ -510,23 +513,28 @@ public abstract class Creature {
      *
      * @throws IllegalArgumentException
      *         The equipable item is not effective
-     *         |equipable == null
+     *         |anchor.getItem() == null
      * @throws OtherPlayersItemException
      *         The specified anchor is an anchor of another player or the item in the anchor belongs to another player
-     *         |(anchor.getowner != this) || (anhor.getItem.getHolder != this)
+     *         |(anchor.getowner != this) || (anchor.getItem.getHolder != this)
      */
     @Raw
     public void dropItemAtAnchor(Anchor anchor) throws IllegalArgumentException, OtherPlayersItemException {
+        if(anchor.getItem() == null)
+            throw new IllegalArgumentException();
+        if(anchor.getOwner() != this)
+            throw new OtherPlayersItemException();
+
         drop(anchor.getItem());
     }
 
-    // dit mag eigenlijk weg.
     /**
      * Drops all the items that this creature currently has equiped in its anchors.
      *
      * @effect Each anchor that has a non-null item, will drop its item.
-     *         |if (getAnchorAt(i).getItem() != null)
-     *         |    dropItemAtAnchor(getAnchorAt(i));
+     *         |for(int i=0; i < getAnchors().size();i++)
+     *         |    if (getAnchorAt(i).getItem() != null)
+     *         |        then dropItemAtAnchor(getAnchorAt(i))
      */
     @Raw
     public void dropAllItems() {
@@ -553,29 +561,43 @@ public abstract class Creature {
         return randomNum;
     }
     /**
-     * @return The total damage including weapons and intrinsic damage.
+     * returns the total damage including weapons and intrinsic damage.
      */
+    @Model
     protected abstract int getTotalDamage();
 
     /**
-     * @return The total protection stat including armor and intrinsic protection.
+     * returns the total protection stat including armor and intrinsic protection.
      */
+    @Model
     protected abstract int getTotalProtection();
 
     /**
      * The creature dies and unequips all his items that can now be looted.
      * @return  a list that contains all the items of the dead creature.
-     * @effect  all the items that the dead creature owned will be unequiped.
-     *          |for(item in items of creature)
-     *          |        unequip(item)
+     * @effect  all the items that the dead creature owned will be dropped.
+     *          Backpacks will also be dropped but the items in the backpack will
+     *          remain inside the backpack.
+     *          |for(anchor in anchor.getAnchors)
+     *          |        drop(anchor.getItem)
+     * @return  All the items that the creature owned in a list. If he has a backpack equiped
+     *          then the backpack as well as all the items within the backpack are returned in the list.
+     *          |ArrayList<Equipable> items = new ArrayList<Equipable>()
+     *          |for anchor in anchor.getAnchors
+     *          |      if(anchor.getItem() instanceof Backpack)
+     *          |          then for item in anchor.getItem()).getAllItems()
+     *          |              items.add(item)
+     *          |      items.add(anchor.getItem())
+     *          | result == items
      */
+    @Model
     protected ArrayList<Equipable> die(){
         ArrayList<Equipable> items = new ArrayList<Equipable>();
         for(Anchor anchor : getAnchors()){
             if(anchor.getItem() != null){
                 if(anchor.getItem() instanceof Backpack){
-                    ArrayList<Equipable> itemsInBackpack = ((Backpack) anchor.getItem()).getAllItems();
-                    for(Equipable item : itemsInBackpack){
+                    ((Backpack) anchor.getItem()).getAllItems();
+                    for(Equipable item : ((Backpack) anchor.getItem()).getAllItems()){
                         items.add(item);
                     }
                 }
@@ -595,15 +617,42 @@ public abstract class Creature {
      * @param items
      *        The items that can be looted.
      */
-    protected abstract void LootAndHeal(ArrayList<Equipable> items) throws ItemNotEquipedException, ItemAlreadyobtainedException, CarryLimitReachedException, AnchorslotOquipiedException;
+    @Model
+    protected abstract void LootAndHeal(ArrayList<Equipable> items) throws ItemNotEquipedException, ItemAlreadyobtainedException, CarryLimitReachedException, AnchorslotOccupiedException;
 
-    public void Hit(Creature creature) throws ItemNotEquipedException, ItemAlreadyobtainedException, CarryLimitReachedException, AnchorslotOquipiedException {
-        if(getHitValue() >= getTotalProtection()){
-            creature.setHitPoints(creature.getHitPoints() - getTotalDamage());
-            }
-        if(creature.getHitPoints() <= 0){
+    /**
+     * Hit another creature and if it kill the creature, loot the creature.
+     * @param creature
+     *        The creature that is getting hit
+     * @effect A hit value is generated, if this is bigger than the protection of the creature getting
+     *         hit then the damage is calculated and the remaining hitpoints of the creature is reduced with this value. However if after this the
+     *         remaining hitpoints is less than
+     *         |if(getHitValue() >= creature.getTotalProtection())
+     *         |then creature.setHitPoints(creature.getHitPoints() - getTotalDamage())
+     *         |if  creature.getHitPoints() <= 0
+     *         |then creature.setHitPoints(0)
+     */
+    public void Hit(Creature creature) {
+        int remainingHP = creature.getHitPoints();
+        if(getHitValue() >= creature.getTotalProtection()) {
+            remainingHP = creature.getHitPoints() - getTotalDamage();
+        }
+        if(remainingHP <= 0){
             creature.setHitPoints(0);
-            LootAndHeal(creature.die());
+            try {
+                LootAndHeal(creature.die());
+            } catch (ItemNotEquipedException e) {
+                throw new RuntimeException(e);
+            } catch (ItemAlreadyobtainedException e) {
+                throw new RuntimeException(e);
+            } catch (CarryLimitReachedException e) {
+                throw new RuntimeException(e);
+            } catch (AnchorslotOccupiedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else{
+            creature.setHitPoints(remainingHP);
         }
     }
 }
