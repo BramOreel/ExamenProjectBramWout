@@ -8,19 +8,25 @@ import be.kuleuven.cs.som.annotate.Raw;
 import java.util.Random;
 
 /**
+ * A class of Heroes
  *
- *
- *
- *
- * @invar a hero may only carry up to 2 armors at a time.
- *       |canCarryArmor()
- * @invar the 'belt' AnchorSlot may only contain equipables of the 'purse' type.
- *      |hier nog shit schrijven
+ * @invar	Each Hero must have a properly spelled name.
+ * 			| canHaveAsName(getName())
+ * @invar   Each Hero must have a valid strength stat.
+ *          | isValidStrength(getStrength)
+ * @invar   Each creature must always have a valid protection stat.
+ *          | isValidProtection(getProtection())
+ * @invar   a hero may only carry up to 2 armors at a time.
+ *          | this.getNbOfArmors() <= 2
+ * @invar   the 'belt' AnchorSlot may only contain equipables of the 'purse' type.
+ *          |hier nog shit schrijven
+ * @author 	Wout Thiers & Bram Oreel
+ * @version 1.0
  */
 public class Hero extends Creature{
 
     /**
-     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and a given protetection stat.
+     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and a given protection stat.
      * Also initialises five Anchors of the anchor class
      *
      * @param name
@@ -107,7 +113,7 @@ public class Hero extends Creature{
     }
 
     /**
-     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and the default protetection stat.
+     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and the default protection stat.
      * @param name
      *        The given name of the new Hero
      * @param maxHitPoints
@@ -154,6 +160,17 @@ public class Hero extends Creature{
     }
 
     /**
+     * checks if the protection stat is valid.
+     * @param protection
+     *        the protection stat
+     * @return true if it is positive, false otherwise
+     *         |result == (protection > -1)
+     */
+    public static boolean isValidProtection(int protection){
+        return protection > -1;
+    }
+
+    /**
      * @return the strenth of the hero
      */
     public double getStrength() {
@@ -189,8 +206,25 @@ public class Hero extends Creature{
      *        |this.Strength == Math.round(strength * Math.pow(10, decimalPlacesStrength)) / Math.pow(10, decimalPlacesStrength)
      */
     public void setStrength(double strength) {
-        Strength = Math.round(strength * Math.pow(10, decimalPlacesStrength)) / Math.pow(10, decimalPlacesStrength);
+        this.Strength = Math.round(strength * Math.pow(10, decimalPlacesStrength)) / Math.pow(10, decimalPlacesStrength);
     }
+
+    /**
+     * Checks if the strength stat is valid.
+     * @param strength
+     *        | the strength stat that needs to be checked.
+     * @return True if the strength stat is a positive number that does not have more decimals then allowed, false otherwise.
+     *         |double roundedNumber = Math.round(strength *  Math.pow(10,decimalPlacesStrength))/ Math.pow(10,decimalPlacesStrength)
+     *         |double difference = Math.abs(strength - roundedNumber)
+     *         |result == ((difference < Math.pow(10,-decimalPlacesStrength)) && strength >= 0)
+     */
+    public static boolean isValidStrength(double strength){
+        double roundedNumber = Math.round(strength *  Math.pow(10,decimalPlacesStrength))/ Math.pow(10,decimalPlacesStrength);
+        double difference = Math.abs(strength - roundedNumber);
+        return (difference < Math.pow(10,-decimalPlacesStrength)) && strength >= 0;
+    }
+
+
     /**
      * Calculates the maximum capacity with the given strength.
      * @param strength
@@ -214,7 +248,7 @@ public class Hero extends Creature{
      */
     @Raw
     @Override
-    public boolean isValidName(String name){
+    public boolean canHaveAsName(String name){
         int apostrophecount = 0;
         for (int i = 0; i < name.length(); i++) {
             if (name.charAt(i) == '\'') {
