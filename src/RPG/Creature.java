@@ -11,13 +11,15 @@ import java.util.ArrayList;
  * @invar	Each creature must have a properly spelled name.
  * 			| canHaveAsName(getName())
  * @invar   Each creature must always have a valid amount of hitpoints.
- *          | canHaveAsHitPoints()
+ *          | canHaveAsHitPoints(getHitPoints())
  * @invar   Each creature must always have a valid maximum amount of hitpoints.
- *          | isValidMaxHitPoints()
+ *          | isValidMaxHitPoints(getMaxHitPoints())
  * @invar   Each creature must always have a valid amount of remaining capacity.
- *          | canHaveAsCapacity()
+ *          | canHaveAsCapacity(getCapacity())
  * @invar   Each creature must always have a valid maximum capacity.
- *          | isValidMaxCapacity()
+ *          | isValidMaxCapacity(getMaxCapacity())
+ * @invar   Each creature must have proper anchors
+ *          | hasProperAnchors(getAnchors)
  * @author 	Wout Thiers & Bram Oreel
  * @version 1.0
  *
@@ -295,6 +297,26 @@ public abstract class Creature {
      * A list containing 'anchors' referencing the anchors for this creature.
      */
     protected ArrayList<Anchor> anchors = new ArrayList<Anchor>();
+
+    /**
+     * Checks if the anchors are correctly set
+     * @param anchors
+     *        the list cotaining the anchors of the Hero.
+     * @return True only if each of the anchors has this creature as the owner. False otherwise.
+     *         |for (currentanchor in anchors)
+     *         |    if(curranchor.getOwner() != this)
+     *         |        then result == false
+     *         |else:
+     *         |result == true
+     */
+    public boolean hasProperAnchors(ArrayList<Anchor> anchors){
+        for(Anchor curranchor : anchors){
+            if (curranchor.getOwner() != this) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Returns the list of anchors of this creature

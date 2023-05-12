@@ -18,15 +18,15 @@ import java.util.Random;
  *          | isValidProtection(getProtection())
  * @invar   a hero may only carry up to 2 armors at a time.
  *          | this.getNbOfArmors() <= 2
- * @invar   the 'belt' AnchorSlot may only contain equipables of the 'purse' type.
- *          |hier nog shit schrijven
+ * @invar   Each creature must have proper anchors
+ *          | hasProperAnchors(getAnchors())
  * @author 	Wout Thiers & Bram Oreel
  * @version 1.0
  */
 public class Hero extends Creature{
 
     /**
-     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat and a given protection stat.
+     * Generates a new Hero with a name, a maximum amount of hitpoints, a given strength stat, a given protection stat and a piece of armor.
      * Also initialises five Anchors of the anchor class
      *
      * @param name
@@ -39,8 +39,8 @@ public class Hero extends Creature{
      *        The given protection stat the hero has.
      * @param armor
      *        The armor that the hero wears at birth.
-     *@effect The maxcapacity is calculated with the given strength and then set as the strength.
-     *        |setMaxCapacity(calculateMaxCapacity(strength));
+     *@effect The maximum capacity is calculated with the given strength and then set as the strength.
+     *        |setMaxCapacity(calculateMaxCapacity(strength))
      *@effect The Hero is generated as a creature with a given name, maxHitPoints and the calculated maxCapacity.
      *        | super(name, maxHitPoints, maxCapacity)
      *@effect The protection is set as the protection.
@@ -48,11 +48,11 @@ public class Hero extends Creature{
      *@effect The strength is set as the strength.
      *        | setStrength(strength)
      *@effect five empty anchors are initialised and set as the anchors of this hero. One left hand, One right hand, one back, one chest and one belt.
-     *        |initialiseAnchors();
+     *        | initialiseAnchors()
      *@effect The anchor gets equiped on the LICHAAM anchor.
-     *        |pickUp(armor, AnchorType.LICHAAM)
+     *        | pickUp(armor, AnchorType.LICHAAM)
      */
-
+    @Raw
     public Hero(String name, int maxHitPoints, double strength, int protection, Armor armor) {
         super(name, maxHitPoints, (int) (20*strength));
         setMaxCapacity(calculateMaxCapacity(strength));
@@ -63,7 +63,7 @@ public class Hero extends Creature{
             pickUp(armor, AnchorType.LICHAAM);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccupiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -71,7 +71,7 @@ public class Hero extends Creature{
     }
 
     /**
-     * Generates a new hero with items equiped.
+     * Generates a new hero with items equipped.
      * @param name
      *        The given name of the new Hero
      * @param maxHitPoints
@@ -93,7 +93,8 @@ public class Hero extends Creature{
      *         |       if the anchor is empty
      *         |       then pickUp(item, anchor.getAnchorType())
      */
-    public Hero(String name, int maxHitPoints, double strength, int protection,Armor armor, Equipable... items) throws CarryLimitReachedException,ItemAlreadyobtainedException,AnchorslotOquipiedException {
+    @Raw
+    public Hero(String name, int maxHitPoints, double strength, int protection,Armor armor, Equipable... items){
         this(name, maxHitPoints, strength, protection, armor);
         for(Equipable item : items){
             for(Anchor anchor : getAnchors()){
@@ -102,7 +103,7 @@ public class Hero extends Creature{
                         pickUp(item, anchor.getAnchorType());
                     } catch (ItemAlreadyobtainedException e) {
                         throw new RuntimeException(e);
-                    } catch (AnchorslotOquipiedException e) {
+                    } catch (AnchorslotOccupiedException e) {
                         throw new RuntimeException(e);
                     } catch (CarryLimitReachedException e) {
                         throw new RuntimeException(e);
@@ -261,6 +262,35 @@ public class Hero extends Creature{
         return (name.matches(validCharacters) && name != null && name.matches("^[A-Z].*") && apostrophecount < 3  && allColonsFollowedBySpace);
     }
 
+    /**
+     * Checks if the anchors are correctly set
+     * @param anchors
+     *        the list cotaining the anchors of the Hero.
+     * @return True only if the Hero has exactly 5 anchors containing one with each of these types: LINKERHAND, RECHTERHAND, RIEM, LICHAAM en RUG
+     *         and each of the anchor has this hero as the owner. Returns False if these things are not the case.
+     *         |ArrayList<AnchorType> anchortypes = new ArrayList<AnchorType>();
+     *         |for (currentanchor in anchors)
+     *         |    anchortypes.add(curranchor.getAnchorType())
+     *         |    if(curranchor.getOwner() != this)
+     *         |        then result == false
+     *         |else:
+     *         |result == anchortypes.contains(AnchorType.LINKERHAND) && anchortypes.contains(AnchorType.RECHTERHAND)
+     *         |         && anchortypes.contains(AnchorType.RIEM) && anchortypes.contains(AnchorType.LICHAAM)
+     *         |         && anchortypes.contains(AnchorType.RUG) && anchortypes.size() == 5
+     */
+    @Override
+    public boolean hasProperAnchors(ArrayList<Anchor> anchors){
+        ArrayList<AnchorType> anchortypes = new ArrayList<AnchorType>();
+        for(Anchor curranchor : anchors) {
+            anchortypes.add(curranchor.getAnchorType());
+            if (curranchor.getOwner() != this) {
+                return false;
+            }
+        }
+        return anchortypes.contains(AnchorType.LINKERHAND) && anchortypes.contains(AnchorType.RECHTERHAND)
+                && anchortypes.contains(AnchorType.RIEM) && anchortypes.contains(AnchorType.LICHAAM)
+                && anchortypes.contains(AnchorType.RUG) && anchortypes.size() == 5;
+        }
     /**
      * Anchors
      */
@@ -543,12 +573,12 @@ public class Hero extends Creature{
      * @throws BeltAnchorException
      *         The user wants to equip an item that isn't a purse to the belt anchorslot of the hero.
      *         |anchortype.getName() == "Riem" && item not instanceof Purse
-     * @throws AnchorslotOquipiedException
+     * @throws AnchorslotOccupiedException
      *         The anchor location does not exist or already has an item equiped in this slot
      *         |anchor.getItem() != null || getAnchors.contains(anchortype) == false
      */
     @Raw
-    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOquipiedException, BeltAnchorException{
+    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOccupiedException, BeltAnchorException{
 
         Backpack parent = item.getParentbackpack();
         if(parent == null)
@@ -570,7 +600,7 @@ public class Hero extends Creature{
             }
         }
         if(anchor == null)
-            throw new AnchorslotOquipiedException();
+            throw new AnchorslotOccupiedException();
 
         parent.removeEquipable(item);
         anchor.setItem(item);
