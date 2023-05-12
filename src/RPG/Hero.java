@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Raw;
 import java.util.Random;
@@ -49,7 +50,7 @@ public class Hero extends Creature{
      *        | setStrength(strength)
      *@effect five empty anchors are initialised and set as the anchors of this hero. One left hand, One right hand, one back, one chest and one belt.
      *        | initialiseAnchors()
-     *@effect The anchor gets equiped on the LICHAAM anchor.
+     *@effect The armor gets equiped on the LICHAAM anchor.
      *        | pickUp(armor, AnchorType.LICHAAM)
      */
     @Raw
@@ -121,9 +122,12 @@ public class Hero extends Creature{
      *        The given maximum amount of hitpoints the Hero can have
      * @param strength
      *        The given strength the hero has
+     * @param armor
+     *        the armor that the hero needs to wear
      *@effect The hero is generated as a hero with the default protection stat.
-     *        | this(name,maxHitPoints,strength,getDefaultProtection())
+     *        | this(name,maxHitPoints,strength,getDefaultProtection(), armor)
      */
+    @Raw
     public Hero(String name, int maxHitPoints, double strength, Armor armor){
         this(name,maxHitPoints,strength,getDefaultProtection(), armor);
     }
@@ -138,7 +142,7 @@ public class Hero extends Creature{
      */
     protected static final int defaultProtection = 10;
     /**
-     * this static states how many decimal places a strenth variable can have.
+     * this static states how many decimal places a strength variable can have.
      */
     private static final int decimalPlacesStrength = 2;
     /**
@@ -147,15 +151,17 @@ public class Hero extends Creature{
     protected double Strength;
 
     /**
-     * @return the intrinsic protection of the hero
+     * return the intrinsic protection of the hero
      */
+    @Basic
     public int getProtection() {
         return protection;
     }
 
     /**
-     * @return the default protection of heroes
+     * return the default protection of heroes
      */
+    @Basic
     public static int getDefaultProtection() {
         return defaultProtection;
     }
@@ -172,8 +178,9 @@ public class Hero extends Creature{
     }
 
     /**
-     * @return the strenth of the hero
+     * return the strength of the hero
      */
+    @Basic
     public double getStrength() {
         return Strength;
     }
@@ -182,15 +189,16 @@ public class Hero extends Creature{
      * Set the protection to a given number
      * @param protection
      *        the given protection
-     * @post  If the given protection is a strictly positive number, then it will be set as the protection.
+     * @post  If the given protection is valid, then it will be set as the protection.
      *        If it is not, then the protection will be set to the default amount.
-     *        | if(protection > 0):
+     *        | if(isValidProtection(protection)):
      *        |     this.protection = protection
      *        | else:
      *        |     this.protection = getDefaultProtection()
      */
+    @Raw
     public void setProtection(int protection) {
-        if(protection > 0){
+        if(isValidProtection(protection)){
             this.protection = protection;
         }
         else{
@@ -199,15 +207,16 @@ public class Hero extends Creature{
     }
 
     /**
-     * Set a new strength and rounds it to the right amount of decimals.
+     * Set a new strength and rounds it to the right amount of decimals and makes sure its positive.
      * @param strength
      *        the given strength
      * @post  The strength of the hero is set to the given number rounded off to the amount of decimal
-     *        places given by decimalPlacesStrength.
-     *        |this.Strength == Math.round(strength * Math.pow(10, decimalPlacesStrength)) / Math.pow(10, decimalPlacesStrength)
+     *        places given by decimalPlacesStrength and made positive.
+     *        |this.Strength == Math.abs(Math.round(strength * Math.pow(10, decimalPlacesStrength)) / Math.pow(10, decimalPlacesStrength))
      */
+    @Raw
     public void setStrength(double strength) {
-        this.Strength = Math.round(strength * Math.pow(10, decimalPlacesStrength)) / Math.pow(10, decimalPlacesStrength);
+        this.Strength = Math.abs(Math.round(strength * Math.pow(10, decimalPlacesStrength)) / Math.pow(10, decimalPlacesStrength));
     }
 
     /**
@@ -219,6 +228,7 @@ public class Hero extends Creature{
      *         |double difference = Math.abs(strength - roundedNumber)
      *         |result == ((difference < Math.pow(10,-decimalPlacesStrength)) && strength >= 0)
      */
+    @Raw
     public static boolean isValidStrength(double strength){
         double roundedNumber = Math.round(strength *  Math.pow(10,decimalPlacesStrength))/ Math.pow(10,decimalPlacesStrength);
         double difference = Math.abs(strength - roundedNumber);
@@ -231,11 +241,12 @@ public class Hero extends Creature{
      * @param strength
      *        the strength of the character.
      * @return The maximum capacity of the hero based on the rules,
-     *         the maximum capacity is 20 times the strength, rounded off an integer.
-     *         | maxcapacity == Math.round(strength * 20)
-     *
+     *         the maximum capacity is 20 times the strength, rounded off to an integer.
+     *         | result == Math.round(strength * 20)
      */
-    public int calculateMaxCapacity(double strength){
+    @Model
+    @Raw
+    protected int calculateMaxCapacity(double strength){
         return (int) Math.round(strength * 20);
     }
     /**
@@ -245,7 +256,8 @@ public class Hero extends Creature{
      * @return True if all the characters in the given name are valid characters, the name is not null
      *          ,the first character is a capital letter, it does not include more than two apostrophes and
      *          every colon is followed by a whitespace.
-     *        | name.matches(validCharacters) && name != null && name.matches("^[A-Z].*") && apostrophecount < 3  && allColonsFollowedBySpace
+     *        | result == name.matches(validCharacters) && name != null && name.matches("^[A-Z].*")
+     *        |           && apostrophecount < 3  && allColonsFollowedBySpace
      */
     @Raw
     @Override
@@ -266,22 +278,17 @@ public class Hero extends Creature{
      * Checks if the anchors are correctly set
      * @param anchors
      *        the list cotaining the anchors of the Hero.
-     * @return True only if the Hero has exactly 5 anchors containing one with each of these types: LINKERHAND, RECHTERHAND, RIEM, LICHAAM en RUG
+     * @return True only if the Hero has exactly 5 anchors containing one with each of these types: LINKERHAND, RECHTERHAND, RIEM, LICHAAM and RUG
      *         and each of the anchor has this hero as the owner. Returns False if these things are not the case.
-     *         |ArrayList<AnchorType> anchortypes = new ArrayList<AnchorType>();
-     *         |for (currentanchor in anchors)
-     *         |    anchortypes.add(curranchor.getAnchorType())
-     *         |    if(curranchor.getOwner() != this)
-     *         |        then result == false
-     *         |else:
      *         |result == anchortypes.contains(AnchorType.LINKERHAND) && anchortypes.contains(AnchorType.RECHTERHAND)
      *         |         && anchortypes.contains(AnchorType.RIEM) && anchortypes.contains(AnchorType.LICHAAM)
-     *         |         && anchortypes.contains(AnchorType.RUG) && anchortypes.size() == 5
+     *         |         && anchortypes.contains(AnchorType.RUG) && anchortypes.size() == 5 && for anchor in anchors: anchor.getOwner() == this
      */
     @Override
-    public boolean hasProperAnchors(ArrayList<Anchor> anchors){
+    @Raw
+    public boolean hasProperAnchors(ArrayList<Anchor> anchors) {
         ArrayList<AnchorType> anchortypes = new ArrayList<AnchorType>();
-        for(Anchor curranchor : anchors) {
+        for (Anchor curranchor : anchors) {
             anchortypes.add(curranchor.getAnchorType());
             if (curranchor.getOwner() != this) {
                 return false;
@@ -290,10 +297,18 @@ public class Hero extends Creature{
         return anchortypes.contains(AnchorType.LINKERHAND) && anchortypes.contains(AnchorType.RECHTERHAND)
                 && anchortypes.contains(AnchorType.RIEM) && anchortypes.contains(AnchorType.LICHAAM)
                 && anchortypes.contains(AnchorType.RUG) && anchortypes.size() == 5;
-        }
+    }
+
     /**
-     * Anchors
+     * Initializes the anchors of the hero
+     * @effect The anchors are set to a list of new anchors with the following anchorTypes:
+     *         LINKERHAND, RECHTERHAND, RIEM, LICHAAM and RUG.
+     *         | setAnchors(new ArrayList<Anchor>(new Anchor(AnchorType.LINKERHAND,this), new Anchor(AnchorType.RECHTERHAND,this),
+     *         |             new Anchor(AnchorType.RUG,this), new Anchor(AnchorType.LICHAAM,this), new Anchor(AnchorType.RIEM,this)))
+     *
      */
+    @Model
+    @Raw
     private void initialiseAnchors(){
         ArrayList<Anchor> list = new ArrayList<Anchor>();
         list.add(new Anchor(AnchorType.LINKERHAND,this));
@@ -308,9 +323,9 @@ public class Hero extends Creature{
      * Returns the damage that the hero will do if it hits.
      * @return The intrinsic strength + the damage values of weapons in left and right hand minus ten and then this number divided in half
      *         and rounded down.
-     *         |return Math.floor((getStrength() + leftWeapon.getDamage(). + RightWeapon.getDamage - 10)/2)
+     *         |result == Math.floor((getStrength() + leftWeapon.getDamage(). + RightWeapon.getDamage - 10)/2)
      */
-    @Override
+    @Override @Model
     protected int getTotalDamage(){
         double damage = getStrength();
         for(Anchor anchor : getAnchors()){
@@ -326,15 +341,11 @@ public class Hero extends Creature{
 
     /**
      * Gives the total protection stat of the hero.
-     * @return The total protection stat is the intrinsic protection in addition with the currentpotection that the
-     *         equiped armor gives if the armor is equiped in the LICHAAM anchor.
-     *         |for anchor in getAnchors()
-     *         |    if anchor.getAnchortype == AnchorType.LICHAAM
-     *         |    then armor = anchor.getItem()
+     * @return The total protection stat is the intrinsic protection in addition with the current protection that the
+     *         equipped armor gives if the armor is equipped in the LICHAAM anchor.
      *         | result == getProtection() + armor.getCurrentArmor
      */
-
-    @Override
+    @Override @Model
     protected int getTotalProtection(){
         int protection = getProtection();
         for(Anchor anchor : getAnchors()){
@@ -348,27 +359,33 @@ public class Hero extends Creature{
         }
         return protection;
     }
-    @Override
+
+    /**
+     * Loots items from a list of items. Every item in the anchors gets replaced by a more valuable item for that specific anchortype
+     *             if there is such an item.
+     * @param items
+     *        The items that can be looted.
+     * @effect For every item in the lootable items, if this item is valid for an empty anchor and there is enough
+     *         remaining capacity, then the item will get equipped. The first anchors in the getAnchors() will get filled first
+     *         and the first items in items will get equipped first for these anchors.
+     *         | for every anchor in getAnchors(), for every item in items:
+     *         |       if item.isValidAnchor(anchor) && item.getWeight() <= getCapacity() && anchor.getItem() == null
+     *         |       then item.equip(anchor)
+     * @effect A random percentage gets generated between 0% and 100% this percentage then gets multiplied with the difference
+     *         between the current hit points and the max hit points. This added with the current amount of hit points will be the new hit points
+     *         but fist it needs to be rounded to the nearest prime number that isn't bigger than the max hit points. This is then set
+     *         as the new remaining amount of hit points.
+     *         |setHitPoints(findClosestPrime(Math.round((getMaxHitPoints() - getHitPoints()) * random.nextDouble() + getHitPoints()),getMaxHitPoints()))
+     */
+    @Override @Model
     protected void LootAndHeal(ArrayList<Equipable> items) {
         for(Anchor anchor: getAnchors()){
             for(Equipable item: items){
-                if(item.isValidAnchor(anchor)){
-                    if(item.getValue() > anchor.getItem().getValue()){
-                        if(anchor.getItem().getWeight()-item.getWeight() <= getCapacity()) {
-                            try {
-                                drop(anchor.getItem());
-                            } catch (OtherPlayersItemException e) {
-                                throw new RuntimeException(e);
-                            }
-                            if(item.getParentbackpack() != null){
-                                item.getParentbackpack().removeEquipable(item);
-                            }
+                if( item.isValidAnchor(anchor) && item.getWeight() <= getCapacity() && anchor.getItem() == null){
                             item.equip(anchor);
                         }
                     }
                 }
-            }
-        }
         Random random = new Random();
         double percentage = random.nextDouble();
         int hp = (int) Math.round((getMaxHitPoints() - getHitPoints()) * percentage + getHitPoints());
@@ -381,274 +398,27 @@ public class Hero extends Creature{
      * @param item
      *        the item that will be picked up.
      * @param anchortype
-     *        the name of the anchor where the item has to be equipped to.
+     *        the type of the anchor where the item has to be equipped to.
      *
      * @effect The item gets picked up and equipped it in the anchorslot with the given type.
-     *         super.pickUp(item, anchortype)
-     *
-     * @throws ItemAlreadyobtainedException
-     *         The item already has a holder which means it can't be picked up.
-     *         |item.getHolder == null
-     * @throws IllegalArgumentException
-     *         The item is not effective
-     *         |item == null
-     * @throws AnchorslotOquipiedException
-     *         The creature is already holding an item in the anchor with the given anchortype
-     *         |anchor.getItem() != null
+     *         | super.pickUp(item, anchortype)
      * @throws CarryLimitReachedException
-     *         The given item is can't be picked up because the creature cannot carry it anymore
-     *         because the maximum carry capacity has been reached. In case the user wants to pick up a backpack,
-     *         the contents of this backpack are also considered for the calculation of the weight of the item.
-     *         If the user tries to pick up more than 2 armors this error is also thrown.
-     *         |item.getTotalWeight > getCapacity || (item instanceof Armor && this.getNbOfArmors = 2)
-     * @throws BeltAnchorException
-     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the hero.
-     *         |anchortype.getName() == "Riem" && item not instanceof Purse
+     *         If the user tries to pick up more than 2 armors this exception is thrown.
+     *         | item instanceof Armor && !canPickUpArmor== 2
      */
     @Override @Raw
-    public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
-            AnchorslotOquipiedException, CarryLimitReachedException, BeltAnchorException{
+    public void pickUp(Equipable item, AnchorType anchortype) throws CarryLimitReachedException{
         if(!canPickUpArmor() && item instanceof Armor)
             throw new CarryLimitReachedException(item);
-        super.pickUp(item, anchortype);
-    }
-
-    /**
-     * Stores an item, equipped in an anchorslot, away in a specified backpack.
-     *
-     * @param item
-     *        The item to be stored away.
-     * @param backpack
-     *        The backpack to store the item away in.
-     *
-     * @effect The specified item is added to the contents of the specified backpack
-     *         |backpack.addEquipable(item);
-     * @effect The anchoritem of the anchor that the item was previously being stored in, is set to null
-     *         |itemanchor.setItem(null);
-     *
-     * @throws IllegalArgumentException
-     *         The backpack is not effective or the specified backpack is not a backpack of this hero
-     *         |(backpack.getHolder() != this || backpack == null)
-     * @throws IllegalArgumentException
-     *         The item is not effective or the specified item is not a item of this hero
-     *         |(item.getHolder() != this || item == null)
-     * @throws IllegalArgumentException
-     *         The backpack or the item is currently not being stored in an anchor, meaning that they are being stored in a backpack.
-     *         Because backpacks in backpacks may not contain items and items already in a backpack cannot be stored away, an exception
-     *         is thrown.
-     */
-    @Raw
-    public void store(Equipable item, Backpack backpack) throws IllegalArgumentException{
-
-        if(backpack.getHolder() != this || backpack == null)
-            throw new IllegalArgumentException();
-
-        if(item.getHolder() != this || item == null)
-            throw new IllegalArgumentException();
-
-        Anchor backpackanchor = null;
-        Anchor itemanchor = null;
-        //als rugzak niet in een anchor, throw error
-        for(int i= 0; i < getAnchors().size(); i++){
-            if(getAnchorItemAt(i) == backpack){
-                backpackanchor = getAnchorAt(i);
-            }
-            else if(getAnchorItemAt(i) == item)
-                itemanchor = getAnchorAt(i);
-        }
-        if(backpackanchor == null || itemanchor == null){
-            throw new IllegalArgumentException();
-        }
-
         try {
-            backpack.addEquipable(item);
-        } catch (BackPackNotEmptyException e) {
-            throw new RuntimeException(e);
-        } catch (CarryLimitReachedException e) {
-            throw new RuntimeException(e);
-        } catch (OtherPlayersItemException e) {
-            throw new RuntimeException(e);
+            super.pickUp(item, anchortype);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        }
-        itemanchor.setItem(null);
-    }
-
-    /**
-     * Picks an item of the ground and immediately stores it away in a specified backpack.
-     *
-     * @param item
-     *        the item to be picked up.
-     * @param backpack
-     *        the backpack to store the item away in.
-     * @effect The item in the left or right hand that isn't the specified backpack is saved and temporarily set to null, the
-     *         specified item gets picked up.
-     *         |Equipable currholding = getAnchorItemAt(i);
-     *         |getAnchorAt(i).setItem(null);
-     *         |pickUp(item, getAnchorAt(i).getAnchorType());
-     * @effect The newly picked up item gets stored away in the specified backpack. Finally, the saved item is equiped again in the original anchorslot.
-     *         |store(item,backpack)
-     *
-     * @throws IllegalArgumentException
-     *         the item or the backpack is not effective
-     *         |(item == null || backpack == null)
-     * @throws ItemAlreadyobtainedException
-     *         This hero already has this item
-     *         |item.getholder == this
-     * @throws OtherPlayersItemException
-     *        the backpack or the item belongs the another player.
-     *        |backpack.getHolder() != this || item.getHolder() != null
-     * @throws CarryLimitReachedException
-     *         The item cannot be picked up because the specified backpack doesn't have enough capacity left
-     *         |backpack.getCapacity() < backpack.getTotalWeight() + item.getWeight()
-     * @throws IllegalArgumentException
-     *         The item we want to pick up is a backpack which isn't empty.
-     *         |((Backpack) item).getTotalWeight() != item.getWeight()
-     * @throws IllegalArgumentException
-     *         The specified backpack is already being stored within another backpack.
-     *         |backpack.getParentbackpack() != null
-     */
-    @Raw
-    public void pickUpAndStore(Equipable item, Backpack backpack) throws OtherPlayersItemException, CarryLimitReachedException,
-            ItemAlreadyobtainedException, IllegalArgumentException{
-
-        //checkers invoeren i suppose om error te voorkomen in try catch blok
-        // is item of backapck niet al van iemand anders
-        if(item == null || backpack == null)
-            throw new IllegalArgumentException();
-        if(item.getHolder() == this)
-            throw new ItemAlreadyobtainedException();
-        if(backpack.getHolder() != this || item.getHolder() != null)
-            throw new OtherPlayersItemException();
-        if(backpack.getCapacity() < backpack.getTotalWeight() + item.getWeight())
-            throw new CarryLimitReachedException(item);
-        if(item instanceof Backpack)
-            if(((Backpack) item).getTotalWeight() != item.getWeight())
-                throw new IllegalArgumentException();
-        if(backpack.getParentbackpack() != null)
-            throw new IllegalArgumentException();
-
-        /**
-         * het item in onze hand dat niet de rugzak is wordt even op de grond gelegd om een item op te pakken.
-         */
-        int i = 0;
-        Equipable currholding = getAnchorItemAt(0);
-        if(currholding == backpack){
-            i++;
-            currholding = getAnchorItemAt(i);
-        }
-        getAnchorAt(i).setItem(null);
-
-        //We proberen het item op te pakken
-        try {
-            pickUp(item, getAnchorAt(i).getAnchorType());
-            store(item, backpack);
-        }  catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccupiedException e) {
             throw new RuntimeException(e);
-        }finally {
-            //Het wapen wordt weer vastgenomen
-            getAnchorAt(i).setItem(currholding);
         }
     }
 
-    /**
-     * Takes an item out of the backpack that the item is stored in and moves it to the specified Anchor if that anchor is empty.
-     *
-     * @param item
-     *        The item to be taken out of its backpack
-     * @param location
-     *        The anchorpoint of the hero to move the item to
-     *
-     * @effect The item is removed from the content of the backpack
-     *         |item.getParentbackpack().removeEquipable(item);
-     * @effet The item of the specified anchor is set to the given item
-     *        |anchor.setItem(item)
-     *
-     * @throws IllegalArgumentException
-     *         the given item is currently not being stored in a backpack.
-     *         |item.getParentbackpack() = null
-     * @throws OtherPlayersItemException
-     *         the item is being stored in a backpack that isn't a backpack of this hero
-     *         |item.getParent.getHolder() != this
-     * @throws BeltAnchorException
-     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the hero.
-     *         |anchortype.getName() == "Riem" && item not instanceof Purse
-     * @throws AnchorslotOccupiedException
-     *         The anchor location does not exist or already has an item equiped in this slot
-     *         |anchor.getItem() != null || getAnchors.contains(anchortype) == false
-     */
-    @Raw
-    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOccupiedException, BeltAnchorException{
-
-        Backpack parent = item.getParentbackpack();
-        if(parent == null)
-            throw new IllegalArgumentException();
-        if(parent.getHolder() != this)
-            throw new OtherPlayersItemException();
-        if (location.getName() == "Riem" && !(item instanceof Purse))
-            throw new BeltAnchorException();
-
-        Anchor anchor = null;
-
-        for (int i = 0; i < getAnchors().size(); i++) {
-            Anchor curranchor = getAnchorAt(i);
-            if (curranchor.getAnchorType() == location) {
-                if(curranchor.getItem() == null){
-                    anchor = curranchor;
-                    break;
-                }
-            }
-        }
-        if(anchor == null)
-            throw new AnchorslotOccupiedException();
-
-        parent.removeEquipable(item);
-        anchor.setItem(item);
-    }
-
-    /**
-     * Moves an item from the first specified anchor to the second anchor if the second Anchor is empty.
-     *
-     * @param start
-     *        the anchor to move the item from
-     * @param end
-     *        the anchor to move the item to
-     *
-     * @effect the item in the start anchor is set to null
-     *         |start.setItem(null)
-     * @effect the item in the end anchor is set to the item in the start anchor
-     *         |end.setItem(start.getItem())
-     *
-     * @throws AnchorslotOquipiedException
-     *         The endAnchor already has an item equiped to it
-     *         |end.getItem() != null
-     * @throws BeltAnchorException
-     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the creature.
-     *         |anchortype.getName() == "Riem" && item not instanceof Purse
-     */
-    public void moveAnchorItemtoAnchor(AnchorType start, AnchorType end) throws AnchorslotOquipiedException, BeltAnchorException{
-
-        Anchor startanchor = null;
-        Anchor endanchor = null;
-
-        for (int i = 0; i < getAnchors().size(); i++) {
-            Anchor curranchor = getAnchorAt(i);
-            if (curranchor.getAnchorType() == start)
-                startanchor = curranchor;
-            if(curranchor.getAnchorType() == end)
-                endanchor = curranchor;
-        }
-        if(startanchor != endanchor){
-            Equipable startitem = startanchor.getItem();
-            if(endanchor.getItem() != null)
-                throw new AnchorslotOquipiedException();
-            if (end.getName() == "Riem" && !(startitem instanceof Purse))
-                throw new BeltAnchorException();
-
-            startanchor.setItem(null);
-            endanchor.setItem(startitem);
-             }
-    }
 
     /**
      * Returns the total number of armors that a hero is currently carrying in his anchors and backpacks.
@@ -668,7 +438,7 @@ public class Hero extends Creature{
     }
 
     /**
-     * @return True if the total number of armors that this hero is currently carrying is smaller than 2. False otherwise.
+     * returns True if the total number of armors that this hero is currently carrying is smaller than 2. False otherwise.
      */
     @Raw
     public boolean canPickUpArmor(){
@@ -678,7 +448,7 @@ public class Hero extends Creature{
 
 
     /**
-     * Swaps the postion of the two armors that a hero is currently carrying with him. Deze shit fiksen zodat pickup en drop in 1 stap worden afgehandelt. FUN!
+     * Swaps the position of the two armors that a hero is currently carrying with him. Deze shit fiksen zodat pickup en drop in 1 stap worden afgehandelt. FUN!
      */
     public void swapArmors(Armor armor) throws CantFindArmortoSwapException, CarryLimitReachedException, OtherPlayersItemException {
         if(getNbOfArmors() != 2)
@@ -701,7 +471,7 @@ public class Hero extends Creature{
                     pickUp(armor, AnchorType.LICHAAM);
                 } catch (ItemAlreadyobtainedException e) {
                     throw new RuntimeException(e);
-                } catch (AnchorslotOquipiedException e) {
+                } catch (AnchorslotOccupiedException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -716,14 +486,14 @@ public class Hero extends Creature{
                 drop(bodyitem);
                 try {
                     moveAnchorItemtoAnchor(curranchor.getAnchorType(), AnchorType.LICHAAM);
-                } catch (AnchorslotOquipiedException e) {
+                } catch (AnchorslotOccupiedException e) {
                     throw new RuntimeException(e);
                 }
                 try {
                     pickUp(bodyitem, curranchor.getAnchorType());
                 } catch (ItemAlreadyobtainedException e) {
                     throw new RuntimeException(e);
-                } catch (AnchorslotOquipiedException e) {
+                } catch (AnchorslotOccupiedException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -735,7 +505,7 @@ public class Hero extends Creature{
                 pickUp(armor, AnchorType.LICHAAM);
             } catch (ItemAlreadyobtainedException e) {
                 throw new RuntimeException(e);
-            } catch (AnchorslotOquipiedException e) {
+            } catch (AnchorslotOccupiedException e) {
                 throw new RuntimeException(e);
             }
 
@@ -751,6 +521,7 @@ public class Hero extends Creature{
      *        The maximum, the returned prime number can't be bigger than this value.
      * @return The closest prime number.
      * @pre    The given maximum must be 2 or higher, otherwise there will be no prime number.
+     *         |max => 2
      */
     @Model
     private static int findClosestPrime(int number, int max) {
@@ -778,12 +549,11 @@ public class Hero extends Creature{
      * @param number
      *        the number
      * @return True if it is prime and false if it is not. Prime means that it is only divisible by 1 and itself.
-     *         |if (number <= 1)
-     *         |        return false
-     *         |
-     *         |for (int i = 2; i <= Math.sqrt(number); i++)
-     *         |        if (number % i == 0)
-     *         |                return false
+     *         |if number <= 1
+     *         |then result == false
+     *         |or if number % i == 0 for every integer i from 2 to sqrt(number)
+     *         |then result == false
+     *         |else result == true
      */
     @Model
     private static boolean isPrime(int number) {

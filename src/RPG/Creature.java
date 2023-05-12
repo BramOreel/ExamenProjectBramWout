@@ -215,7 +215,6 @@ public abstract class Creature {
      * @return  True if the amount is a non-negative integer, false if not.
      *          | result == (maxCapacity > -1)
      */
-    @Raw
     public static boolean isValidMaxCapacity(int maxCapacity){
         return maxCapacity > -1;
     }
@@ -250,7 +249,6 @@ public abstract class Creature {
      * @return  True if the amount is a non-negative integer, false if not.
      *          |result == maxHitPoints > -1
      */
-    @Raw
     public static boolean isValidMaxHitpoints(int maxHitPoints){
         return  (maxHitPoints > -1);
     }
@@ -524,6 +522,143 @@ public abstract class Creature {
         ChangeCapacity(-totalWeight);
     }
 
+
+    /**
+     * Stores an item, equipped in an anchorslot, away in a specified backpack.
+     *
+     * @param item
+     *        The item to be stored away.
+     * @param backpack
+     *        The backpack to store the item away in.
+     *
+     * @effect The specified item is added to the contents of the specified backpack
+     *         |backpack.addEquipable(item);
+     * @effect The anchoritem of the anchor that the item was previously being stored in, is set to null
+     *         |itemanchor.setItem(null);
+     *
+     * @throws IllegalArgumentException
+     *         The backpack is not effective or the specified backpack is not a backpack of this creature
+     *         |(backpack.getHolder() != this || backpack == null)
+     * @throws IllegalArgumentException
+     *         The item is not effective or the specified item is not an item of this hero
+     *         |(item.getHolder() != this || item == null)
+     * @throws IllegalArgumentException
+     *         The backpack or the item is currently not being stored in an anchor, meaning that they are being stored in a backpack.
+     *         Because backpacks in backpacks may not contain items and items already in a backpack cannot be stored away, an exception
+     *         is thrown.
+     */
+    @Raw
+    public void store(Equipable item, Backpack backpack) throws IllegalArgumentException{
+
+        if(backpack.getHolder() != this || backpack == null)
+            throw new IllegalArgumentException();
+
+        if(item.getHolder() != this || item == null)
+            throw new IllegalArgumentException();
+
+        Anchor backpackanchor = null;
+        Anchor itemanchor = null;
+        //als rugzak niet in een anchor, throw error
+        for(int i= 0; i < getAnchors().size(); i++){
+            if(getAnchorItemAt(i) == backpack){
+                backpackanchor = getAnchorAt(i);
+            }
+            else if(getAnchorItemAt(i) == item)
+                itemanchor = getAnchorAt(i);
+        }
+        if(backpackanchor == null || itemanchor == null){
+            throw new IllegalArgumentException();
+        }
+
+        try {
+            backpack.addEquipable(item);
+        } catch (BackPackNotEmptyException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        } catch (OtherPlayersItemException e) {
+            throw new RuntimeException(e);
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        }
+        itemanchor.setItem(null);
+    }
+
+    /**
+     * Picks an item of the ground and immediately stores it away in a specified backpack.
+     *
+     * @param item
+     *        the item to be picked up.
+     * @param backpack
+     *        the backpack to store the item away in.
+     * @effect The item in the left or right hand that isn't the specified backpack is saved and temporarily set to null, the
+     *         specified item gets picked up.
+     *         |Equipable currholding = getAnchorItemAt(i);
+     *         |getAnchorAt(i).setItem(null);
+     *         |pickUp(item, getAnchorAt(i).getAnchorType());
+     * @effect The newly picked up item gets stored away in the specified backpack. Finally, the saved item is equiped again in the original anchorslot.
+     *         |store(item,backpack)
+     *
+     * @throws IllegalArgumentException
+     *         the item or the backpack is not effective
+     *         |(item == null || backpack == null)
+     * @throws ItemAlreadyobtainedException
+     *         This creature already has this item
+     *         |item.getholder == this
+     * @throws OtherPlayersItemException
+     *        the backpack or the item belongs the another player.
+     *        |backpack.getHolder() != this || item.getHolder() != null
+     * @throws CarryLimitReachedException
+     *         The item cannot be picked up because the specified backpack doesn't have enough capacity left
+     *         |backpack.getCapacity() < backpack.getTotalWeight() + item.getWeight()
+     * @throws IllegalArgumentException
+     *         The item we want to pick up is a backpack which isn't empty.
+     *         |((Backpack) item).getTotalWeight() != item.getWeight()
+     * @throws IllegalArgumentException
+     *         The specified backpack is already being stored within another backpack.
+     *         |backpack.getParentbackpack() != null
+     */
+    @Raw
+    public void pickUpAndStore(Equipable item, Backpack backpack) throws OtherPlayersItemException, CarryLimitReachedException,
+            ItemAlreadyobtainedException, IllegalArgumentException{
+
+        //checkers invoeren i suppose om error te voorkomen in try catch blok
+        // is item of backapck niet al van iemand anders
+        if(item == null || backpack == null)
+            throw new IllegalArgumentException();
+        if(item.getHolder() == this)
+            throw new ItemAlreadyobtainedException();
+        if(backpack.getHolder() != this || item.getHolder() != null)
+            throw new OtherPlayersItemException();
+        if(backpack.getCapacity() < backpack.getTotalWeight() + item.getWeight())
+            throw new CarryLimitReachedException(item);
+        if(item instanceof Backpack)
+            if(((Backpack) item).getTotalWeight() != item.getWeight())
+                throw new IllegalArgumentException();
+        if(backpack.getParentbackpack() != null)
+            throw new IllegalArgumentException();
+
+        // het item in onze hand dat niet de rugzak is wordt even op de grond gelegd om een item op te pakken.
+        int i = 0;
+        Equipable currholding = getAnchorItemAt(0);
+        if(currholding == backpack){
+            i++;
+            currholding = getAnchorItemAt(i);
+        }
+        getAnchorAt(i).setItem(null);
+
+        //We proberen het item op te pakken
+        try {
+            pickUp(item, getAnchorAt(i).getAnchorType());
+            store(item, backpack);
+        }  catch (AnchorslotOccupiedException e) {
+            throw new RuntimeException(e);
+        }finally {
+            //Het wapen wordt weer vastgenomen
+            getAnchorAt(i).setItem(currholding);
+        }
+    }
+
     /**
      * Drops the item currently stored in the specified Anchor.
      *
@@ -568,6 +703,105 @@ public abstract class Creature {
                     throw new RuntimeException(e);
                 }
             }
+        }
+    }
+
+    /**
+     * Takes an item out of the backpack that the item is stored in and moves it to the specified Anchor if that anchor is empty.
+     *
+     * @param item
+     *        The item to be taken out of its backpack
+     * @param location
+     *        The anchorpoint of the hero to move the item to
+     *
+     * @effect The item is removed from the content of the backpack
+     *         |item.getParentbackpack().removeEquipable(item);
+     * @effet The item of the specified anchor is set to the given item
+     *        |anchor.setItem(item)
+     *
+     * @throws IllegalArgumentException
+     *         the given item is currently not being stored in a backpack.
+     *         |item.getParentbackpack() = null
+     * @throws OtherPlayersItemException
+     *         the item is being stored in a backpack that isn't a backpack of this hero
+     *         |item.getParent.getHolder() != this
+     * @throws BeltAnchorException
+     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the hero.
+     *         |anchortype.getName() == "Riem" && item not instanceof Purse
+     * @throws AnchorslotOccupiedException
+     *         The anchor location does not exist or already has an item equiped in this slot
+     *         |anchor.getItem() != null || getAnchors.contains(anchortype) == false
+     */
+    @Raw
+    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOccupiedException, BeltAnchorException{
+
+        Backpack parent = item.getParentbackpack();
+        if(parent == null)
+            throw new IllegalArgumentException();
+        if(parent.getHolder() != this)
+            throw new OtherPlayersItemException();
+        if (location.getName() == "Riem" && !(item instanceof Purse))
+            throw new BeltAnchorException();
+
+        Anchor anchor = null;
+
+        for (int i = 0; i < getAnchors().size(); i++) {
+            Anchor curranchor = getAnchorAt(i);
+            if (curranchor.getAnchorType() == location) {
+                if(curranchor.getItem() == null){
+                    anchor = curranchor;
+                    break;
+                }
+            }
+        }
+        if(anchor == null)
+            throw new AnchorslotOccupiedException();
+
+        parent.removeEquipable(item);
+        anchor.setItem(item);
+    }
+
+    /**
+     * Moves an item from the first specified anchor to the second anchor if the second Anchor is empty.
+     *
+     * @param start
+     *        the anchor to move the item from
+     * @param end
+     *        the anchor to move the item to
+     *
+     * @effect the item in the start anchor is set to null
+     *         |start.setItem(null)
+     * @effect the item in the end anchor is set to the item in the start anchor
+     *         |end.setItem(start.getItem())
+     *
+     * @throws AnchorslotOccupiedException
+     *         The endAnchor already has an item equiped to it
+     *         |end.getItem() != null
+     * @throws BeltAnchorException
+     *         The user wants to equip an item that isn't a purse to the belt anchorslot of the creature.
+     *         |anchortype.getName() == "Riem" && item not instanceof Purse
+     */
+    public void moveAnchorItemtoAnchor(AnchorType start, AnchorType end) throws AnchorslotOccupiedException, BeltAnchorException{
+
+        Anchor startanchor = null;
+        Anchor endanchor = null;
+
+        for (int i = 0; i < getAnchors().size(); i++) {
+            Anchor curranchor = getAnchorAt(i);
+            if (curranchor.getAnchorType() == start)
+                startanchor = curranchor;
+            if(curranchor.getAnchorType() == end)
+                endanchor = curranchor;
+        }
+        if(startanchor != endanchor){
+            Equipable startitem = startanchor.getItem();
+            if(endanchor.getItem() != null)
+                throw new AnchorslotOccupiedException();
+            if (end.getName() == "Riem" && !(startitem instanceof Purse))
+                throw new BeltAnchorException();
+
+            startanchor.setItem(null);
+            endanchor.setItem(startitem);
         }
     }
 
