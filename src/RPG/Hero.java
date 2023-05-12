@@ -62,10 +62,6 @@ public class Hero extends Creature{
         initialiseAnchors();
         try {
             pickUp(armor, AnchorType.LICHAAM);
-        } catch (ItemAlreadyobtainedException e) {
-            throw new RuntimeException(e);
-        } catch (AnchorslotOccupiedException e) {
-            throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
         }
@@ -102,10 +98,6 @@ public class Hero extends Creature{
                 if(anchor.getItem() == null){
                     try {
                         pickUp(item, anchor.getAnchorType());
-                    } catch (ItemAlreadyobtainedException e) {
-                        throw new RuntimeException(e);
-                    } catch (AnchorslotOccupiedException e) {
-                        throw new RuntimeException(e);
                     } catch (CarryLimitReachedException e) {
                         throw new RuntimeException(e);
                     }
@@ -223,7 +215,7 @@ public class Hero extends Creature{
      * Checks if the strength stat is valid.
      * @param strength
      *        | the strength stat that needs to be checked.
-     * @return True if the strength stat is a positive number that does not have more decimals then allowed, false otherwise.
+     * @return True if the strength stat is a positive number that does not have more decimals than allowed, false otherwise.
      *         |double roundedNumber = Math.round(strength *  Math.pow(10,decimalPlacesStrength))/ Math.pow(10,decimalPlacesStrength)
      *         |double difference = Math.abs(strength - roundedNumber)
      *         |result == ((difference < Math.pow(10,-decimalPlacesStrength)) && strength >= 0)
@@ -287,7 +279,7 @@ public class Hero extends Creature{
     @Override
     @Raw
     public boolean hasProperAnchors(ArrayList<Anchor> anchors) {
-        ArrayList<AnchorType> anchortypes = new ArrayList<AnchorType>();
+        ArrayList<AnchorType> anchortypes = new ArrayList<>();
         for (Anchor curranchor : anchors) {
             anchortypes.add(curranchor.getAnchorType());
             if (curranchor.getOwner() != this) {
@@ -310,7 +302,7 @@ public class Hero extends Creature{
     @Model
     @Raw
     private void initialiseAnchors(){
-        ArrayList<Anchor> list = new ArrayList<Anchor>();
+        ArrayList<Anchor> list = new ArrayList<>();
         list.add(new Anchor(AnchorType.LINKERHAND,this));
         list.add(new Anchor(AnchorType.RECHTERHAND,this));
         list.add(new Anchor(AnchorType.RUG,this));
@@ -467,13 +459,7 @@ public class Hero extends Creature{
                 parent.removeEquipable(armor);
                 store(bodyitem, parent);
 
-                try {
-                    pickUp(armor, AnchorType.LICHAAM);
-                } catch (ItemAlreadyobtainedException e) {
-                    throw new RuntimeException(e);
-                } catch (AnchorslotOccupiedException e) {
-                    throw new RuntimeException(e);
-                }
+                pickUp(armor, AnchorType.LICHAAM);
             }
             //armor zit in een Anchor
             else {
@@ -489,25 +475,13 @@ public class Hero extends Creature{
                 } catch (AnchorslotOccupiedException e) {
                     throw new RuntimeException(e);
                 }
-                try {
-                    pickUp(bodyitem, curranchor.getAnchorType());
-                } catch (ItemAlreadyobtainedException e) {
-                    throw new RuntimeException(e);
-                } catch (AnchorslotOccupiedException e) {
-                    throw new RuntimeException(e);
-                }
+                pickUp(bodyitem, curranchor.getAnchorType());
             }
         } else if (armor.getHolder() == null) {
             if(getCapacity() - bodyitem.getWeight() + armor.getWeight() > getMaxCapacity())
                 throw new CarryLimitReachedException(armor);
             drop(bodyitem);
-            try {
-                pickUp(armor, AnchorType.LICHAAM);
-            } catch (ItemAlreadyobtainedException e) {
-                throw new RuntimeException(e);
-            } catch (AnchorslotOccupiedException e) {
-                throw new RuntimeException(e);
-            }
+            pickUp(armor, AnchorType.LICHAAM);
 
 
         } else
