@@ -1,10 +1,22 @@
 package RPG;
 
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Immutable;
 import be.kuleuven.cs.som.annotate.Model;
+import be.kuleuven.cs.som.annotate.Raw;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+/**
+ * A class of Monsters
+ *
+ * @invar   Each Hero must have a valid damage.
+ *          | isValidDamage(getDamage())
+ * @invar   Each creature must always have a valid natural protection.
+ *          | isValidProtection(getProtection())
+ * @author 	Wout Thiers & Bram Oreel
+ * @version 1.0
+ */
 public class Monster extends Creature{
 
     /**
@@ -24,6 +36,7 @@ public class Monster extends Creature{
      * @param items
      *        Items that the monster needs to equip.
      * @pre   The amount of anchors nbofanchors must be equal or higher than the amount of items that are given.
+     *        | nboofanchors => items.size()
      * @effect The Hero is generated as a creature with a given name, maxHitPoints and the given maxCapacity.
      *         | super(name, maxHitPoints, maxCapacity)
      * @effect A new armor with the given type is generated and set as the naturalProtection.
@@ -31,19 +44,29 @@ public class Monster extends Creature{
      *         | this.naturalProtection == new Armor(0,0, protectionType, 0 )
      * @effect A new weapon with the given damage value is generated with 0 weight and 0 value.
      *         | this.damage == new Weapon(0, damage, 0)
-     * @effect The given amount of Anchors are initialized.
+     * @effect The given amount of Anchors is initialized.
      *         | initialiseAnchors(nbofanchors)
-     * @effect The items are equiped in a random anchor of the monster.
+     * @effect The items are equipped in a random anchor of the monster.
      *         |for(Equipable item : items)
-     *         |   item.equip(this)
+     *         |   pickUp(item, AnchorType.OTHER)
      */
-    public Monster(String name, int maxHitPoints, int maxCapacity, ArmorType protectionType, int damage, int nbofanchors, Equipable... items) throws ItemAlreadyobtainedException, CarryLimitReachedException,AnchorslotOquipiedException {
+    @Raw
+    public Monster(String name, int maxHitPoints, int maxCapacity, ArmorType protectionType, int damage, int nbofanchors, Equipable... items){
         super(name, maxHitPoints, maxCapacity);
         this.naturalProtection = new Armor(0,0, protectionType, 0 );
         this.damage = new Weapon(0, damage, 0);
         initialiseAnchors(nbofanchors);
         for(Equipable item : items){
-            pickUp(item, AnchorType.OTHER);
+            try {
+                pickUp(item, AnchorType.OTHER);
+            } catch (ItemAlreadyobtainedException e) {
+                throw new RuntimeException(e);
+            } catch (AnchorslotOccupiedException e) {
+                throw new RuntimeException(e);
+            } catch (CarryLimitReachedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
@@ -51,16 +74,16 @@ public class Monster extends Creature{
     /**
      * variable stating how much protection the monster has, how easily he can dodge or deflect attacks.
      */
-    protected Armor naturalProtection;
+    protected final Armor naturalProtection;
     /**
      * Variable stating how much damage the monster does.
      */
-    protected Weapon damage;
+    protected final Weapon damage;
 
     /**
      * @return the natural protection of the monster.
      */
-
+    @Basic @Immutable
     public Armor getNaturalProtection() {
         return naturalProtection;
     }
@@ -68,28 +91,33 @@ public class Monster extends Creature{
     /**
      * @return the natural damage of the monster
      */
-
+    @Basic @Immutable
     public Weapon getDamage() {
         return damage;
     }
 
     /**
-     * Sets a new given armor as the natural protection.
-     * @param naturalProtection
-     *        the armor that acts as the natural protection.
+     * checks if the damage is valid
+     * @param damage
+     *        the damage that is a hidden weapon
+     * @return if it is a weapon that is not null than true, false otherwise.
+     *         |result == (damage != null)
      */
-    protected void setNaturalProtection(Armor naturalProtection) {
-        this.naturalProtection = naturalProtection;
+    @Raw
+    public static boolean isValidDamage(Weapon damage){
+        return damage != null;
     }
 
     /**
-     * Sets a new damage stat.
-     * @param damage
-     *        the new damage stat.
+     * checks if the damage is valid
+     * @param naturalProtection
+     *        the natural Protection that is a hidden armor.
+     * @return if it is a piece of armor that is not null then true, false otherwise.
+     *         |result == (naturalProtection != null)
      */
-
-    protected void setDamage(Weapon damage) {
-        this.damage = damage;
+    @Raw
+    public static boolean isValidProtection(Armor naturalProtection){
+        return naturalProtection != null;
     }
 
     /**
@@ -97,11 +125,9 @@ public class Monster extends Creature{
      * @param nbofanchors
      *        The amount of anchors that the monster gets.
      * @effect Sets the given amount of new anchors with type OTHER and the owner as the Hero in a list as the anchors.
-     *          | ArrayList<Anchor> list = new ArrayList<Anchor>()
-     *          | for(int i=0; i < nbofanchors; i++)
-     *          |     list.add(new Anchor(AnchorType.OTHER,this))
-     *          |setAnchors(list)
+     *         |setAnchors(new ArrayList<Anchor>(nbofanchors * (new Anchor(AnchorType.OTHER,this)))
      */
+    @Raw @Model
     private void initialiseAnchors(int nbofanchors){
         ArrayList<Anchor> list = new ArrayList<Anchor>();
         for(int i=0; i < nbofanchors; i++){
@@ -110,37 +136,48 @@ public class Monster extends Creature{
         setAnchors(list);
     }
 
-    @Override
-    public void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
-            AnchorslotOquipiedException, CarryLimitReachedException, BeltAnchorException{
-        if(anchortype.getName() == "Lichaam" && item instanceof Armor)
+    /**
+     * Picks an item up and places it in an anchor.
+     * @param item
+     *        the item that will be picked up.
+     * @throws IllegalArgumentException
+     *         gets thrown if the item is a piece of armor
+     *         |item instanceof Armor
+     * @effect The item gets picked up and placed in an anchor of the monster.
+     *         |super.pickUp(item,AnchorType.OTHER)
+     */
+    public void pickUp(Equipable item) throws IllegalArgumentException{
+        if(item instanceof Armor)
             throw new IllegalArgumentException();
-        super.pickUp(item,anchortype);
+        try {
+            super.pickUp(item,AnchorType.OTHER);
+        } catch (ItemAlreadyobtainedException | CarryLimitReachedException | AnchorslotOccupiedException e) {
+            throw new RuntimeException(e);
+        }
     }
-
     /**
      * Gives the total damage that the monster does.
-     * @return Simply the damage stat.
-     *         | result == getDamage()
+     * @return the damage stat of the hidden weapon.
+     *         | result == getDamage().getDamage()
      */
     @Override
     protected int getTotalDamage() {
-        return getDamage();
+        return getDamage().getDamage();
     }
 
     /**
      * Gives the total protection of the monster.
-     * @return Simply the natural protection
-     *         | result == getNaturalProtection()
+     * @return the current armor stat of the natural protection armor
+     *         | result == getNaturalProtection().getCurrentArmor
      */
-    @Override
+    @Model @Override
     protected int getTotalProtection() {
-        return getNaturalProtection();
+        return getNaturalProtection().getCurrentArmor();
     }
     /**
      * Generates a value to see if the attack will hit.
      * @return A random integer between 0 and 100 however if this integer however is higher than the current
-     *         amount of hitpoints then the amount of hipoints is returned.
+     *         amount of hit points then the amount of hit points is returned.
      *         |int randomNum = rand.nextInt(101)
      *         |if randomNum > getHitPoints()
      *         |    then result == getHitPoints()
@@ -156,12 +193,32 @@ public class Monster extends Creature{
         return randomNum;
     }
 
-    @Override
+    /**
+     * Loots items from a list of items
+     * @param items
+     *        The items that can be looted.
+     * @effect For every anchor it checks if there is an item with a higher shiny value then the item that
+     *         is currently equipped if this is the case or if the anchor is empty than a new item gets equipped
+     *         if the remaining capacity of the monster allows it. The first anchors in getAnchors() will get filled first
+     *         and the first items in items will get used first. If the item that gets equipped was in a backpack it also gets
+     *         removed.
+     *         |for anchor in getAnchors()
+     *         |     for item in items
+     *         |         if anchor.getItem() == null && anchor.getItem().getWeight()-item.getWeight() <= getCapacity()
+     *         |         then item.equip(anchor) and item.getParentbackpack().removeEquipable(item)
+     *         |         else if item.getShinyValue() > anchor.getItem().getShinyValue() && anchor.getItem().getWeight()-item.getWeight() <= getCapacity()
+     *         |              then drop(anchor.getItem()) and item.equip(anchor) and item.getParentbackpack().removeEquipable(item)
+     */
+    @Override @Model
     protected void LootAndHeal(ArrayList<Equipable> items) {
         for(Anchor anchor: getAnchors()){
             for(Equipable item: items){
-                if(item.getShinyValue() > anchor.getItem().getShinyValue()){
-                    if(anchor.getItem().getWeight()-item.getWeight() <= getCapacity()) {
+                if(anchor.getItem() == null && anchor.getItem().getWeight()-item.getWeight() <= getCapacity()){
+                        item.equip(anchor);
+                    if(item.getParentbackpack() != null){
+                        item.getParentbackpack().removeEquipable(item);
+                }}
+                else if(item.getShinyValue() > anchor.getItem().getShinyValue() && anchor.getItem().getWeight()-item.getWeight() <= getCapacity()){
                         try {
                             drop(anchor.getItem());
                         } catch (OtherPlayersItemException e) {
@@ -171,7 +228,6 @@ public class Monster extends Creature{
                             item.getParentbackpack().removeEquipable(item);
                         }
                         item.equip(anchor);
-                    }
                 }
             }
         }
