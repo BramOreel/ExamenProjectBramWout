@@ -62,6 +62,20 @@ public class Backpack extends Equipable{
         else this.capacity = capacity;
     }
 
+    /**
+     * A static final value referencing the maximum allowed value in dukaten for backpacks.
+     */
+    private static final int MAXSELLVALUE = 500;
+
+    /**
+     * Returns the maximum sell value for this backpack.
+     */
+    @Basic
+    @Override
+    public int getMAXSELLVALUE(){
+        return MAXSELLVALUE;
+    }
+
 
     /**
      * Static variable containing the set of previous Backpack id's.
@@ -265,21 +279,6 @@ public class Backpack extends Equipable{
         return sum;
     }
 
-    /**
-     * Checks whether the given value is a valid value for this backpack
-     * @param value
-     *        the value to be checked
-     *
-     * @return False if the given value for this backpack is less than 1 or
-     *               if the given value for this backpack is greater than 500.
-     *         |if(value < 1 || value > 500) then result == False
-     */
-    @Override @Raw
-    public boolean isValidValue(int value){
-        return(super.isValidValue(value) && value <= 500);
-    }
-
-
     /*********
      * Capacity
      */
@@ -376,8 +375,6 @@ public class Backpack extends Equipable{
      *
      * @param item
      *        The item to remove.
-     * @effect The holder of the given item is set to null
-     *         |item.setHolder(null)
      * @effect The parent backpack of the equipable item is set to null
      *         |item.setParentbackpack(null)
      * @post If the size of the arraylist, belonging to the id key of the content hashmap is equal to one,
@@ -394,7 +391,6 @@ public class Backpack extends Equipable{
     protected void removeEquipable(Equipable item) throws IllegalArgumentException{
         if(!contains(item))
             throw new IllegalArgumentException();
-        item.setHolder(null);
 
         long id = item.getId();
         getContent().get(id).remove(item);

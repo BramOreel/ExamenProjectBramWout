@@ -159,6 +159,20 @@ public abstract class Equipable {
     private int value = 1;
 
     /**
+     * A static final value referencing the maximum allowed value in dukaten for equipables.
+     */
+    private static final int MAXSELLVALUE = 100;
+
+    /**
+     * Returns the maximum sell value for this equipable.
+     */
+    @Basic
+    public int getMAXSELLVALUE(){
+        return MAXSELLVALUE;
+    }
+
+
+    /**
      * Returns the value of the equipable item
      */
     @Basic
@@ -189,12 +203,12 @@ public abstract class Equipable {
      * @param value
      *        the value to be checked
      *
-     * @return False if the given value is smaller than one.
-     *        |if(value < 1) then result == False
+     * @return True if the given value is greater than one and smaller than the maximum sell value.
+     *        |if(value > 1) && (value < MAXSELLVALUE) then result == True.
      */
     @Raw //refactor
     public boolean isValidValue(int value){
-        return(value >= 1);
+        return(value >= 1 && value < getMAXSELLVALUE());
     }
 
 
@@ -272,63 +286,6 @@ public abstract class Equipable {
     }
 
 
-    //Gelieve de shit aan te passen zodat ze de methodes gebruiken in creature en hero want hier zitten echt teveel fouten in
-
-    /**
-     * Equips an equipable in a random empty anchor of the monster.
-     * @param monster
-     *        The monster that has to equip the item.
-     * @effect The item will be added to the first empty anchor. If there is no free anchor nothing happens.
-     *        | for(Anchor anchor : monster.getAnchors())
-     *        |     if (anchor.getItem() == null)
-     *        |         equip(anchor);
-     *        |         break;
-     */
-    protected void equip(Monster monster) throws IllegalArgumentException, ItemAlreadyobtainedException, CarryLimitReachedException, AnchorslotOquipiedException{
-        if (getHolder() != null) {
-            throw new ItemAlreadyobtainedException();
-        }
-        if (monster == null) {
-            throw new IllegalArgumentException();
-        }
-        for(Anchor anchor : monster.getAnchors()) {
-            if (anchor.getItem() == null) {
-                equip(anchor);
-                break;
-            }
-        }
-    }
-
-    public void unequip(Anchor anchor) throws IllegalArgumentException, ItemNotEquipedException{
-        if(anchor.getItem() != this) throw new ItemNotEquipedException();
-        anchor.setItem(null);
-        this.setHolder(null);
-        anchor.getOwner().ChangeCapacity(-getWeight());
-    }
-
-    /**
-     * Unequips an item if the creature has the item equiped
-     * @param creature
-     *        The creature that holds the item.
-     * @effect The Item is unequiped in the anchor that contained it.
-     *         |for(Anchor anchor : creature.getAnchors())
-     *         |   if (anchor.getItem() == this)
-     *         |       unequip(anchor);
-     */
-    public void unequip(Creature creature)throws ItemNotEquipedException, IllegalArgumentException{
-        if(creature == null){
-            throw new IllegalArgumentException();
-        }
-        boolean done = false;
-        for(Anchor anchor : creature.getAnchors()) {
-            if (anchor.getItem() == this) {
-                done = true;
-                unequip(anchor);
-                break;
-            }
-        }
-        if(!done) throw new ItemNotEquipedException();
-    }
 
     /**
      * Checks if the equipable can be equiped by an anchor

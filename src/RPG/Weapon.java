@@ -114,6 +114,23 @@ public class Weapon extends Equipable{
         setValue(value);
     }
 
+
+    /**
+     * A static final value referencing the maximum allowed value in dukaten for weapons.
+      */
+    private static final int MAXSELLVALUE = 200;
+
+    /**
+     * Returns the maximum sell value for this weapon.
+     */
+    @Basic
+    @Override
+    public int getMAXSELLVALUE(){
+        return MAXSELLVALUE;
+    }
+
+
+
     /**
      * A static variable referencing the current idvalue. This value must always be divisible by three and even.
      */
@@ -323,21 +340,6 @@ public class Weapon extends Equipable{
     @Immutable @Basic
     public boolean isDmgValLink() {
         return dmgvallink;
-    }
-
-    /**
-     * Checks whether a weapon can have this value as its value.
-     * @param value
-     *        the value to be checked
-     *
-     * @return False if the given value is smaller than one or
-     *               if the given value is greater than 200.
-     *         |if(value < 1 || value > 200) then result == False
-     */
-    @Override @Raw
-    public boolean isValidValue(int value){
-
-        return(super.isValidValue(value) && value <= 200);
     }
 
     /**

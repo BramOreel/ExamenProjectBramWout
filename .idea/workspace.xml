@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="alles in Hero en creature is klaar">
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="healen">
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt.">
+      <change afterPath="$PROJECT_DIR$/src/RPG/CantFindArmortoSwapException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RPG/Purse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Armor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Armor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/ArmorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/ArmorType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Backpack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/BeltAnchorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/BeltAnchorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Weapon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +100,7 @@
       <workItem from="1682981522832" duration="165000" />
       <workItem from="1683019024939" duration="4623000" />
       <workItem from="1683213889039" duration="3524000" />
-      <workItem from="1683380268212" duration="10148000" />
+      <workItem from="1683380268212" duration="27418000" />
     </task>
     <task id="LOCAL-00001" summary="al de basis setters, getters en checkers gemaakt, bezig met constructor">
       <created>1682503734612</created>
@@ -217,6 +228,15 @@
       <option name="project" value="LOCAL" />
       <updated>1683468193887</updated>
     </task>
+    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00017" summary="Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt.">
+      <created>1683391073171</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1683391073171</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <task id="LOCAL-00019" summary="healen">
       <created>1683470077335</created>
       <option name="number" value="00019" />
@@ -331,6 +351,8 @@
     <MESSAGE value="Capacity en Contents van backpack volledig geïmplementeerd" />
     <MESSAGE value="Het oppakken van een item dat op de grond ligt en het wegsteken ervan in een rugzak geïmplementeerd" />
     <MESSAGE value="Kleine bug voor monsters gefikst" />
+    <MESSAGE value="Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt." />
+    <option name="LAST_COMMIT_MESSAGE" value="Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt." />
     <MESSAGE value="healen" />
     <MESSAGE value="equip dingen naar Hero verplaatst" />
     <MESSAGE value="redelijk wat dingen gefixt" />

@@ -63,6 +63,21 @@ public class Armor extends Equipable{
         this.maxvalue = value;
     }
 
+    /**
+     * A static final value referencing the maximum allowed value in dukaten for armors.
+     */
+    private static final int MAXSELLVALUE = 1000;
+
+    /**
+     * Returns the maximum sell value for this armor.
+     */
+    @Basic
+    @Override
+    public int getMAXSELLVALUE(){
+        return MAXSELLVALUE;
+    }
+
+
 
     /**
      * Static variable containing the set of previous Armor id's.
@@ -375,19 +390,6 @@ public class Armor extends Equipable{
         return maxvalue;
     }
 
-    /**
-     * Checks if the given value is a valid value for this armorpiece
-     * @param value
-     *        the value to be checked
-     *
-     * @return False if the value for this armor is less than 1 or
-     *               if the value for this armor is greater than 1000.
-     *         if(value < 1 || value > 1000) then result == False.
-     */
-    @Override @Raw
-    public boolean isValidValue(int value){
-        return(super.isValidValue(value) && value <= 1000);
-    }
 
     /**
      * Updates the protection value of the armorpiece to check if time has degraded it and returns a updated value for this armor

@@ -441,55 +441,108 @@ public class Hero extends Creature{
     }
 
 
-
     /**
-     * Swaps the position of the two armors that a hero is currently carrying with him. Deze shit fiksen zodat pickup en drop in 1 stap worden afgehandelt. FUN!
+     * Swaps the position of the armor in the body anchorslot with a given armor.
+     *
+     * @param armor
+     *        the armor to swap with.
+     *
+     * @effect if the given armor is being stored in a backpack. then the given armor is removed from the backpack and set as the
+     *         item stored in the body anchorslot of this hero. Lastly the armor that was previously being stored in the body anchorslot,
+     *         gets added to the content of the backpack.
+     *         |parent.removeEquipable(armor);
+     *         |parent.addEquipable(bodyitem);
+     *         |getAnchorAt(3).setItem(armor);
+     * @effect if the given armor is being stored in an anchorslot. then the items stored in the anchorslot and the body anchorslot are swapped.
+     *         |curranchor.setItem(bodyitem);
+     *         |getAnchorAt(3).setItem(armor);
+     * @effect if the given anchor was still on the ground. Then the holder of the given armor gets set to this hero and the armor gets equiped in the body anchorslot
+     *         of this hero. The holder of the armor that was previously being stored in the body anchorslot gets set to null.
+     *         Lastly the carry capacity for this hero is updated to account for the weight of the given armor.
+     *         |getAnchorAt(3).setItem(armor);
+     *         |armor.setHolder(this);
+     *         |ChangeCapacity(bodyitem.getWeight() - armor.getWeight());
+     *         |bodyitem.setHolder(null);
+     *
+     * @post the item stored in the body anchorslot for this hero is the given armor
+     *       |this.getItemAt(3) == armor
+     *
+     * @throws CantFindArmortoSwapException
+     *         the equipable in the body anchorslot is not an instance of armor.
+     *         |bodyitem not instanceof Armor || bodyitem == null
+     * @throws IllegalArgumentException
+     *         the armor to swap with is not effective
+     *         |armor == null
+     * @throws CantFindArmortoSwapException
+     *         the given armor is being stored in our inventory but the hero isn't carrying another armor to swap with
+     *         |getNbOfArmors() != 2
+     * @throws OtherPlayersItemException
+     *         the given armor belongs to another player
+     *         |armor.getHolder != null && armor.getHolder != this
+     * @throws CarryLimitReachedException
+     *         The armor to swap to is being stored in a backpack. we can't swap however because the weight of armor on the hero's body
+     *         exceeds the maximum carry capacity of the backpack.
+     *         |parent.getTotalWeight() - armor.getWeight() + bodyitem.getWeight() > parent.getCapacity()
+     * @throws CarryLimitReachedException
+     *         The armor to swap to is on the ground. We cant swap however because the weight of the armor to be picked up exceeds the
+     *         maximum carry capacity for this hero.
+     *         |getCapacity() - bodyitem.getWeight() + armor.getWeight() > getMaxCapacity()
      */
-    public void swapArmors(Armor armor) throws CantFindArmortoSwapException, CarryLimitReachedException, OtherPlayersItemException {
-        if(getNbOfArmors() != 2)
-            throw new CantFindArmortoSwapException();
+    @Raw
+    public void swapArmors(Armor armor) throws CantFindArmortoSwapException, IllegalArgumentException, OtherPlayersItemException, CarryLimitReachedException {
         Equipable bodyitem = getAnchorItemAt(3);
-        if(!(bodyitem instanceof Armor))
+        if (!(bodyitem instanceof Armor) || bodyitem == null)
             throw new CantFindArmortoSwapException();
+        if (armor == null)
+            throw new IllegalArgumentException();
 
-        Backpack parent = armor.getParentbackpack();
-        if(armor.getHolder() == this) {
+        Creature swapholder = armor.getHolder();
+        if (swapholder == this) { //armor in onze inventory
+
+            if (getNbOfArmors() != 2)
+                throw new CantFindArmortoSwapException();
+
+            Backpack parent = armor.getParentbackpack();
             if (parent != null) { //armor zit in een rugzak
+
                 int weight = parent.getTotalWeight() - armor.getWeight() + bodyitem.getWeight();
                 if (weight > parent.getCapacity())
                     throw new CarryLimitReachedException(bodyitem);
 
                 parent.removeEquipable(armor);
-                store(bodyitem, parent);
-
-                pickUp(armor, AnchorType.LICHAAM);
+                try {
+                    parent.addEquipable(bodyitem);
+                } catch (BackPackNotEmptyException e) {
+                    throw new RuntimeException(e);
+                } catch (ItemAlreadyobtainedException e) {
+                    throw new RuntimeException(e);
+                }
+                getAnchorAt(3).setItem(armor);
             }
-            //armor zit in een Anchor
-            else {
+            else{ //armor in een anchor
                 Anchor curranchor = null;
                 for (int i = 0; i < getAnchors().size(); i++) {
                     curranchor = getAnchorAt(i);
                     if (curranchor.getItem() == armor)
                         break;
                 }
-                drop(bodyitem);
-                try {
-                    moveAnchorItemtoAnchor(curranchor.getAnchorType(), AnchorType.LICHAAM);
-                } catch (AnchorslotOccupiedException e) {
-                    throw new RuntimeException(e);
-                }
-                pickUp(bodyitem, curranchor.getAnchorType());
+                curranchor.setItem(bodyitem);
+                getAnchorAt(3).setItem(armor);
             }
-        } else if (armor.getHolder() == null) {
-            if(getCapacity() - bodyitem.getWeight() + armor.getWeight() > getMaxCapacity())
+
+        }
+        else if (swapholder == null) { //armor op de grond
+            if (getCapacity() - bodyitem.getWeight() + armor.getWeight() > getMaxCapacity())
                 throw new CarryLimitReachedException(armor);
-            drop(bodyitem);
-            pickUp(armor, AnchorType.LICHAAM);
 
-
-        } else
-            throw new IllegalArgumentException();
+            getAnchorAt(3).setItem(armor);
+            armor.setHolder(this);
+            ChangeCapacity(bodyitem.getWeight() - armor.getWeight());
+            bodyitem.setHolder(null);
+        }
+        else throw new OtherPlayersItemException();
     }
+
     /**
      * Gives the closest positive prime number to a number that isn't bigger than a given maximum.
      * @param number
