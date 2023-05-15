@@ -6,14 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="Monster helemaal klaar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/AnchorslotOccupiedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/AnchorslotOccupiedException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/BackPackNotEmptyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/BackPackNotEmptyException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Backpack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/BeltAnchorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/BeltAnchorException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/CantFindArmortoSwapException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/CantFindArmortoSwapException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/CarryLimitReachedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/CarryLimitReachedException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Equipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Equipable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/ItemAlreadyobtainedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/ItemAlreadyobtainedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/ItemNotEquipedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/ItemNotEquipedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/OtherPlayersItemException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/OtherPlayersItemException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Purse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Purse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683916564303</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Monster helemaal klaar">
+      <created>1684149730784</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1684149730784</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

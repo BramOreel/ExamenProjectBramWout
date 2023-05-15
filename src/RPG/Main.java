@@ -30,7 +30,7 @@ public class Main {
             Bram.pickUp(yeet,AnchorType.RECHTERHAND);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccupiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -43,7 +43,7 @@ public class Main {
             Bram.pickUp(woord,AnchorType.LICHAAM);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccupiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -69,7 +69,7 @@ public class Main {
             Bram.pickUp(rugzak,AnchorType.LINKERHAND);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccupiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -89,7 +89,7 @@ public class Main {
             Arlen.pickUp(koala,AnchorType.LINKERHAND);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccupiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -99,7 +99,7 @@ public class Main {
             Arlen.pickUp(dinseytas,AnchorType.RUG);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccupiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
