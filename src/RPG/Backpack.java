@@ -358,7 +358,6 @@ public class Backpack extends Equipable{
         if(getHolder() == null)
             throw new NullPointerException();
 
-        //Bij pickup in creature class kijken of creature niet al dood is.
         item.setHolder(this.getHolder());
         long id = item.getId();
 

@@ -540,7 +540,7 @@ public class Hero extends Creature{
             ChangeCapacity(bodyitem.getWeight() - armor.getWeight());
             bodyitem.setHolder(null);
         }
-        else throw new OtherPlayersItemException();
+        else throw new OtherPlayersItemException(armor);
     }
 
     /**
