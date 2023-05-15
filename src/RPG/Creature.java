@@ -93,6 +93,18 @@ public abstract class Creature {
      */
     protected int maxCapacity;
 
+    /**
+     * variabele referencing if the creature is still alive
+     */
+    protected boolean isAlive = true;
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    private void setAlive(boolean alive) {
+        isAlive = alive;
+    }
 
     /**
      * a list containing all valid characters for names of creatures.
@@ -410,10 +422,15 @@ public abstract class Creature {
      *         because the maximum carry capacity has been reached. In case the user wants to pick up a backpack,
      *         the contents of this backpack are also considered for the calculation of the weight of the item.
      *         |item.getTotalWeight > getCapacity
+     * @throws IllegalCallerException
+     *         the creature trying to pick up this item is dead.
+     *         |this.isAlive() == false.
      */
     @Raw @Model
     protected void pickUp(Equipable item, AnchorType anchortype) throws ItemAlreadyobtainedException,IllegalArgumentException,
-            AnchorslotOccupiedException, CarryLimitReachedException, BeltAnchorException {
+            AnchorslotOccupiedException, CarryLimitReachedException, BeltAnchorException, IllegalCallerException {
+        if(!isAlive())
+            throw new IllegalCallerException();
         if (item.getHolder() != null) {
             throw new ItemAlreadyobtainedException();
         }
@@ -836,6 +853,8 @@ public abstract class Creature {
      *          remain inside the backpack.
      *          |for(anchor in anchor.getAnchors)
      *          |        drop(anchor.getItem)
+     * @effect The creature is marked as dead.
+     *         |setAlive(false)
      * @return  All the items that the creature owned in a list. If he has a backpack equiped
      *          then the backpack as well as all the items within the backpack are returned in the list.
      *          |ArrayList<Equipable> items = new ArrayList<Equipable>()
@@ -848,6 +867,7 @@ public abstract class Creature {
      */
     @Model
     protected ArrayList<Equipable> die(){
+        setAlive(false);
         ArrayList<Equipable> items = new ArrayList<Equipable>();
         for(Anchor anchor : getAnchors()){
             if(anchor.getItem() != null){
@@ -887,14 +907,27 @@ public abstract class Creature {
      *         |then creature.setHitPoints(creature.getHitPoints() - getTotalDamage())
      *         |if  creature.getHitPoints() <= 0
      *         |then creature.setHitPoints(0)
+     * @throws IllegalArgumentException
+     *         The given creature is already dead.
+     *         |creature.isAlive() == false
+     * @throws IllegalCallerException
+     *         The creature trying to hit the given creature is dead.
+     *         |this.isAlive() == false
      */
-    public void Hit(Creature creature) {
+    public void Hit(Creature creature) throws IllegalArgumentException, IllegalCallerException {
+        if(!this.isAlive())
+            throw new IllegalCallerException();
+        if(!creature.isAlive())
+            throw new IllegalArgumentException();
+
+
         int remainingHP = creature.getHitPoints();
         if(getHitValue() >= creature.getTotalProtection()) {
             remainingHP = creature.getHitPoints() - getTotalDamage();
         }
         if(remainingHP <= 0){
             creature.setHitPoints(0);
+
             try {
                 LootAndHeal(creature.die());
             } catch (ItemNotEquipedException e) {

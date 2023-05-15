@@ -1,5 +1,4 @@
-package RPG;
-
+import RPG.*;
 
 import java.util.ArrayList;
 
@@ -13,7 +12,7 @@ public class Main {
 
 
 
-        Armor jema = new Armor(25,3,ArmorType.DEFAULT,20);
+        Armor jema = new Armor(25,3, ArmorType.DEFAULT,20);
         //System.out.println(jema.getId());
         Armor bingbong = new Armor(25,3,ArmorType.DEFAULT,30);
         //System.out.println(bingbong.getId());
@@ -30,7 +29,7 @@ public class Main {
             Bram.pickUp(yeet,AnchorType.RECHTERHAND);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccuipiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -43,7 +42,7 @@ public class Main {
             Bram.pickUp(woord,AnchorType.LICHAAM);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccuipiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -69,7 +68,7 @@ public class Main {
             Bram.pickUp(rugzak,AnchorType.LINKERHAND);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccuipiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -89,7 +88,7 @@ public class Main {
             Arlen.pickUp(koala,AnchorType.LINKERHAND);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccuipiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -99,7 +98,7 @@ public class Main {
             Arlen.pickUp(dinseytas,AnchorType.RUG);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOquipiedException e) {
+        } catch (AnchorslotOccuipiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
