@@ -293,7 +293,6 @@ public abstract class Equipable {
      *        the anchor that would equip the equipable
      * @return True
      */
-
     public boolean isValidAnchor(Anchor anchor){
         return true;
     }

@@ -420,6 +420,17 @@ public class Backpack extends Equipable{
             setHolder(anchor.getOwner());
         }
     }
+
+    /**
+     * Checks if the equipable can be equiped by an anchor
+     * @param anchor
+     *        the anchor that would equip the equipable
+     * @return True unless the anchortype of the anchor is Riem, then it returns false.
+     */
+    @Override
+    public boolean isValidAnchor(Anchor anchor){
+        return anchor.getAnchorType() != AnchorType.RIEM;
+    }
 }
 
 

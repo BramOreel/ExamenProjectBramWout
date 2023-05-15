@@ -4,21 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="alles in Hero en creature is klaar">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="healen">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt.">
-      <change afterPath="$PROJECT_DIR$/src/RPG/CantFindArmortoSwapException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/RPG/Purse.java" afterDir="false" />
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="Monster helemaal klaar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Armor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Armor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/ArmorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/ArmorType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/AnchorslotOccupiedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/AnchorslotOccupiedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/BackPackNotEmptyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/BackPackNotEmptyException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Backpack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/BeltAnchorException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/BeltAnchorException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/CantFindArmortoSwapException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/CantFindArmortoSwapException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Equipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Equipable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Weapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -214,12 +209,12 @@
       <option name="project" value="LOCAL" />
       <updated>1682981682620</updated>
     </task>
-    <task id="LOCAL-00017" summary="healen">
-      <created>1683468043509</created>
+    <task id="LOCAL-00017" summary="Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt.">
+      <created>1683391073171</created>
       <option name="number" value="00017" />
       <option name="presentableId" value="LOCAL-00017" />
       <option name="project" value="LOCAL" />
-      <updated>1683468043509</updated>
+      <updated>1683391073171</updated>
     </task>
     <task id="LOCAL-00018" summary="healen">
       <created>1683468193887</created>
@@ -228,15 +223,6 @@
       <option name="project" value="LOCAL" />
       <updated>1683468193887</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
-    <task id="LOCAL-00017" summary="Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt.">
-      <created>1683391073171</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1683391073171</updated>
-    </task>
-    <option name="localTasksCounter" value="18" />
     <task id="LOCAL-00019" summary="healen">
       <created>1683470077335</created>
       <option name="number" value="00019" />
@@ -321,7 +307,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683908677402</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Monster helemaal klaar">
+      <created>1683916564303</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1683916564303</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -352,7 +345,6 @@
     <MESSAGE value="Het oppakken van een item dat op de grond ligt en het wegsteken ervan in een rugzak geïmplementeerd" />
     <MESSAGE value="Kleine bug voor monsters gefikst" />
     <MESSAGE value="Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt." />
-    <option name="LAST_COMMIT_MESSAGE" value="Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt." />
     <MESSAGE value="healen" />
     <MESSAGE value="equip dingen naar Hero verplaatst" />
     <MESSAGE value="redelijk wat dingen gefixt" />
@@ -360,7 +352,8 @@
     <MESSAGE value="creature is af normaal" />
     <MESSAGE value="bezig met hero invariants" />
     <MESSAGE value="alles in Hero en creature is klaar" />
-    <option name="LAST_COMMIT_MESSAGE" value="alles in Hero en creature is klaar" />
+    <MESSAGE value="Monster helemaal klaar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Monster helemaal klaar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

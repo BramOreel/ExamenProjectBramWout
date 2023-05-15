@@ -420,8 +420,8 @@ public abstract class Creature {
         if (item == null)
             throw new IllegalArgumentException();
 
-        if (anchortype.getName() == "Riem" && !(item instanceof Purse))
-            throw new BeltAnchorException();
+        if (anchortype == AnchorType.RIEM && !(item instanceof Purse))
+            throw new BeltAnchorException(item);
 
         Anchor anchor = null;
 
@@ -440,7 +440,7 @@ public abstract class Creature {
             throw new IllegalArgumentException();
 
         if (anchor.getItem() != null)
-            throw new AnchorslotOccupiedException();
+            throw new AnchorslotOccupiedException(anchor);
 
         int weight = item.getWeight();
         if(item instanceof Backpack)
@@ -741,12 +741,12 @@ public abstract class Creature {
         if(parent.getHolder() != this)
             throw new OtherPlayersItemException();
         if (location.getName() == "Riem" && !(item instanceof Purse))
-            throw new BeltAnchorException();
+            throw new BeltAnchorException(item);
 
         Anchor anchor = null;
-
+        Anchor curranchor = getAnchorAt(0);
         for (int i = 0; i < getAnchors().size(); i++) {
-            Anchor curranchor = getAnchorAt(i);
+            curranchor = getAnchorAt(i);
             if (curranchor.getAnchorType() == location) {
                 if(curranchor.getItem() == null){
                     anchor = curranchor;
@@ -755,7 +755,7 @@ public abstract class Creature {
             }
         }
         if(anchor == null)
-            throw new AnchorslotOccupiedException();
+            throw new AnchorslotOccupiedException(curranchor);
 
         parent.removeEquipable(item);
         anchor.setItem(item);
@@ -796,9 +796,9 @@ public abstract class Creature {
         if(startanchor != endanchor){
             Equipable startitem = startanchor.getItem();
             if(endanchor.getItem() != null)
-                throw new AnchorslotOccupiedException();
+                throw new AnchorslotOccupiedException(endanchor);
             if (end.getName() == "Riem" && !(startitem instanceof Purse))
-                throw new BeltAnchorException();
+                throw new BeltAnchorException(startitem);
 
             startanchor.setItem(null);
             endanchor.setItem(startitem);

@@ -373,7 +373,7 @@ public class Hero extends Creature{
     protected void LootAndHeal(ArrayList<Equipable> items) {
         for(Anchor anchor: getAnchors()){
             for(Equipable item: items){
-                if( item.isValidAnchor(anchor) && item.getWeight() <= getCapacity() && anchor.getItem() == null){
+                if(item.isValidAnchor(anchor) && item.getWeight() <= getCapacity() && anchor.getItem() == null){
                     if(item.getParentbackpack() != null){
                         item.getParentbackpack().removeEquipable(item);
                     }
