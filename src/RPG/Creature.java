@@ -432,7 +432,7 @@ public abstract class Creature {
         if(!isAlive())
             throw new IllegalCallerException();
         if (item.getHolder() != null) {
-            throw new ItemAlreadyobtainedException();
+            throw new ItemAlreadyobtainedException(item);
         }
         if (item == null)
             throw new IllegalArgumentException();
@@ -503,7 +503,7 @@ public abstract class Creature {
         if(equipable == null)
             throw new IllegalArgumentException();
         if(equipable.getHolder() != this)
-            throw new OtherPlayersItemException();
+            throw new OtherPlayersItemException(equipable);
 
         Anchor itemanchor = null;
 
@@ -644,9 +644,11 @@ public abstract class Creature {
         if(item == null || backpack == null)
             throw new IllegalArgumentException();
         if(item.getHolder() == this)
-            throw new ItemAlreadyobtainedException();
-        if(backpack.getHolder() != this || item.getHolder() != null)
-            throw new OtherPlayersItemException();
+            throw new ItemAlreadyobtainedException(item);
+        if(backpack.getHolder() != this)
+            throw new OtherPlayersItemException(backpack);
+        if(item.getHolder() != null)
+            throw new OtherPlayersItemException(item);
         if(backpack.getCapacity() < backpack.getTotalWeight() + item.getWeight())
             throw new CarryLimitReachedException(item);
         if(item instanceof Backpack)
@@ -697,13 +699,13 @@ public abstract class Creature {
         if(anchor.getItem() == null)
             throw new IllegalArgumentException();
         if(anchor.getOwner() != this)
-            throw new OtherPlayersItemException();
+            throw new OtherPlayersItemException(anchor.getItem());
 
         drop(anchor.getItem());
     }
 
     /**
-     * Drops all the items that this creature currently has equiped in its anchors.
+     * Drops all the items that this creature currently has equipped in its anchors.
      *
      * @effect Each anchor that has a non-null item, will drop its item.
      *         |for(int i=0; i < getAnchors().size();i++)
@@ -756,7 +758,7 @@ public abstract class Creature {
         if(parent == null)
             throw new IllegalArgumentException();
         if(parent.getHolder() != this)
-            throw new OtherPlayersItemException();
+            throw new OtherPlayersItemException(parent);
         if (location.getName() == "Riem" && !(item instanceof Purse))
             throw new BeltAnchorException(item);
 

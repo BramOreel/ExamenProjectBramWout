@@ -42,7 +42,7 @@ public class Main {
             Bram.pickUp(woord,AnchorType.LICHAAM);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOccuipiedException e) {
+        } catch (AnchorslotOccupiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
@@ -98,7 +98,7 @@ public class Main {
             Arlen.pickUp(dinseytas,AnchorType.RUG);
         } catch (ItemAlreadyobtainedException e) {
             throw new RuntimeException(e);
-        } catch (AnchorslotOccuipiedException e) {
+        } catch (AnchorslotOccupiedException e) {
             throw new RuntimeException(e);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
