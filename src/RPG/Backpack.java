@@ -353,7 +353,7 @@ public class Backpack extends Equipable{
             throw new CarryLimitReachedException(item);
 
         if(contains(item))
-            throw new ItemAlreadyobtainedException();
+            throw new ItemAlreadyobtainedException(item);
 
         if(getHolder() == null)
             throw new NullPointerException();
