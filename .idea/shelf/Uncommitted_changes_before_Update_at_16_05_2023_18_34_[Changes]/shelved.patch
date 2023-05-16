@@ -1,0 +1,313 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"69444ef7-e217-4129-a0a3-0f7997122e5f\" name=\"Changes\" comment=\"alles klaar\">\r\n      <change afterPath=\"$PROJECT_DIR$/src/RPG/CreatureTest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ExamenProjectBramWout.iml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ExamenProjectBramWout.iml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/RPG/Creature.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/RPG/Creature.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/RPG/Hero.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/RPG/Hero.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/RPG/Monster.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/RPG/Monster.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/RPG/Purse.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/RPG/Purse.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Enum\" />\r\n        <option value=\"Enum\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2OxCm5qWox6dHBXc5DGPKeGW1AR\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Downloaded.Files.Path.Enabled\": \"false\",\r\n    \"Repository.Attach.Annotations\": \"false\",\r\n    \"Repository.Attach.JavaDocs\": \"false\",\r\n    \"Repository.Attach.Sources\": \"false\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"last_opened_file_path\": \"C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/ExamenProjectBramWout\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"project.structure.last.edited\": \"Libraries\",\r\n    \"project.structure.proportion\": \"0.0\",\r\n    \"project.structure.side.proportion\": \"0.2\",\r\n    \"settings.editor.selected.configurable\": \"preferences.editor\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\" selected=\"JUnit.CreatureTest.TestInvalidName\">\r\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"RPG.Main\" />\r\n      <module name=\"ExamenProjectBramWout\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"RPG.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"CreatureTest.TestInvalidName\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ExamenProjectBramWout\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"RPG.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"RPG\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"RPG.CreatureTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"TestInvalidName\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"CreatureTest.TestValidName\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ExamenProjectBramWout\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"RPG.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"RPG\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"RPG.CreatureTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"TestValidName\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.CreatureTest.TestInvalidName\" />\r\n        <item itemvalue=\"JUnit.CreatureTest.TestValidName\" />\r\n        <item itemvalue=\"Application.Main\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"69444ef7-e217-4129-a0a3-0f7997122e5f\" name=\"Changes\" comment=\"\" />\r\n      <created>1682493008413</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1682493008413</updated>\r\n      <workItem from=\"1682493009655\" duration=\"2000\" />\r\n      <workItem from=\"1682495227075\" duration=\"20387000\" />\r\n      <workItem from=\"1682686382687\" duration=\"7218000\" />\r\n      <workItem from=\"1682783690778\" duration=\"6520000\" />\r\n      <workItem from=\"1682862326382\" duration=\"17601000\" />\r\n      <workItem from=\"1682955414409\" duration=\"13205000\" />\r\n      <workItem from=\"1682981522832\" duration=\"165000\" />\r\n      <workItem from=\"1683019024939\" duration=\"4623000\" />\r\n      <workItem from=\"1683213889039\" duration=\"3524000\" />\r\n      <workItem from=\"1683380268212\" duration=\"27418000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"al de basis setters, getters en checkers gemaakt, bezig met constructor\">\r\n      <created>1682503734612</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682503734612</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"al de basis setters, getters en checkers gemaakt, bezig met constructor\">\r\n      <created>1682503750873</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682503750873</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"anchors en anchortypes toegevoegd\">\r\n      <created>1682515185209</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682515185209</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"anchors en anchortypes toegevoegd\">\r\n      <created>1682515250708</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682515250708</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"constructor afgewerkt\">\r\n      <created>1682516931020</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682516931020</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"constructor afgewerkt\">\r\n      <created>1682517123747</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682517123747</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"constructor afgewerkt\">\r\n      <created>1682530570486</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682530570486</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"setname override klaar\">\r\n      <created>1682602946401</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682602946401</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"begonnen met monster\">\r\n      <created>1682604429034</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682604429034</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Armor protection geïmplementeerd met tijdsafhankelijke slijtage.\">\r\n      <created>1682775466943</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682775466943</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"Begonnen aan value\">\r\n      <created>1682778794557</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682778794557</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"Value voor wapens geïmplementeerd\">\r\n      <created>1682779894729</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682779894729</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"Value volledig geïmplementeerd\">\r\n      <created>1682794403377</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682794403377</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"Capacity en Contents van backpack volledig geïmplementeerd\">\r\n      <created>1682882414293</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682882414293</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"Het oppakken van een item dat op de grond ligt en het wegsteken ervan in een rugzak geïmplementeerd\">\r\n      <created>1682980932657</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682980932657</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"Kleine bug voor monsters gefikst\">\r\n      <created>1682981682620</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682981682620</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00017\" summary=\"Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt.\">\r\n      <created>1683391073171</created>\r\n      <option name=\"number\" value=\"00017\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683391073171</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00018\" summary=\"healen\">\r\n      <created>1683468193887</created>\r\n      <option name=\"number\" value=\"00018\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683468193887</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00019\" summary=\"healen\">\r\n      <created>1683470077335</created>\r\n      <option name=\"number\" value=\"00019\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683470077335</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00020\" summary=\"healen\">\r\n      <created>1683636633443</created>\r\n      <option name=\"number\" value=\"00020\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683636633443</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00021\" summary=\"equip dingen naar Hero verplaatst\">\r\n      <created>1683644839857</created>\r\n      <option name=\"number\" value=\"00021\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683644839857</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00022\" summary=\"redelijk wat dingen gefixt\">\r\n      <created>1683717745361</created>\r\n      <option name=\"number\" value=\"00022\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683717745361</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00023\" summary=\"invarianten creature\">\r\n      <created>1683736003860</created>\r\n      <option name=\"number\" value=\"00023\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683736003860</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00024\" summary=\"invarianten creature\">\r\n      <created>1683741808631</created>\r\n      <option name=\"number\" value=\"00024\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683741808631</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00025\" summary=\"creature is af normaal\">\r\n      <created>1683824491706</created>\r\n      <option name=\"number\" value=\"00025\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683824491706</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00026\" summary=\"bezig met hero invariants\">\r\n      <created>1683830441833</created>\r\n      <option name=\"number\" value=\"00026\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00026\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683830441833</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00027\" summary=\"bezig met hero invariants\">\r\n      <created>1683888206525</created>\r\n      <option name=\"number\" value=\"00027\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00027\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683888206525</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00028\" summary=\"alles in Hero en creature is klaar\">\r\n      <created>1683903236731</created>\r\n      <option name=\"number\" value=\"00028\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00028\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683903236731</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00029\" summary=\"alles in Hero en creature is klaar\">\r\n      <created>1683903596099</created>\r\n      <option name=\"number\" value=\"00029\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00029\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683903596099</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00030\" summary=\"alles in Hero en creature is klaar\">\r\n      <created>1683908677402</created>\r\n      <option name=\"number\" value=\"00030\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00030\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683908677402</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00031\" summary=\"Monster helemaal klaar\">\r\n      <created>1683916564303</created>\r\n      <option name=\"number\" value=\"00031\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00031\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1683916564303</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00032\" summary=\"Monster helemaal klaar\">\r\n      <created>1684149730784</created>\r\n      <option name=\"number\" value=\"00032\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00032\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684149730784</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00033\" summary=\"alles klaar\">\r\n      <created>1684162639561</created>\r\n      <option name=\"number\" value=\"00033\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00033\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684162639561</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"34\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"al de basis setters, getters en checkers gemaakt, bezig met constructor\" />\r\n    <MESSAGE value=\"anchors en anchortypes toegevoegd\" />\r\n    <MESSAGE value=\"constructor afgewerkt\" />\r\n    <MESSAGE value=\"Identificatie van Items geïmplementeerd\" />\r\n    <MESSAGE value=\"Gewicht van Equipables en damage van wapens geïmplementeerd\" />\r\n    <MESSAGE value=\"Armor protection geïmplementeerd met tijdsafhankelijke slijtage.\" />\r\n    <MESSAGE value=\"Begonnen aan value\" />\r\n    <MESSAGE value=\"Value voor wapens geïmplementeerd\" />\r\n    <MESSAGE value=\"Value volledig geïmplementeerd\" />\r\n    <MESSAGE value=\"Capacity en Contents van backpack volledig geïmplementeerd\" />\r\n    <MESSAGE value=\"Het oppakken van een item dat op de grond ligt en het wegsteken ervan in een rugzak geïmplementeerd\" />\r\n    <MESSAGE value=\"Kleine bug voor monsters gefikst\" />\r\n    <MESSAGE value=\"Extra functionaliteiten in verband met laten vallen en oppakken van Items geïmplementeerd. Biderectionele relatie tussen equipables en backpacks opgestelt.\" />\r\n    <MESSAGE value=\"healen\" />\r\n    <MESSAGE value=\"equip dingen naar Hero verplaatst\" />\r\n    <MESSAGE value=\"redelijk wat dingen gefixt\" />\r\n    <MESSAGE value=\"invarianten creature\" />\r\n    <MESSAGE value=\"creature is af normaal\" />\r\n    <MESSAGE value=\"bezig met hero invariants\" />\r\n    <MESSAGE value=\"alles in Hero en creature is klaar\" />\r\n    <MESSAGE value=\"Monster helemaal klaar\" />\r\n    <MESSAGE value=\"alles klaar\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"alles klaar\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <breakpoint enabled=\"true\" type=\"java-exception\">\r\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\r\n          <option name=\"timeStamp\" value=\"2\" />\r\n        </breakpoint>\r\n        <breakpoint enabled=\"true\" type=\"java-exception\">\r\n          <properties class=\"java.lang.RuntimeException\" package=\"java.lang\" />\r\n          <option name=\"timeStamp\" value=\"19\" />\r\n        </breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\r\n    <expand />\r\n    <select />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/ExamenProjectBramWout$Main.ic\" NAME=\"Main Coverage Results\" MODIFIED=\"1682784192722\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>RPG.*</FILTER>\r\n    </SUITE>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision e80c737f133df2468db1fce38e87c0cfb7cedb5a)
++++ b/.idea/workspace.xml	(date 1684254789545)
+@@ -4,14 +4,12 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="alles klaar">
+-      <change afterPath="$PROJECT_DIR$/src/RPG/CreatureTest.java" afterDir="false" />
++    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/src/RPG/RemoveFromAnchorTest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/ExamenProjectBramWout.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ExamenProjectBramWout.iml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/RPG/Backpacktest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpacktest.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/RPG/Purse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Purse.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -39,30 +37,80 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "Downloaded.Files.Path.Enabled": "false",
+-    "Repository.Attach.Annotations": "false",
+-    "Repository.Attach.JavaDocs": "false",
+-    "Repository.Attach.Sources": "false",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "last_opened_file_path": "C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/ExamenProjectBramWout",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "project.structure.last.edited": "Libraries",
+-    "project.structure.proportion": "0.0",
+-    "project.structure.side.proportion": "0.2",
+-    "settings.editor.selected.configurable": "preferences.editor",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
++    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
++    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
++    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/ExamenProjectBramWout&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  &lt;component name=&quot;PropertiesComponent&quot;&gt;&lt;![CDATA[{
++  &quot;keyToString&quot;: {
++    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
++    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
++    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
++    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/Practicum2BramWout&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.uml&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
+-  <component name="RunManager" selected="JUnit.CreatureTest.TestInvalidName">
+-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="RPG.Main" />
++}</component>
++  <component name="RunManager" selected="JUnit.RemoveFromAnchorTest.testMoveToOccupiedAnchor">
++    <configuration name="RemoveFromAnchorTest.testDropALlAnchorItems" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++      <module name="ExamenProjectBramWout" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="RPG.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
++      <option name="PACKAGE_NAME" value="RPG" />
++      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
++      <option name="METHOD_NAME" value="testDropALlAnchorItems" />
++      <option name="TEST_OBJECT" value="method" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="RemoveFromAnchorTest.testMoveIllegalAnchor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++      <module name="ExamenProjectBramWout" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="RPG.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
++      <option name="PACKAGE_NAME" value="RPG" />
++      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
++      <option name="METHOD_NAME" value="testMoveIllegalAnchor" />
++      <option name="TEST_OBJECT" value="method" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="RemoveFromAnchorTest.testMoveItem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ExamenProjectBramWout" />
+       <extension name="coverage">
+         <pattern>
+@@ -70,11 +118,15 @@
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
++      <option name="PACKAGE_NAME" value="RPG" />
++      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
++      <option name="METHOD_NAME" value="testMoveItem" />
++      <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="CreatureTest.TestInvalidName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="RemoveFromAnchorTest.testMoveNullItem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ExamenProjectBramWout" />
+       <extension name="coverage">
+         <pattern>
+@@ -83,14 +135,14 @@
+         </pattern>
+       </extension>
+       <option name="PACKAGE_NAME" value="RPG" />
+-      <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
+-      <option name="METHOD_NAME" value="TestInvalidName" />
++      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
++      <option name="METHOD_NAME" value="testMoveNullItem" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="CreatureTest.TestValidName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="RemoveFromAnchorTest.testMoveToOccupiedAnchor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ExamenProjectBramWout" />
+       <extension name="coverage">
+         <pattern>
+@@ -99,8 +151,8 @@
+         </pattern>
+       </extension>
+       <option name="PACKAGE_NAME" value="RPG" />
+-      <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
+-      <option name="METHOD_NAME" value="TestValidName" />
++      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
++      <option name="METHOD_NAME" value="testMoveToOccupiedAnchor" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+@@ -108,9 +160,11 @@
+     </configuration>
+     <recent_temporary>
+       <list>
+-        <item itemvalue="JUnit.CreatureTest.TestInvalidName" />
+-        <item itemvalue="JUnit.CreatureTest.TestValidName" />
+-        <item itemvalue="Application.Main" />
++        <item itemvalue="JUnit.RemoveFromAnchorTest.testMoveToOccupiedAnchor" />
++        <item itemvalue="JUnit.RemoveFromAnchorTest.testMoveNullItem" />
++        <item itemvalue="JUnit.RemoveFromAnchorTest.testMoveIllegalAnchor" />
++        <item itemvalue="JUnit.RemoveFromAnchorTest.testMoveItem" />
++        <item itemvalue="JUnit.RemoveFromAnchorTest.testDropALlAnchorItems" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -132,6 +186,8 @@
+       <workItem from="1683019024939" duration="4623000" />
+       <workItem from="1683213889039" duration="3524000" />
+       <workItem from="1683380268212" duration="27418000" />
++      <workItem from="1684163879584" duration="6298000" />
++      <workItem from="1684177057457" duration="4429000" />
+     </task>
+     <task id="LOCAL-00001" summary="al de basis setters, getters en checkers gemaakt, bezig met constructor">
+       <created>1682503734612</created>
+@@ -357,14 +413,21 @@
+       <option name="project" value="LOCAL" />
+       <updated>1684149730784</updated>
+     </task>
+-    <task id="LOCAL-00033" summary="alles klaar">
+-      <created>1684162639561</created>
++    <task id="LOCAL-00033" summary="Kleine terminate checker ingebouwd">
++      <created>1684163809583</created>
+       <option name="number" value="00033" />
+       <option name="presentableId" value="LOCAL-00033" />
+       <option name="project" value="LOCAL" />
+-      <updated>1684162639561</updated>
++      <updated>1684163809583</updated>
++    </task>
++    <task id="LOCAL-00034" summary="Backpacktest">
++      <created>1684179726581</created>
++      <option name="number" value="00034" />
++      <option name="presentableId" value="LOCAL-00034" />
++      <option name="project" value="LOCAL" />
++      <updated>1684179726581</updated>
+     </task>
+-    <option name="localTasksCounter" value="34" />
++    <option name="localTasksCounter" value="35" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -404,7 +467,9 @@
+     <MESSAGE value="alles in Hero en creature is klaar" />
+     <MESSAGE value="Monster helemaal klaar" />
+     <MESSAGE value="alles klaar" />
+-    <option name="LAST_COMMIT_MESSAGE" value="alles klaar" />
++    <MESSAGE value="Kleine terminate checker ingebouwd" />
++    <MESSAGE value="Backpacktest" />
++    <option name="LAST_COMMIT_MESSAGE" value="Backpacktest" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+@@ -417,6 +482,30 @@
+           <properties class="java.lang.RuntimeException" package="java.lang" />
+           <option name="timeStamp" value="19" />
+         </breakpoint>
++        <breakpoint enabled="true" type="java-exception">
++          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
++          <option name="timeStamp" value="24" />
++        </breakpoint>
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/src/Main.java</url>
++          <line>106</line>
++          <option name="timeStamp" value="23" />
++        </line-breakpoint>
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/src/RPG/Backpacktest.java</url>
++          <line>32</line>
++          <option name="timeStamp" value="27" />
++        </line-breakpoint>
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/src/RPG/RemoveFromAnchorTest.java</url>
++          <line>48</line>
++          <option name="timeStamp" value="29" />
++        </line-breakpoint>
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/src/RPG/RemoveFromAnchorTest.java</url>
++          <line>110</line>
++          <option name="timeStamp" value="30" />
++        </line-breakpoint>
+       </breakpoints>
+     </breakpoint-manager>
+   </component>
+Index: ExamenProjectBramWout.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"JAVA_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\r\n    <exclude-output />\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <sourceFolder url=\"file://$MODULE_DIR$/src\" isTestSource=\"false\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n    <orderEntry type=\"library\" name=\"AnnotationsDoclets_v17\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"AnnotationsDoclets_v171\" level=\"project\" />\r\n    <orderEntry type=\"library\" name=\"junit.platform.suite\" level=\"project\" />\r\n    <orderEntry type=\"module-library\">\r\n      <library name=\"JUnit4\">\r\n        <CLASSES>\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/junit/junit/4.13.1/junit-4.13.1.jar!/\" />\r\n          <root url=\"jar://$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar!/\" />\r\n        </CLASSES>\r\n        <JAVADOC />\r\n        <SOURCES />\r\n      </library>\r\n    </orderEntry>\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ExamenProjectBramWout.iml b/ExamenProjectBramWout.iml
+--- a/ExamenProjectBramWout.iml	(revision e80c737f133df2468db1fce38e87c0cfb7cedb5a)
++++ b/ExamenProjectBramWout.iml	(date 1684247831177)
+@@ -20,5 +20,31 @@
+         <SOURCES />
+       </library>
+     </orderEntry>
++    <orderEntry type="module-library">
++      <library name="JUnit5.8.1">
++        <CLASSES>
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.8.1/junit-jupiter-api-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.8.1/junit-platform-commons-1.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.8.1/junit-jupiter-params-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-engine/5.8.1/junit-jupiter-engine-5.8.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.8.1/junit-platform-engine-1.8.1.jar!/" />
++        </CLASSES>
++        <JAVADOC />
++        <SOURCES />
++      </library>
++    </orderEntry>
++    <orderEntry type="module-library">
++      <library name="JUnit4">
++        <CLASSES>
++          <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.13.1/junit-4.13.1.jar!/" />
++          <root url="jar://$MAVEN_REPOSITORY$/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar!/" />
++        </CLASSES>
++        <JAVADOC />
++        <SOURCES />
++      </library>
++    </orderEntry>
+   </component>
+ </module>
+\ No newline at end of file
