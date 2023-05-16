@@ -14,7 +14,7 @@ public class Purse extends Equipable{
      * @effect The purse is generated as an equipable with the given weight.
      *         |super(weight)
      */
-    private Purse(int weight){
+    public Purse(int weight){
         super(weight);
     }
 }

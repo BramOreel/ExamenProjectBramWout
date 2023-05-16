@@ -838,14 +838,13 @@ public abstract class Creature {
     /**
      * returns the total damage including weapons and intrinsic damage.
      */
-    @Model
-    protected abstract int getTotalDamage();
+    public abstract int getTotalDamage();
 
     /**
      * returns the total protection stat including armor and intrinsic protection.
      */
     @Model
-    protected abstract int getTotalProtection();
+    public abstract int getTotalProtection();
 
     /**
      * The creature dies and unequips all his items that can now be looted.

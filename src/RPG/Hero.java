@@ -317,8 +317,8 @@ public class Hero extends Creature{
      *         and rounded down.
      *         |result == Math.floor((getStrength() + leftWeapon.getDamage(). + RightWeapon.getDamage - 10)/2)
      */
-    @Override @Model
-    protected int getTotalDamage(){
+    @Override
+    public int getTotalDamage(){
         double damage = getStrength();
         for(Anchor anchor : getAnchors()){
             if(anchor.getAnchorType() == AnchorType.LINKERHAND || anchor.getAnchorType() == AnchorType.RECHTERHAND){
@@ -337,8 +337,8 @@ public class Hero extends Creature{
      *         equipped armor gives if the armor is equipped in the LICHAAM anchor.
      *         | result == getProtection() + armor.getCurrentArmor
      */
-    @Override @Model
-    protected int getTotalProtection(){
+    @Override
+    public int getTotalProtection(){
         int protection = getProtection();
         for(Anchor anchor : getAnchors()){
             if(anchor.getAnchorType() == AnchorType.LICHAAM){

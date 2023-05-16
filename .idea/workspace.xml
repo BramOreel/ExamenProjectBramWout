@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="Monster helemaal klaar">
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="alles klaar">
+      <change afterPath="$PROJECT_DIR$/src/RPG/CreatureTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/CarryLimitReachedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/CarryLimitReachedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExamenProjectBramWout.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ExamenProjectBramWout.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/ItemAlreadyobtainedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/ItemAlreadyobtainedException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/ItemNotEquipedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/ItemNotEquipedException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/OtherPlayersItemException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/OtherPlayersItemException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Purse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Purse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -40,24 +39,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/ExamenProjectBramWout&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/ExamenProjectBramWout",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RunManager" selected="JUnit.CreatureTest.TestInvalidName">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="RPG.Main" />
       <module name="ExamenProjectBramWout" />
@@ -71,8 +74,42 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CreatureTest.TestInvalidName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ExamenProjectBramWout" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RPG.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="RPG" />
+      <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
+      <option name="METHOD_NAME" value="TestInvalidName" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreatureTest.TestValidName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ExamenProjectBramWout" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RPG.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="RPG" />
+      <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
+      <option name="METHOD_NAME" value="TestValidName" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CreatureTest.TestInvalidName" />
+        <item itemvalue="JUnit.CreatureTest.TestValidName" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -320,7 +357,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684149730784</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="alles klaar">
+      <created>1684162639561</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1684162639561</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,7 +403,8 @@
     <MESSAGE value="bezig met hero invariants" />
     <MESSAGE value="alles in Hero en creature is klaar" />
     <MESSAGE value="Monster helemaal klaar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Monster helemaal klaar" />
+    <MESSAGE value="alles klaar" />
+    <option name="LAST_COMMIT_MESSAGE" value="alles klaar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -372,11 +417,6 @@
           <properties class="java.lang.RuntimeException" package="java.lang" />
           <option name="timeStamp" value="19" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/RPG/Main.java</url>
-          <line>106</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

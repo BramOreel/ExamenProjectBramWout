@@ -40,10 +40,10 @@ public class Monster extends Creature{
      * @effect The Hero is generated as a creature with a given name, maxHitPoints and the given maxCapacity.
      *         | super(name, maxHitPoints, maxCapacity)
      * @effect A new armor with the given type is generated and set as the naturalProtection.
-     *         The weight, value and ID of the new armor is set to 0.
-     *         | this.naturalProtection == new Armor(0,0, protectionType, 0 )
-     * @effect A new weapon with the given damage value is generated with 0 weight and 0 value.
-     *         | this.damage == new Weapon(0, damage, 0)
+     *         The weight and ID of the new armor is set to 0 and the value to 1.
+     *         | this.naturalProtection == new Armor(0,0, protectionType, 1 )
+     * @effect A new weapon with the given damage value is generated with 0 weight and 1 value.
+     *         | this.damage == new Weapon(0, damage, 1)
      * @effect The given amount of Anchors is initialized.
      *         | initialiseAnchors(nbofanchors)
      * @effect The items are equipped in a random anchor of the monster.
@@ -53,8 +53,8 @@ public class Monster extends Creature{
     @Raw
     public Monster(String name, int maxHitPoints, int maxCapacity, ArmorType protectionType, int damage, int nbofanchors, Equipable... items){
         super(name, maxHitPoints, maxCapacity);
-        this.naturalProtection = new Armor(0,0, protectionType, 0 );
-        this.damage = new Weapon(0, damage, 0);
+        this.naturalProtection = new Armor(0,0, protectionType, 1 );
+        this.damage = new Weapon(0, damage, 1);
         initialiseAnchors(nbofanchors);
         for(Equipable item : items){
             try {
@@ -86,6 +86,23 @@ public class Monster extends Creature{
     @Basic @Immutable
     public Armor getNaturalProtection() {
         return naturalProtection;
+    }
+
+    /**
+     * Checks if a given name is valid.
+     * @param name
+     *        the given name that gets checked.
+     * @return True if the name is valid for a creature and the name does not contain a colon.
+     *        | result == (super.canHaveAsName(name) && for character in name: character != ':')
+     */
+    @Raw @Override
+    public boolean canHaveAsName(String name){
+        for (int i = 0; i < name.length(); i++) {
+            if (name.charAt(i) == ':') {
+                return false;
+            }
+        }
+        return super.canHaveAsName(name);
     }
 
     /**
@@ -161,7 +178,7 @@ public class Monster extends Creature{
      *         | result == getDamage().getDamage()
      */
     @Override
-    protected int getTotalDamage() {
+    public int getTotalDamage() {
         return getDamage().getDamage();
     }
 
@@ -170,8 +187,8 @@ public class Monster extends Creature{
      * @return the current armor stat of the natural protection armor
      *         | result == getNaturalProtection().getCurrentArmor
      */
-    @Model @Override
-    protected int getTotalProtection() {
+    @Override
+    public int getTotalProtection() {
         return getNaturalProtection().getCurrentArmor();
     }
     /**
