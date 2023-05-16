@@ -369,7 +369,7 @@ public abstract class Creature {
      */
     @Basic @Raw
     public Anchor getAnchorAt(int i) throws  IllegalArgumentException{
-        if(i > getNbOfAnchors())
+        if(i >= getNbOfAnchors())
             throw new IllegalArgumentException();
         return getAnchors().get(i);
     }
@@ -467,7 +467,7 @@ public abstract class Creature {
             throw new CarryLimitReachedException(item);
 
         item.equip(anchor);
-        ChangeCapacity(weight);
+        ChangeCapacity(-weight);
     }
 
     /**
@@ -529,14 +529,15 @@ public abstract class Creature {
         equipable.setHolder(null);
 
         int totalWeight = equipable.getWeight();
-        if(equipable instanceof Backpack)
+        if(equipable instanceof Backpack) {
             totalWeight = ((Backpack) equipable).getTotalWeight();
             //all the items in the backpack also have no owner anymore.
-            for(Equipable item : ((Backpack) equipable).getAllItems()){
+            for (Equipable item : ((Backpack) equipable).getAllItems()) {
                 item.setHolder(null);
             }
+        }
 
-        ChangeCapacity(-totalWeight);
+        ChangeCapacity(+totalWeight);
     }
 
 
@@ -681,8 +682,8 @@ public abstract class Creature {
     /**
      * Drops the item currently stored in the specified Anchor.
      *
-     * @param anchor
-     *        the anchor of which we want to remove the item.
+     * @param i
+     *        the index of the anchor of which we want to remove the item.
      *
      * @effect The item in the given anchor gets dropped
      *         |drop(anchor.getItem())
@@ -690,18 +691,23 @@ public abstract class Creature {
      * @throws IllegalArgumentException
      *         The equipable item is not effective
      *         |anchor.getItem() == null
-     * @throws OtherPlayersItemException
-     *         The specified anchor is an anchor of another player or the item in the anchor belongs to another player
-     *         |(anchor.getowner != this) || (anchor.getItem.getHolder != this)
+     * @throws IllegalArgumentException
+     *         The given i is out of range
+     *         |i>= this.getNbOfAnchors
      */
     @Raw
-    public void dropItemAtAnchor(Anchor anchor) throws IllegalArgumentException, OtherPlayersItemException {
+    public void dropItemAtAnchor(int i) throws IllegalArgumentException {
+        if(i >= getNbOfAnchors())
+            throw new IllegalArgumentException();
+        Anchor anchor = getAnchorAt(i);
         if(anchor.getItem() == null)
             throw new IllegalArgumentException();
-        if(anchor.getOwner() != this)
-            throw new OtherPlayersItemException(anchor.getItem());
 
-        drop(anchor.getItem());
+        try {
+            drop(anchor.getItem());
+        } catch (OtherPlayersItemException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -710,18 +716,13 @@ public abstract class Creature {
      * @effect Each anchor that has a non-null item, will drop its item.
      *         |for(int i=0; i < getAnchors().size();i++)
      *         |    if (getAnchorAt(i).getItem() != null)
-     *         |        then dropItemAtAnchor(getAnchorAt(i))
+     *         |        then dropItemAtAnchor(i)
      */
     @Raw
     public void dropAllItems() {
         for(int i=0; i < getAnchors().size();i++){
-            if (getAnchorAt(i).getItem() != null) {
-                try {
-                    dropItemAtAnchor(getAnchorAt(i));
-                } catch (OtherPlayersItemException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            if (getAnchorAt(i).getItem() != null)
+                dropItemAtAnchor(i);
         }
     }
 
@@ -799,24 +800,34 @@ public abstract class Creature {
      * @throws BeltAnchorException
      *         The user wants to equip an item that isn't a purse to the belt anchorslot of the creature.
      *         |anchortype.getName() == "Riem" && item not instanceof Purse
+     * @throws IllegalArgumentException
+     *         The user wants to move an item from or to an anchorpoint that is out of range for this creature.
+     *         |start >= getNbOfAnchors() || end >= getNbOfAnchors()
+     * @throws NullPointerException
+     *         The item in the startanchor is null
+     *         |startAnchor.getItem == null
+     *
      */
-    public void moveAnchorItemtoAnchor(AnchorType start, AnchorType end) throws AnchorslotOccupiedException, BeltAnchorException{
+    @Raw
+    public void moveAnchorItemtoAnchor(int start, int end) throws AnchorslotOccupiedException, BeltAnchorException, IllegalArgumentException, NullPointerException{
 
-        Anchor startanchor = null;
-        Anchor endanchor = null;
 
-        for (int i = 0; i < getAnchors().size(); i++) {
-            Anchor curranchor = getAnchorAt(i);
-            if (curranchor.getAnchorType() == start)
-                startanchor = curranchor;
-            if(curranchor.getAnchorType() == end)
-                endanchor = curranchor;
-        }
+        if(start >= getNbOfAnchors() || end >= getNbOfAnchors())
+            throw new IllegalArgumentException();
+
+        Anchor startanchor = getAnchorAt(start);
+        Anchor endanchor = getAnchorAt(end);
+
+        if(startanchor.getItem() == null)
+            throw new NullPointerException();
+
         if(startanchor != endanchor){
             Equipable startitem = startanchor.getItem();
+
+
             if(endanchor.getItem() != null)
                 throw new AnchorslotOccupiedException(endanchor);
-            if (end.getName() == "Riem" && !(startitem instanceof Purse))
+            if (endanchor.getAnchorType().getName() == "Riem" && !(startitem instanceof Purse))
                 throw new BeltAnchorException(startitem);
 
             startanchor.setItem(null);

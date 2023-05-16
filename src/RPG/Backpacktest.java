@@ -19,6 +19,8 @@ import org.junit.*;
 
       Hero testHero2;
 
+      Weapon nullItem;
+
     public Backpacktest(){}
 
     @Before
@@ -40,6 +42,9 @@ import org.junit.*;
          StoredWeapon = new Weapon(2);
         HeavyWeapon = new Weapon(40);
     }
+
+    //Add Equipable tests
+
 
     @Test
     public void testNormalStore() {
@@ -120,9 +125,57 @@ import org.junit.*;
 
         Assert.assertEquals(HeroBackpack.getNbOfItems(),4);
         Assert.assertEquals(HeroBackpack.getTotalWeight(),16);
-
-
     }
+
+    @Test( expected = NullPointerException.class)
+     public void testNullItemAdd() throws OtherPlayersItemException, ItemAlreadyobtainedException, CarryLimitReachedException, BackPackNotEmptyException {
+        HeroBackpack.addEquipable(nullItem);
+    }
+
+    //store tests
+     @Test
+     public void testStore() throws CarryLimitReachedException {
+        testHero.pickUp(StoredWeapon,AnchorType.LINKERHAND);
+         Assert.assertEquals(testHero.getAnchorItemAt(0),StoredWeapon);
+        testHero.store(StoredWeapon,HeroBackpack);
+
+        Assert.assertEquals(testHero.getAnchorItemAt(0),null);
+     }
+
+     @Test(expected = IllegalArgumentException.class)
+     public void testStoreSelf() throws CarryLimitReachedException {
+
+         testHero.store(HeroBackpack,HeroBackpack);
+     }
+
+     @Test(expected = IllegalArgumentException.class)
+     public void testStoreInOtherHerosBackpack() throws CarryLimitReachedException {
+        testHero2.pickUp(StoredBackpack,AnchorType.RUG);
+        testHero.pickUp(StoredWeapon,AnchorType.LINKERHAND);
+        testHero.store(StoredWeapon,StoredBackpack);
+        Assert.assertEquals(testHero.getAnchorItemAt(0),StoredWeapon);
+     }
+
+     @Test(expected = NullPointerException.class)
+     public void testNullItemStore() throws CarryLimitReachedException {
+        testHero.pickUp(nullItem,AnchorType.RECHTERHAND);
+        testHero.store(nullItem,HeroBackpack);
+     }
+
+     @Test(expected = IllegalArgumentException.class)
+     public void testDoubleStore() throws CarryLimitReachedException {
+        testHero.pickUp(StoredWeapon,AnchorType.RECHTERHAND);
+        testHero.store(StoredWeapon,StoredBackpack);
+        testHero.store(StoredWeapon,StoredBackpack);
+     }
+
+     @Test(expected = IllegalArgumentException.class)
+     public void testStoreGroundItem(){
+        testHero.store(StoredWeapon,StoredBackpack);
+     }
+
+
+
 
 
 
