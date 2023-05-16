@@ -44,6 +44,29 @@ public class CreatureTest {
         monster1 = new Monster("Destroyer o'Hope", 100, 300, ArmorType.SCALE, 10, 2);
         monster2 = new Monster("MonsterTwo", 100, 300, ArmorType.TICK, 10, 4);
         monster3 = new Monster("Monster Three", 100, 300, ArmorType.TOUGH, 10, 3);
+
+        try {
+            hero1.pickUp(weapon1, AnchorType.LINKERHAND);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            hero1.pickUp(weapon2, AnchorType.RUG);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            monster1.pickUp(weapon3, AnchorType.OTHER);
+        } catch (ItemAlreadyobtainedException e) {
+            throw new RuntimeException(e);
+        } catch (AnchorslotOccupiedException e) {
+            throw new RuntimeException(e);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     @Test
@@ -65,6 +88,76 @@ public class CreatureTest {
         Assert.assertFalse(monster1.canHaveAsName("Destroyer: Hope"));
         Assert.assertTrue(monster1.canHaveAsName("Destroyer'''''''Hope"));
         Assert.assertFalse(monster1.canHaveAsName("destroyer"));
+    }
+
+    @Test
+    public void TestHeroConstrucor(){
+        Assert.assertEquals(hero1.getStrength(), 15.69, 0.000000001);
+        Assert.assertEquals(hero1.getProtection(), 50);
+        Assert.assertEquals(hero1.getMaxCapacity(), 314);
+        Assert.assertEquals(hero1.getCapacity(), 114);
+        Assert.assertEquals(hero1.getHitPoints(), 100);
+        Assert.assertEquals(hero1.getMaxHitPoints(), 100);
+        Assert.assertEquals(hero1.getAnchorItemAt(0), weapon1);
+        Assert.assertEquals(hero1.getAnchorItemAt(3), armor1);
+        Assert.assertTrue(hero1.hasProperAnchors(hero1.getAnchors()));
+        Assert.assertTrue(hero1.isAlive());
+        Assert.assertEquals(hero1.getNbOfAnchors(), 5);
+    }
+
+    @Test
+    public void TestMonsterConstrucor(){
+        Assert.assertEquals(monster1.getMaxCapacity(), 300);
+        Assert.assertEquals(monster1.getCapacity(), 250);
+        Assert.assertEquals(monster1.getHitPoints(), 100);
+        Assert.assertEquals(monster1.getMaxHitPoints(), 100);
+        Assert.assertEquals(monster1.getAnchorItemAt(0), weapon3);
+        Assert.assertTrue(monster1.hasProperAnchors(monster1.getAnchors()));
+        Assert.assertTrue(monster1.isAlive());
+        Assert.assertEquals(monster1.getNbOfAnchors(), 2);
+        Assert.assertEquals(monster1.getDamage().getDamage(), 10);
+    }
+
+    @Test
+    public void TestTotalProtection(){
+        Assert.assertEquals(monster1.getTotalProtection(), 90);
+        Assert.assertEquals(hero1.getTotalProtection(), 50 + 100);
+        try {
+            hero1.drop(armor1);
+        } catch (OtherPlayersItemException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals(hero1.getTotalProtection(), 50);
+        try {
+            hero1.pickUp(armor1, AnchorType.RECHTERHAND);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals(hero1.getTotalProtection(), 50);
+    }
+
+    @Test
+    public void TestTotalDamage(){
+        Assert.assertEquals(monster1.getTotalDamage(), 10);
+        Assert.assertEquals(hero1.getTotalDamage(), 12);
+        try {
+            hero1.drop(weapon1);
+        } catch (OtherPlayersItemException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals(hero1.getTotalDamage(), 2);
+        try {
+            hero1.pickUp(weapon1, AnchorType.RECHTERHAND);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals(hero1.getTotalDamage(), 12);
+        try {
+            hero1.pickUp(weapon5, AnchorType.LINKERHAND);
+        } catch (CarryLimitReachedException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals(hero1.getTotalDamage(), 32);
     }
 
 
