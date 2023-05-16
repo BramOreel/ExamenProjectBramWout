@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/RPG/RemoveFromAnchorTest.java" afterDir="false" />
     <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="begonnen met tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExamenProjectBramWout.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ExamenProjectBramWout.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Backpacktest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpacktest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/CreatureTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/CreatureTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
@@ -36,25 +40,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/ExamenProjectBramWout",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.editor",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/ExamenProjectBramWout&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  &lt;component name=&quot;PropertiesComponent&quot;&gt;&lt;![CDATA[{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/bramo/OneDrive/Documenten/Unief jaar 2/semester 2/OGP/Practicum2BramWout&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.uml&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }]]></component>
   <component name="RunManager" selected="JUnit.CreatureTest.TestMonsterConstrucor">
@@ -90,6 +113,9 @@
       </method>
     </configuration>
     <configuration name="CreatureTest.TestMonsterConstrucor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+}</component>
+  <component name="RunManager" selected="JUnit.RemoveFromAnchorTest.testMoveToOccupiedAnchor">
+    <configuration name="RemoveFromAnchorTest.testDropALlAnchorItems" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ExamenProjectBramWout" />
       <extension name="coverage">
         <pattern>
@@ -98,6 +124,42 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="RPG" />
+      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
+      <option name="METHOD_NAME" value="testDropALlAnchorItems" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RemoveFromAnchorTest.testMoveIllegalAnchor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ExamenProjectBramWout" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RPG.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="RPG" />
+      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
+      <option name="METHOD_NAME" value="testMoveIllegalAnchor" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RemoveFromAnchorTest.testMoveItem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ExamenProjectBramWout" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RPG.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="RPG" />
+      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
+      <option name="METHOD_NAME" value="testMoveItem" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="RPG" />
       <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
       <option name="METHOD_NAME" value="TestMonsterConstrucor" />
       <option name="TEST_OBJECT" value="method" />
@@ -105,6 +167,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="RemoveFromAnchorTest.testMoveNullItem" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
     <configuration name="CreatureTest.TestTotalDamage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ExamenProjectBramWout" />
       <extension name="coverage">
@@ -114,6 +177,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="RPG" />
+      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
+      <option name="METHOD_NAME" value="testMoveNullItem" />
       <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
       <option name="METHOD_NAME" value="TestTotalDamage" />
       <option name="TEST_OBJECT" value="method" />
@@ -122,6 +187,7 @@
       </method>
     </configuration>
     <configuration name="CreatureTest.TestTotalProtection" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RemoveFromAnchorTest.testMoveToOccupiedAnchor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ExamenProjectBramWout" />
       <extension name="coverage">
         <pattern>
@@ -132,6 +198,8 @@
       <option name="PACKAGE_NAME" value="RPG" />
       <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
       <option name="METHOD_NAME" value="TestTotalProtection" />
+      <option name="MAIN_CLASS_NAME" value="RPG.RemoveFromAnchorTest" />
+      <option name="METHOD_NAME" value="testMoveToOccupiedAnchor" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -139,6 +207,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RemoveFromAnchorTest.testMoveToOccupiedAnchor" />
+        <item itemvalue="JUnit.RemoveFromAnchorTest.testMoveNullItem" />
+        <item itemvalue="JUnit.RemoveFromAnchorTest.testMoveIllegalAnchor" />
+        <item itemvalue="JUnit.RemoveFromAnchorTest.testMoveItem" />
+        <item itemvalue="JUnit.RemoveFromAnchorTest.testDropALlAnchorItems" />
         <item itemvalue="JUnit.CreatureTest.TestMonsterConstrucor" />
         <item itemvalue="JUnit.CreatureTest.TestConstrucor" />
         <item itemvalue="JUnit.CreatureTest" />
@@ -165,6 +238,8 @@
       <workItem from="1683019024939" duration="4623000" />
       <workItem from="1683213889039" duration="3524000" />
       <workItem from="1683380268212" duration="27418000" />
+      <workItem from="1684163879584" duration="6298000" />
+      <workItem from="1684177057457" duration="4429000" />
     </task>
     <task id="LOCAL-00001" summary="al de basis setters, getters en checkers gemaakt, bezig met constructor">
       <created>1682503734612</created>
@@ -390,12 +465,19 @@
       <option name="project" value="LOCAL" />
       <updated>1684149730784</updated>
     </task>
-    <task id="LOCAL-00033" summary="alles klaar">
-      <created>1684162639561</created>
+    <task id="LOCAL-00033" summary="Kleine terminate checker ingebouwd">
+      <created>1684163809583</created>
       <option name="number" value="00033" />
       <option name="presentableId" value="LOCAL-00033" />
       <option name="project" value="LOCAL" />
-      <updated>1684162639561</updated>
+      <updated>1684163809583</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Backpacktest">
+      <created>1684179726581</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1684179726581</updated>
     </task>
     <task id="LOCAL-00034" summary="begonnen met tests">
       <created>1684234026936</created>
@@ -404,6 +486,7 @@
       <option name="project" value="LOCAL" />
       <updated>1684234026936</updated>
     </task>
+    <option name="localTasksCounter" value="35" />
     <option name="localTasksCounter" value="35" />
     <servers />
   </component>
@@ -446,6 +529,9 @@
     <MESSAGE value="alles klaar" />
     <MESSAGE value="begonnen met tests" />
     <option name="LAST_COMMIT_MESSAGE" value="begonnen met tests" />
+    <MESSAGE value="Kleine terminate checker ingebouwd" />
+    <MESSAGE value="Backpacktest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Backpacktest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -458,6 +544,30 @@
           <properties class="java.lang.RuntimeException" package="java.lang" />
           <option name="timeStamp" value="19" />
         </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
+          <option name="timeStamp" value="24" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Main.java</url>
+          <line>106</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/RPG/Backpacktest.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/RPG/RemoveFromAnchorTest.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/RPG/RemoveFromAnchorTest.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
