@@ -55,8 +55,9 @@ public class Hero extends Creature{
      */
     @Raw
     public Hero(String name, int maxHitPoints, double strength, int protection, Armor armor) {
-        super(name, maxHitPoints, (int) (20*strength));
+        super(name, maxHitPoints, (int) Math.round(20*strength));
         setMaxCapacity(calculateMaxCapacity(strength));
+        setCapacity(calculateMaxCapacity(strength));
         setProtection(protection);
         setStrength(strength);
         initialiseAnchors();

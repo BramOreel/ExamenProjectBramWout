@@ -397,7 +397,7 @@ public abstract class Creature {
      * @effect The remaining capacity for this creature is updated to account for the extra weight of the item that was picked up.
      *         In case the item is a backpack, the contents of this backpack are also considered for the calculation
      *         of the weight of the item.
-     *         |ChangeCapacity(item.totalweight)
+     *         |ChangeCapacity(-item.totalweight)
      * @effect The item gets picked up and the unidirectional relation between the item and the given anchor gets set up.
      *         The holder of the item is also set to the owner of the anchor and if it's a backpack this
      *         also happens for all the items within the backpack.
@@ -467,7 +467,7 @@ public abstract class Creature {
             throw new CarryLimitReachedException(item);
 
         item.equip(anchor);
-        ChangeCapacity(weight);
+        ChangeCapacity(-weight);
     }
 
     /**
@@ -490,7 +490,7 @@ public abstract class Creature {
      *         |if(equipable instanceof Backpack)
      *         |then totalWeight = ((Backpack) equipable).getTotalWeight()
      *         |else totalWeight = equipable.getWeight()
-     *         |ChangeCapacity(-totalWeight)
+     *         |ChangeCapacity(totalWeight)
      * @throws IllegalArgumentException
      *         The equipable item is not effective
      *         |equipable == null
@@ -529,14 +529,15 @@ public abstract class Creature {
         equipable.setHolder(null);
 
         int totalWeight = equipable.getWeight();
-        if(equipable instanceof Backpack)
+        if(equipable instanceof Backpack){
             totalWeight = ((Backpack) equipable).getTotalWeight();
             //all the items in the backpack also have no owner anymore.
             for(Equipable item : ((Backpack) equipable).getAllItems()){
                 item.setHolder(null);
             }
+        }
 
-        ChangeCapacity(-totalWeight);
+        ChangeCapacity(totalWeight);
     }
 
 

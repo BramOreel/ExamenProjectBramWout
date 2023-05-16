@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="alles klaar">
-      <change afterPath="$PROJECT_DIR$/src/RPG/CreatureTest.java" afterDir="false" />
+    <list default="true" id="69444ef7-e217-4129-a0a3-0f7997122e5f" name="Changes" comment="begonnen met tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExamenProjectBramWout.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ExamenProjectBramWout.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/CreatureTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/CreatureTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Purse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Purse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,21 +57,8 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.CreatureTest.TestInvalidName">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="RPG.Main" />
-      <module name="ExamenProjectBramWout" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="RPG.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CreatureTest.TestInvalidName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.CreatureTest.TestMonsterConstrucor">
+    <configuration name="CreatureTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ExamenProjectBramWout" />
       <extension name="coverage">
         <pattern>
@@ -84,13 +68,28 @@
       </extension>
       <option name="PACKAGE_NAME" value="RPG" />
       <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
-      <option name="METHOD_NAME" value="TestInvalidName" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreatureTest.TestConstrucor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ExamenProjectBramWout" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RPG.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="RPG" />
+      <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
+      <option name="METHOD_NAME" value="TestConstrucor" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CreatureTest.TestValidName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CreatureTest.TestMonsterConstrucor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ExamenProjectBramWout" />
       <extension name="coverage">
         <pattern>
@@ -100,7 +99,39 @@
       </extension>
       <option name="PACKAGE_NAME" value="RPG" />
       <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
-      <option name="METHOD_NAME" value="TestValidName" />
+      <option name="METHOD_NAME" value="TestMonsterConstrucor" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreatureTest.TestTotalDamage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ExamenProjectBramWout" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RPG.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="RPG" />
+      <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
+      <option name="METHOD_NAME" value="TestTotalDamage" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CreatureTest.TestTotalProtection" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ExamenProjectBramWout" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RPG.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="RPG" />
+      <option name="MAIN_CLASS_NAME" value="RPG.CreatureTest" />
+      <option name="METHOD_NAME" value="TestTotalProtection" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -108,9 +139,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CreatureTest.TestInvalidName" />
-        <item itemvalue="JUnit.CreatureTest.TestValidName" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.CreatureTest.TestMonsterConstrucor" />
+        <item itemvalue="JUnit.CreatureTest.TestConstrucor" />
+        <item itemvalue="JUnit.CreatureTest" />
+        <item itemvalue="JUnit.CreatureTest.TestTotalDamage" />
+        <item itemvalue="JUnit.CreatureTest.TestTotalProtection" />
       </list>
     </recent_temporary>
   </component>
@@ -364,7 +397,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684162639561</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="begonnen met tests">
+      <created>1684234026936</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1684234026936</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -404,7 +444,8 @@
     <MESSAGE value="alles in Hero en creature is klaar" />
     <MESSAGE value="Monster helemaal klaar" />
     <MESSAGE value="alles klaar" />
-    <option name="LAST_COMMIT_MESSAGE" value="alles klaar" />
+    <MESSAGE value="begonnen met tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="begonnen met tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
