@@ -10,7 +10,6 @@ import java.util.*;
 /**
  * A class for Armors within an RPG
  *
- *
  * @invar Each armor must have a valid protection value.
  *        |isValidArmorValue(getactualarmor());
  *
@@ -233,13 +232,11 @@ public class Armor extends Equipable{
     /**
      * Checks if the actual protection value should be updated to account for degradation
      * through time and updates the value for this armor if needed.
-     *
      * if the new protection value is valid, the protection value is updated to the new protection value.
      * if the new protection value is not valid and greater than the maximum protection value, the
      * new protection value is set to the maximum protection value for this armor. If
      * the new protection value is smaller than 1, the new protection value is set to 1. Rendering
      * it basically useless.
-     *
      * |if(!isValidArmorValue(newactualarmorvalue))
      * |  if(newactualarmorvalue > getMaxProtection())
      * |      then actualarmorvalue = setActualarmor(getMaxProtection.value)
@@ -415,7 +412,7 @@ public class Armor extends Equipable{
      */
     @Model @Raw
     private void updateValue(){
-        double fraction = getActualarmor()/getMaxProtection();
+        double fraction = (float) getActualarmor()/ (float) getMaxProtection();
         int newvalue = (int) (getMaxvalue()*fraction);
         setValue(newvalue);
     }
