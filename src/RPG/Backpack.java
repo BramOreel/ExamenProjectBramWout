@@ -410,6 +410,8 @@ public class Backpack extends Equipable{
      *         |anchor.setItem(this)
      * @effect The holder of this backpack is set to the owner of the anchor
      *         |setHolder(anchor.getOwner());
+     * @effect The capacity of the owner is reduced to account for the weight of the item.
+     *         |anchor.getOwner().ChangeCapacity(-this.getTotalWeight())
      */
     @Model @Raw @Override
     protected void equip(Anchor anchor){
@@ -418,6 +420,7 @@ public class Backpack extends Equipable{
         for(Equipable item: getAllItems()){
             setHolder(anchor.getOwner());
         }
+        anchor.getOwner().ChangeCapacity(-this.getTotalWeight());
     }
 
     /**

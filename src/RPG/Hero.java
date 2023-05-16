@@ -361,7 +361,7 @@ public class Hero extends Creature{
      * @effect For every item in the lootable items, if this item is valid for an empty anchor and there is enough
      *         remaining capacity, then the item will get equipped. The first anchors in the getAnchors() will get filled first
      *         and the first items in items will get equipped first for these anchors.
-     *         | for every anchor in getAnchors(), for every item in items:
+     *         | for every item in items, for anchor in getAnchors():
      *         |       if item.isValidAnchor(anchor) && item.getWeight() <= getCapacity() && anchor.getItem() == null
      *         |       then item.equip(anchor)
      * @effect A random percentage gets generated between 0% and 100% this percentage then gets multiplied with the difference
@@ -379,6 +379,7 @@ public class Hero extends Creature{
                         item.getParentbackpack().removeEquipable(item);
                     }
                             item.equip(anchor);
+                            break;
                         }
                     }
                 }

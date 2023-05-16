@@ -394,10 +394,6 @@ public abstract class Creature {
      * @param anchortype
      *        the type of the anchor where the item has to be equipped to.
      *
-     * @effect The remaining capacity for this creature is updated to account for the extra weight of the item that was picked up.
-     *         In case the item is a backpack, the contents of this backpack are also considered for the calculation
-     *         of the weight of the item.
-     *         |ChangeCapacity(-item.totalweight)
      * @effect The item gets picked up and the unidirectional relation between the item and the given anchor gets set up.
      *         The holder of the item is also set to the owner of the anchor and if it's a backpack this
      *         also happens for all the items within the backpack.
@@ -465,9 +461,7 @@ public abstract class Creature {
 
         if (weight > getCapacity())
             throw new CarryLimitReachedException(item);
-
         item.equip(anchor);
-        ChangeCapacity(-weight);
     }
 
     /**

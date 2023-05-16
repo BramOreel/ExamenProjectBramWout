@@ -19,7 +19,7 @@ import be.kuleuven.cs.som.annotate.Raw;
 
 public enum ArmorType {
 
-    DEFAULT(100), SCALE(90), TICK(80), TOUGH(70);
+    DEFAULT(50), SCALE(90), TICK(80), TOUGH(70);
 
     /**
      * Initialize a new armor with given extension.

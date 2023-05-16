@@ -216,25 +216,26 @@ public class Monster extends Creature{
      *        The items that can be looted.
      * @effect For every anchor it checks if there is an item with a higher shiny value then the item that
      *         is currently equipped if this is the case or if the anchor is empty than a new item gets equipped
-     *         if the remaining capacity of the monster allows it. The first anchors in getAnchors() will get filled first
-     *         and the first items in items will get used first. If the item that gets equipped was in a backpack it also gets
+     *         if the remaining capacity of the monster allows it. The first items in items will get used first and µ
+     *         the first anchors in getAnchors() will get filled first. If the item that gets equipped was in a backpack it also gets
      *         removed.
-     *         |for anchor in getAnchors()
-     *         |     for item in items
-     *         |         if anchor.getItem() == null && anchor.getItem().getWeight()-item.getWeight() <= getCapacity()
+     *         | for every item in items, for every anchor in getAnchors():
+     *         |         if anchor.getItem() == null && item.getWeight() <= getCapacity()
      *         |         then item.equip(anchor) and item.getParentbackpack().removeEquipable(item)
      *         |         else if item.getShinyValue() > anchor.getItem().getShinyValue() && anchor.getItem().getWeight()-item.getWeight() <= getCapacity()
      *         |              then drop(anchor.getItem()) and item.equip(anchor) and item.getParentbackpack().removeEquipable(item)
      */
     @Override @Model
     protected void LootAndHeal(ArrayList<Equipable> items) {
-        for(Anchor anchor: getAnchors()){
-            for(Equipable item: items){
-                if(anchor.getItem() == null && anchor.getItem().getWeight()-item.getWeight() <= getCapacity()){
+        for(Equipable item: items){
+            for(Anchor anchor : getAnchors()){
+                if(anchor.getItem() == null && item.getWeight() <= getCapacity()){
                         item.equip(anchor);
                     if(item.getParentbackpack() != null){
                         item.getParentbackpack().removeEquipable(item);
-                }}
+                    }
+                    break;
+                }
                 else if(item.getShinyValue() > anchor.getItem().getShinyValue() && anchor.getItem().getWeight()-item.getWeight() <= getCapacity()){
                         try {
                             drop(anchor.getItem());
@@ -245,6 +246,7 @@ public class Monster extends Creature{
                             item.getParentbackpack().removeEquipable(item);
                         }
                         item.equip(anchor);
+                        break;
                 }
             }
         }

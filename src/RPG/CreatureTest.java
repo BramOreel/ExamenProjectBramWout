@@ -37,9 +37,9 @@ public class CreatureTest {
         purse1 = new Purse(6);
         purse1 = new Purse(7);
 
-        hero1 = new Hero("Hero: One", 100, 15.6894, 50, armor1);
-        hero2 = new Hero("Hero'Two", 100, 10.6894, 40, armor2);
-        hero3 = new Hero("James o'Hara", 100, 8.68948, 30, armor3);
+        hero1 = new Hero("Hero: One", 100, 15.6894, 20, armor1);
+        hero2 = new Hero("Hero'Two", 100, 10.6894, 20, armor2);
+        hero3 = new Hero("James o'Hara", 100, 8.68948, 20, armor3);
 
         monster1 = new Monster("Destroyer o'Hope", 100, 300, ArmorType.SCALE, 10, 2);
         monster2 = new Monster("MonsterTwo", 100, 300, ArmorType.TICK, 10, 4);
@@ -93,7 +93,7 @@ public class CreatureTest {
     @Test
     public void TestHeroConstrucor(){
         Assert.assertEquals(hero1.getStrength(), 15.69, 0.000000001);
-        Assert.assertEquals(hero1.getProtection(), 50);
+        Assert.assertEquals(hero1.getProtection(), 20);
         Assert.assertEquals(hero1.getMaxCapacity(), 314);
         Assert.assertEquals(hero1.getCapacity(), 114);
         Assert.assertEquals(hero1.getHitPoints(), 100);
@@ -121,19 +121,19 @@ public class CreatureTest {
     @Test
     public void TestTotalProtection(){
         Assert.assertEquals(monster1.getTotalProtection(), 90);
-        Assert.assertEquals(hero1.getTotalProtection(), 50 + 100);
+        Assert.assertEquals(hero1.getTotalProtection(), 20 + 50);
         try {
             hero1.drop(armor1);
         } catch (OtherPlayersItemException e) {
             throw new RuntimeException(e);
         }
-        Assert.assertEquals(hero1.getTotalProtection(), 50);
+        Assert.assertEquals(hero1.getTotalProtection(), 20);
         try {
             hero1.pickUp(armor1, AnchorType.RECHTERHAND);
         } catch (CarryLimitReachedException e) {
             throw new RuntimeException(e);
         }
-        Assert.assertEquals(hero1.getTotalProtection(), 50);
+        Assert.assertEquals(hero1.getTotalProtection(), 20);
     }
 
     @Test
@@ -161,6 +161,58 @@ public class CreatureTest {
     }
 
 
-
-
+    @Test
+    public void TestHitDieLootHeroDies(){
+        hero1.setHitPoints(5);
+        hero1.setStrength(0);
+        hero1.setProtection(0);
+        Assert.assertTrue(hero1.isAlive() && monster1.isAlive());
+        while(hero1.isAlive() && monster1.isAlive()){
+            hero1.Hit(monster1);
+            if(monster1.isAlive){
+                monster1.Hit(hero1);
+            }
+        }
+        Assert.assertFalse(hero1.isAlive());
+        Assert.assertTrue(monster1.isAlive());
+        Assert.assertEquals(hero1.getHitPoints(), 0);
+        Assert.assertNotEquals(monster1.getHitPoints(), 0);
+        Assert.assertEquals(hero1.getAnchorItemAt(0), null);
+        Assert.assertEquals(hero1.getAnchorItemAt(1), null);
+        Assert.assertEquals(hero1.getAnchorItemAt(2), null);
+        Assert.assertEquals(hero1.getAnchorItemAt(3), null);
+        Assert.assertEquals(hero1.getAnchorItemAt(4), null);
+        Assert.assertEquals(monster1.getAnchorItemAt(0), armor1);
+        Assert.assertEquals(monster1.getAnchorItemAt(1), weapon1);
+        Assert.assertEquals(weapon1.getHolder(), monster1);
+        Assert.assertEquals(armor1.getHolder(), monster1);
+        Assert.assertEquals(weapon3.getHolder(), null);
+    }
+    @Test
+    public void TestHitDieLootMonsterDies(){
+        hero1.setProtection(100);
+        Assert.assertTrue(hero1.isAlive() && monster1.isAlive());
+        while(hero1.isAlive() && monster1.isAlive()){
+            hero1.Hit(monster1);
+            if(monster1.isAlive){
+                monster1.Hit(hero1);
+            }
+        }
+        Assert.assertFalse(monster1.isAlive());
+        Assert.assertTrue(hero1.isAlive());
+        Assert.assertEquals(monster1.getHitPoints(), 0);
+        Assert.assertNotEquals(hero1.getHitPoints(), 0);
+        Assert.assertEquals(monster1.getAnchorItemAt(0), null);
+        Assert.assertEquals(monster1.getAnchorItemAt(1), null);
+        Assert.assertEquals(hero1.getAnchorItemAt(0), weapon1);
+        Assert.assertEquals(hero1.getAnchorItemAt(1), weapon3);
+        Assert.assertEquals(hero1.getAnchorItemAt(2), weapon2);
+        Assert.assertEquals(hero1.getAnchorItemAt(3), armor1);
+        Assert.assertEquals(weapon1.getHolder(), hero1);
+        Assert.assertEquals(armor1.getHolder(), hero1);
+        Assert.assertEquals(weapon3.getHolder(), hero1);
+        Assert.assertEquals(weapon2.getHolder(), hero1);
+    }
 }
+
+
