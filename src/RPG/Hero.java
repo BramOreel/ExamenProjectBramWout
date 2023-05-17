@@ -323,7 +323,7 @@ public class Hero extends Creature{
         double damage = getStrength();
         for(Anchor anchor : getAnchors()){
             if(anchor.getAnchorType() == AnchorType.LINKERHAND || anchor.getAnchorType() == AnchorType.RECHTERHAND){
-                if(anchor.getItem() != null){
+                if(anchor.getItem() != null && anchor.getItem() instanceof Weapon){
                     Weapon weapon = (Weapon) anchor.getItem();
                     damage += weapon.getDamage();
                 }
@@ -588,7 +588,7 @@ public class Hero extends Creature{
      *         |else result == true
      */
     @Model
-    private static boolean isPrime(int number) {
+    protected static boolean isPrime(int number) {
         if (number <= 1) {
             return false;
         }

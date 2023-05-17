@@ -3,8 +3,6 @@ package RPG;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.*;
 
 
 public class CreatureTest {
@@ -45,6 +43,8 @@ public class CreatureTest {
         monster2 = new Monster("MonsterTwo", 100, 300, ArmorType.TICK, 10, 4);
         monster3 = new Monster("Monster Three", 100, 300, ArmorType.TOUGH, 10, 3);
 
+
+        backpack1 = new Backpack(2, 5, 5, 300);
         try {
             hero1.pickUp(weapon1, AnchorType.LINKERHAND);
         } catch (CarryLimitReachedException e) {
@@ -163,9 +163,11 @@ public class CreatureTest {
 
     @Test
     public void TestHitDieLootHeroDies(){
+        // Make the Hero weak so that it will surely die
         hero1.setHitPoints(5);
         hero1.setStrength(0);
         hero1.setProtection(0);
+        // Let them hit eachother.
         Assert.assertTrue(hero1.isAlive() && monster1.isAlive());
         while(hero1.isAlive() && monster1.isAlive()){
             hero1.Hit(monster1);
@@ -173,6 +175,7 @@ public class CreatureTest {
                 monster1.Hit(hero1);
             }
         }
+        // Check if the Hero died and if his items were looted correctly by the monster
         Assert.assertFalse(hero1.isAlive());
         Assert.assertTrue(monster1.isAlive());
         Assert.assertEquals(hero1.getHitPoints(), 0);
@@ -190,16 +193,20 @@ public class CreatureTest {
     }
     @Test
     public void TestHitDieLootMonsterDies(){
+        //Make the hero strong so the Monster will die
         hero1.setProtection(100);
         Assert.assertTrue(hero1.isAlive() && monster1.isAlive());
+        // Make the two creatures fight
         while(hero1.isAlive() && monster1.isAlive()){
             hero1.Hit(monster1);
             if(monster1.isAlive){
                 monster1.Hit(hero1);
             }
         }
+        // Make sure the monster is dead and that it has been looted correctly by the hero
         Assert.assertFalse(monster1.isAlive());
         Assert.assertTrue(hero1.isAlive());
+        Assert.assertTrue(hero1.isPrime(hero1.getHitPoints()));
         Assert.assertEquals(monster1.getHitPoints(), 0);
         Assert.assertNotEquals(hero1.getHitPoints(), 0);
         Assert.assertEquals(monster1.getAnchorItemAt(0), null);
@@ -213,6 +220,57 @@ public class CreatureTest {
         Assert.assertEquals(weapon3.getHolder(), hero1);
         Assert.assertEquals(weapon2.getHolder(), hero1);
     }
+
+    @Test(expected = IllegalCallerException.class)
+    public void TestHitWhileDead(){
+        hero1.die();
+        hero1.Hit(monster1);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void TestHitDeadCreature(){
+        hero1.die();
+        monster1.Hit(hero1);
+    }
+
+
+    @Test
+    public void TestHitDieLootHeroDiesWithBackPack() throws OtherPlayersItemException, ItemAlreadyobtainedException, CarryLimitReachedException, BackPackNotEmptyException {
+        // Make the Hero weak so that it will surely die
+        hero1.setHitPoints(5);
+        hero1.setStrength(0);
+        hero1.setProtection(0);
+        hero1.pickUp(backpack1, AnchorType.RECHTERHAND);
+        backpack1.addEquipable(purse1);
+        backpack1.addEquipable(weapon4);
+        backpack1.addEquipable(weapon5);
+        Assert.assertEquals(purse1.getHolder(), hero1);
+        Assert.assertTrue(hero1.isAlive() && monster1.isAlive());
+        // Let them hit eachother.
+        while(hero1.isAlive() && monster1.isAlive()){
+            hero1.Hit(monster1);
+            if(monster1.isAlive){
+                monster1.Hit(hero1);
+            }
+        }
+        // Check if the Hero died and if his items were looted correctly by the monster.
+        Assert.assertFalse(hero1.isAlive());
+        Assert.assertTrue(monster1.isAlive());
+        Assert.assertEquals(hero1.getHitPoints(), 0);
+        Assert.assertNotEquals(monster1.getHitPoints(), 0);
+        Assert.assertEquals(hero1.getAnchorItemAt(0), null);
+        Assert.assertEquals(hero1.getAnchorItemAt(1), null);
+        Assert.assertEquals(hero1.getAnchorItemAt(2), null);
+        Assert.assertEquals(hero1.getAnchorItemAt(3), null);
+        Assert.assertEquals(hero1.getAnchorItemAt(4), null);
+        Assert.assertEquals(monster1.getAnchorItemAt(0), purse1);
+        Assert.assertEquals(monster1.getAnchorItemAt(1), armor1);
+        Assert.assertEquals(purse1.getHolder(), monster1);
+        Assert.assertEquals(armor1.getHolder(), monster1);
+        Assert.assertEquals(weapon3.getHolder(), null);
+        Assert.assertEquals(weapon2.getHolder(), null);
+        Assert.assertEquals(weapon5.getHolder(), null);
+    }
+
 }
 
 

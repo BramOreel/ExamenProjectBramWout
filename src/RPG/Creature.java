@@ -950,4 +950,21 @@ public abstract class Creature {
             creature.setHitPoints(remainingHP);
         }
     }
+
+    /**
+     * Gives the total value of all the items equipped in the anchors and in the backpacks.
+     * @return  The total value of all the items equipped in the anchors and in the backpacks equipped in these anchors.
+     *          |result == anchor.getTotalValue() for every anchor in getAnchors()
+     */
+    public int getTotalValueOfItems(){
+        int TotalValue = 0;
+        for(int i = 0; i < this.getNbOfAnchors(); i++){
+            Equipable item = this.getAnchorItemAt(i);
+            if(item instanceof Backpack){
+                TotalValue += ((Backpack) item).getTotalValue();
+            }
+            else TotalValue += item.getValue();
+        }
+        return TotalValue;
+    }
 }
