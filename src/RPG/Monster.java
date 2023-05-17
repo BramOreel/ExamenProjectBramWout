@@ -37,6 +37,8 @@ public class Monster extends Creature{
      *        Items that the monster needs to equip.
      * @pre   The amount of anchors nbofanchors must be equal or higher than the amount of items that are given.
      *        | nboofanchors => items.size()
+     * @pre   The strength must be high enough so that the Hero can carry all the items.
+     *        | TotalWeight(items) + armor.getWeight() =< CalculateMaxCapacity(Strength)
      * @effect The Hero is generated as a creature with a given name, maxHitPoints and the given maxCapacity.
      *         | super(name, maxHitPoints, maxCapacity)
      * @effect A new armor with the given type is generated and set as the naturalProtection.

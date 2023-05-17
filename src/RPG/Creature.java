@@ -960,10 +960,12 @@ public abstract class Creature {
         int TotalValue = 0;
         for(int i = 0; i < this.getNbOfAnchors(); i++){
             Equipable item = this.getAnchorItemAt(i);
-            if(item instanceof Backpack){
-                TotalValue += ((Backpack) item).getTotalValue();
+            if(item != null) {
+                if (item instanceof Backpack) {
+                    TotalValue += ((Backpack) item).getTotalValue();
+                } else TotalValue += item.getValue();
             }
-            else TotalValue += item.getValue();
+
         }
         return TotalValue;
     }

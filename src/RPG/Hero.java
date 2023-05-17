@@ -82,6 +82,8 @@ public class Hero extends Creature{
      *        The armor that the hero wears at birth.
      * @param items
      *        The given items that the Hero has to equip in random anchor slots.
+     * @pre   The strength must be high enough so that the Hero can carry all the items.
+     *        | TotalWeight(items) + armor.getWeight() =< CalculateMaxCapacity(Strength)
      * @effect The Hero gets generated with the given name, maxhitpoints, strength, protection and armor.
      *        | this(name, maxHitPoints, strength, protection, armor)
      * @effect All the given items get equipped in the free anchor slots, if there is no empty
@@ -99,6 +101,7 @@ public class Hero extends Creature{
                 if(anchor.getItem() == null){
                     try {
                         pickUp(item, anchor.getAnchorType());
+                        break;
                     } catch (CarryLimitReachedException e) {
                         throw new RuntimeException(e);
                     }
@@ -560,8 +563,8 @@ public class Hero extends Creature{
         if (isPrime(number)) {
             return number;  // If the number itself is prime, return it
         }
-        int smaller = number - 1;
-        int larger = number + 1;
+        int smaller = number;
+        int larger = number;
         while (true) {
             if (isPrime(smaller)) {
                 return smaller;
