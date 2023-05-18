@@ -2,6 +2,9 @@ import RPG.*;
 
 import java.util.Random;
 
+/**
+ * A simulation of a fight between a Monster and a Hero.
+ */
 public class Main {
     public static void main(String[] args) {
         //Construct new armor and two weapons
@@ -49,9 +52,5 @@ public class Main {
             System.out.println("The Monster is victorious");
             System.out.println("Total Value of the items of the monster == " + monster.getTotalValueOfItems());
         }
-
     }
-
-
-
 }

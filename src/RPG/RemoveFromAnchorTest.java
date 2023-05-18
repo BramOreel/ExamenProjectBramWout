@@ -4,6 +4,11 @@ import RPG.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.*;
+/**
+ * A JUnit test class for testing the non-private methods of the Equipable and Creature classes.
+ * @author  Wout Thiers & Bram Oreel
+ * @version 1.0
+ */
 
 public class RemoveFromAnchorTest {
 

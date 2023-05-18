@@ -7,9 +7,14 @@
     <list default="true" id="e9eb79b6-28cd-4926-89aa-191526a5773d" name="Changes" comment="bijna helemaal klaar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Creature.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Hero.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RPG/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Monster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/AnchorType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/AnchorType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Armor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Armor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Backpack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Backpacktest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Backpacktest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/CreatureTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/CreatureTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Equipable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Equipable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/RemoveFromAnchorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/RemoveFromAnchorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RPG/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RPG/Weapon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,10 +24,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2PyVEkCxlxQFB4yVfreRFlSDn4P" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "node.js.selected.package.tslint": "(autodetect)"
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager" selected="Application.Main">
@@ -98,12 +117,13 @@
       <list>
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.Backpacktest" />
-        <item itemvalue="JUnit.RemoveFromAnchorTest" />
         <item itemvalue="JUnit.CreatureTest" />
+        <item itemvalue="JUnit.RemoveFromAnchorTest" />
         <item itemvalue="JUnit.CreatureTest.TestHitDieLootMonsterDies" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task id="LOCAL-00001" summary="bijna helemaal klaar">
       <created>1684324372517</created>
@@ -112,8 +132,19 @@
       <option name="project" value="LOCAL" />
       <updated>1684324372517</updated>
     </task>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e9eb79b6-28cd-4926-89aa-191526a5773d" name="Changes" comment="bijna helemaal klaar" />
+      <created>1684429201211</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1684429201211</updated>
+      <workItem from="1684429203205" duration="536000" />
+    </task>
     <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="bijna helemaal klaar" />

@@ -16,7 +16,7 @@ import java.util.Set;
  * @invar Each backpack must have a valid capacity
  *        |isValidCapacity(capacity)
  *
- * @author Bram Oreel
+ * @author Wout Thiers & Bram Oreel
  * @version 1.2.
  *
  */

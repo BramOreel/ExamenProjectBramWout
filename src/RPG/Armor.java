@@ -16,7 +16,7 @@ import java.util.*;
  * @invar Each armor must have a valid creationtime.
  *        |isValidCheckTime(getChecktime());
  *
- * @author Bram Oreel
+ * @author Wout Thiers & Bram Oreel
  * @version 1.2.
  */
 public class Armor extends Equipable{

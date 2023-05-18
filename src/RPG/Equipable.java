@@ -21,7 +21,7 @@ import java.util.UUID;
  *
  * @note Subclasses may only add/strengthen invariants (Liskov principle).
  *
- * @author Bram Oreel
+ * @author Wout Thiers & Bram Oreel
  * @version 1.0
  *
  */

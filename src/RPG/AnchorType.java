@@ -1,5 +1,12 @@
 package RPG;
 
+/**
+ * An enumeration of different anchor types.
+ *
+ * @author Bram Oreel & Wout Thiers
+ * @version 1.0
+ */
+
 public enum AnchorType {
     RUG("RUG"), LICHAAM("Lichaam"), LINKERHAND("Linkerhand"), RECHTERHAND("Rechterhand"), RIEM("Riem"), OTHER("other");
 

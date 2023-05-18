@@ -4,7 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 
-
+/**
+ * A JUnit test class for testing the non-private methods of the Hero and Monster Class.
+ *
+ * @author  Wout Thiers & Bram Oreel
+ * @version 1.0
+ */
 public class CreatureTest {
     private Hero hero1, hero2, hero3;
 

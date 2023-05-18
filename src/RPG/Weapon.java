@@ -13,7 +13,7 @@ import java.security.SecureRandom;
  * @invar the damage of a weapon must be valid
  *        |isValidDamage(getWeapon())
  *
- * @author Bram Oreel
+ * @author Wout Thiers & Bram Oreel
  * @version 1.2.
  */
 public class Weapon extends Equipable{
