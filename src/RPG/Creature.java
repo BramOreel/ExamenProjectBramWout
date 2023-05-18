@@ -270,9 +270,9 @@ public abstract class Creature {
      * Checks if a given name is valid.
      * @param name
      *        the given name that gets checked.
-     * @return True if all the characters in the given name are valid characters, the name is not null
-     *          and the first character is a capital letter.
-     *        | name.matches(validCharacters) && name != null && name.matches("^[A-Z].*")
+     * @return False if one of the characters in the given name isn't a valid character, the name is  null
+     *          or the first character is not a capital letter.
+     *        | if !name.matches(validCharacters) || name == null || !name.matches("^[A-Z].*") then result == False
      */
     @Raw
     public boolean canHaveAsName(String name){

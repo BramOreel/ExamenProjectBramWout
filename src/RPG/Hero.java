@@ -249,11 +249,11 @@ public class Hero extends Creature{
      * Checks if a given name is valid.
      * @param name
      *        the given name that gets checked.
-     * @return True if all the characters in the given name are valid characters, the name is not null
-     *          ,the first character is a capital letter, it does not include more than two apostrophes and
-     *          every colon is followed by a whitespace.
-     *        | result == name.matches(validCharacters) && name != null && name.matches("^[A-Z].*")
-     *        |           && apostrophecount < 3  && allColonsFollowedBySpace
+     * @return False if one of the characters in the given name is not a valid character, the name is null
+     *          ,the first character is not a capital letter, it does include more than two apostrophes or
+     *          every colon is not followed by a whitespace.
+     *        | if !name.matches(validCharacters) || name == null || !name.matches("^[A-Z].*")
+     *        |           || apostrophecount >= 3  || allColonsnotFollowedBySpace then result == False
      */
     @Raw
     @Override

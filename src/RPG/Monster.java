@@ -94,8 +94,8 @@ public class Monster extends Creature{
      * Checks if a given name is valid.
      * @param name
      *        the given name that gets checked.
-     * @return True if the name is valid for a creature and the name does not contain a colon.
-     *        | result == (super.canHaveAsName(name) && for character in name: character != ':')
+     * @return False if the name is not valid for a creature or the name contains a double point.
+     *        | if (!super.canHaveAsName(name) || for a character in name: character == ':')
      */
     @Raw @Override
     public boolean canHaveAsName(String name){
