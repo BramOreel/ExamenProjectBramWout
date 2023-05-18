@@ -6,7 +6,6 @@ import be.kuleuven.cs.som.annotate.Model;
 import be.kuleuven.cs.som.annotate.Raw;
 
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * A class for weapons within an RPG
@@ -109,7 +108,7 @@ public class Weapon extends Equipable{
         incrementId();
         this.dmgvallink = false;
         ModifyDamage(damagevalue);
-        if(!isValidValue(value))
+        if(!canHaveAsValue(value))
             throw new IllegalArgumentException();
         setValue(value);
     }
@@ -125,6 +124,7 @@ public class Weapon extends Equipable{
      */
     @Basic
     @Override
+    @Immutable
     public int getMAXSELLVALUE(){
         return MAXSELLVALUE;
     }
@@ -190,7 +190,7 @@ public class Weapon extends Equipable{
      *         | if(idcounter < 0 || idcounter > Integer.MAX_VALUE || idcounter % 2 !=0 || idcounter % 3 !=0 )
      *         | then result == false
      */
-    @Override @Raw
+    @Override @Raw @Model
     protected boolean canHaveAsId(long idcounter){
         return(super.canHaveAsId(idcounter) && idcounter % 2 == 0 && idcounter % 3 ==0);
 
@@ -207,7 +207,6 @@ public class Weapon extends Equipable{
     static final int DAMAGE_MAXVALUE = 100;
 
     /**
-     * A variabele referencing the damage of a weapon
      * A variabele referencing the damage of a weapon
      */
     private int damage = 7;
@@ -243,7 +242,7 @@ public class Weapon extends Equipable{
      *       |new.getDamage() == damage
      *
      */
-    @Model
+    @Model @Raw
     private void setDamage(int damage) {this.damage = damage;}
 
     /**
@@ -253,7 +252,7 @@ public class Weapon extends Equipable{
      * @return True if the damage is greater than 1, smaller than the listed maximum value and a multiple of seven
      *         |result == ((damage > 1) && (damage < getDamageMaxvalue()) && (damage % 7 == 0));
      */
-    @Raw
+
     public boolean isValidDamage(int damage){
         return((damage > 1) && (damage < getDamageMaxvalue()) && (damage % 7 == 0));
     }
@@ -261,7 +260,7 @@ public class Weapon extends Equipable{
     /**
      * Returns a random damage value between 1 and the maximum damagevalue which is a multiple of seven.
      */
-    @Model
+    @Model @Raw
     private static int generateRandomDamage(){
         SecureRandom R = new SecureRandom();
         int upperbound = Math.floorDiv(getDamageMaxvalue(),7) - 1;
@@ -277,14 +276,18 @@ public class Weapon extends Equipable{
      * @param delta
      *        the amount of damage by which the weapon damage must be increased or decreased
      *
-     * @pre The given delta must not be 0
-     *      |delta !=0
+     * @pre The given delta must be a multiple of seven and the old value, incremented with the given delta must be smaller than 100 and greater than 0.
+     *      |delta % 7 == 0 && 0 < delta + getDamage() < 100
      * @effect The damage of this weapon is adapted with the given delta.
      *         | ModifyDamage(getDamage()+delta)
      * @effect If weapon damage and value are linked, the value is also modified
      *         |setValue((getDamage()+delta)*2)
+     *
+     * @post The weapon has the old damagevalue plus the given delta as its new damage value.
+     *       |now.getDamage() = old.getDamage + delta
+     *
      */
-    @Model @Raw
+    @Model
     private void changeDamage(int delta){
         ModifyDamage(getDamage() + delta);
     }
@@ -295,14 +298,18 @@ public class Weapon extends Equipable{
      * @param   delta
      *          The amount of damage by which the damage of this weapon
      *          must be increased.
-     * @pre     The given delta must be strictly positive.
-     *          | delta > 0
+     * @pre The given delta must be a multiple of seven and the old value, incremented with the given delta must be smaller than 100 and greater than 0.
+     *      |delta % 7 == 0 && 0 < delta + getDamage() < 100
+     *
      * @effect  The damage of this weapon is increased with the given delta.
      *          | changeDamage(delta)
      * @effect If the weapon damage and value are linked, the value is also modified with 2 times the given delta
      *          |setValue(getValue() + 2*delta)
+     *
+     * @post The weapon has the old damagevalue plus the given delta as its new damage value.
+     *       |now.getDamage() = old.getDamage + delta
      */
-    @Raw
+
     public void EnhanceDamage(int delta){
         changeDamage(delta);
     }
@@ -312,20 +319,25 @@ public class Weapon extends Equipable{
      * @param   delta
      *          The amount of damage by which the damage of this weapon
      *          must be decreased.
-     * @pre     The given delta must be strictly positive.
-     *          | delta > 0
+     * @pre The given delta must be a multiple of seven and the old value, incremented with the given delta must be smaller than 100 and greater than 0.
+     *      |delta % 7 == 0 && 0 <  - delta + getDamage() < 100
+     *
      * @effect  The damage of this weapon is decreased with the given delta.
      *          | changeDamage(delta)
      * @effect If the weapon damage and value are linked, the value is also modified with 2 times the given delta
      *          |setValue(getValue() - 2*delta)
+     *
+     * @post The weapon has the old damagevalue minus the given delta as its new damage value.
+     *       |now.getDamage() = old.getDamage - delta
+     *
      */
-    @Raw
+
     public void DecrementDamage(int delta){
         changeDamage(-delta);
     }
 
     /**********
-     * Value, totaal
+     * Value
      */
 
     /**
@@ -358,19 +370,19 @@ public class Weapon extends Equipable{
      *             Else if the new value is less than 1, the new value is set to 1.
      *        |if(isDmgValLink())
      *          value = getDamage()*2
-     *          then: if(isValidValue(value)
+     *          then: if(canHaveAsValue(value)
      *                  then setValue(value)
      *                else if(value > 200)
      *                 then  setValue(200)
      *                else if(value < 1)
      *                 then setValue(1)
      */
-    @Raw @Model
+     @Model @Raw
     private void ModifyDamage(int damage){
         setDamage(damage);
         if(isDmgValLink()){
            int value = getDamage()*2;
-           if(isValidValue(value))
+           if(canHaveAsValue(value))
                setValue(value);
            else if(value > 200)
                setValue(200);

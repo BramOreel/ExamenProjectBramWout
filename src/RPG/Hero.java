@@ -423,7 +423,7 @@ public class Hero extends Creature{
     /**
      * Returns the total number of armors that a hero is currently carrying in his anchors and backpacks.
      */
-    @Model
+    @Model @Raw
     private int getNbOfArmors(){
        int total = 0;
         for (int i = 0; i < getAnchors().size(); i++){

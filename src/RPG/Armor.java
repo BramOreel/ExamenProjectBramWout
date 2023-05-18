@@ -43,7 +43,7 @@ public class Armor extends Equipable{
      * @effect The actual armorvalue for this armor is set to the maximum armorvalue that the armortype provides.
      *         |setActualarmor(getMaxProtection())
      * @effect If the given value is valid, the value for this armor is set to the given value, else an exception is thrown
-     *         |if(isValidValue(value)) then this.value = value
+     *         |if(canHaveAsValue(value)) then this.value = value
      *
      * @post The armor has the given armortype as its maxprotection
      *
@@ -57,7 +57,7 @@ public class Armor extends Equipable{
         configurePrime(id);
         this.maxprotection = armortype;
         setActualarmor(getMaxProtection());
-        if(!isValidValue(value))
+        if(!canHaveAsValue(value))
             throw new IllegalArgumentException();
         this.maxvalue = value;
     }
@@ -72,6 +72,7 @@ public class Armor extends Equipable{
      */
     @Basic
     @Override
+    @Immutable
     public int getMAXSELLVALUE(){
         return MAXSELLVALUE;
     }
@@ -192,7 +193,7 @@ public class Armor extends Equipable{
      *         The effects of wear in time are accounted for here.
      *         |checkarmor()
      */
-    @Model @Raw
+    @Model
     private void changeArmor(int delta){
         setActualarmor(getActualarmor()+delta);
         checkarmor();
@@ -209,7 +210,7 @@ public class Armor extends Equipable{
      * @effect  The actualarmor of this armor is increased with the given delta.
      *          | changeArmor(delta)
      */
-    @Raw
+
     public void RepairArmor(int delta){
         changeArmor(delta);
     }
@@ -224,7 +225,7 @@ public class Armor extends Equipable{
      * @effect  The actualarmor of this armor is decreased with the given delta.
      *          | changeArmor(-delta)
      */
-    @Raw
+
     public void DecrementArmor(int delta){
         changeArmor(-delta);
     }
@@ -267,7 +268,7 @@ public class Armor extends Equipable{
      * @param actualarmor
      *        the new actual armorvalue
      */
-    @Model
+    @Model @Raw
     private void setActualarmor(int actualarmor)  {
         this.actualarmor = actualarmor;
     }
@@ -283,7 +284,7 @@ public class Armor extends Equipable{
      *
      * Returns the actual armorvalue, taking the effects of wear through time into account.
      */
-    @Raw
+    @Basic
     public int getCurrentArmor(){
         checkarmor();
         return getActualarmor();
@@ -344,7 +345,7 @@ public class Armor extends Equipable{
      * @note	This checker is object-independent (and thus static).
      *
      */
-    @Raw
+
     public static boolean isValidChecktime(Date date) {
         return 	(date!=null) &&
                 (date.getTime()<=System.currentTimeMillis());
@@ -397,7 +398,7 @@ public class Armor extends Equipable{
      *         |checkarmor()
      * @return Returns the updated value for this armor.
      */
-    @Override @Raw
+    @Override
     public int getValue(){
         checkarmor();
         return super.getValue();
@@ -410,7 +411,7 @@ public class Armor extends Equipable{
      * @effect The old value is updated to the new, calculated value.
      *         |setValue(newvalue)
      */
-    @Model @Raw
+    @Model
     private void updateValue(){
         double fraction = (float) getActualarmor()/ (float) getMaxProtection();
         int newvalue = (int) (getMaxvalue()*fraction);
@@ -423,7 +424,7 @@ public class Armor extends Equipable{
      *        the anchor that would equip the equipable
      * @return True only if the anchortype of the anchor is body.
      */
-    @Override @Raw
+    @Override
     public boolean isValidAnchor(Anchor anchor){
         return anchor.getAnchorType() == AnchorType.LICHAAM ||anchor.getAnchorType() == AnchorType.OTHER;
     }

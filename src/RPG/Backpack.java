@@ -38,7 +38,7 @@ public class Backpack extends Equipable{
      * @effect The identification number is configured so that it is unique and positive
      *         |configure(id)
      * @effect If the given value is valid, the value for this backpack is set to the given value, else an exception is thrown.
-     *         |if(isValidValue(value)) then this.value = value
+     *         |if(canHaveAsValue(value)) then this.value = value
      * @effect If the given maximum capacity is valid, the maximum capacity for this backpack is set to the given maximum capacity,
      *         else the capacity for this backpack is set to 30 kilograms.
      *         |if(canHaveAsCapacity(capacity))
@@ -54,7 +54,7 @@ public class Backpack extends Equipable{
     public Backpack(long id, int weight, int value, int capacity) throws IllegalArgumentException{
         super(weight);
         configure(id);
-        if(!isValidValue(value))
+        if(!canHaveAsValue(value))
             throw new IllegalArgumentException();
         setValue(value);
         if(!canHaveAsCapacity(capacity))
@@ -72,6 +72,7 @@ public class Backpack extends Equipable{
      */
     @Basic
     @Override
+    @Immutable
     public int getMAXSELLVALUE(){
         return MAXSELLVALUE;
     }
@@ -91,7 +92,7 @@ public class Backpack extends Equipable{
      *         |if(idcounter < 0 || idcounter > Integer.MAX_VALUE || idSet.contains(id))
      *         | then result == false
      */
-    @Override @Raw @Model
+    @Override  @Model @Raw
     protected boolean canHaveAsId(long id){
         return(super.canHaveAsId(id) && !idSet.contains(id));
     }
@@ -123,9 +124,9 @@ public class Backpack extends Equipable{
     /**
      * A variable referencing a hashmap which contains the equipable items
      * contained by this backpack. The key of the hashmap references the id of the
-     * equipable item. Because different equipable items can have the same id, the values in this hashmap are lists of equipables items
-     * with the same id. Content can only be added in the constructor of Monster and through
-     * the pickup method in the hero class and the drop and transfer methods in the creature class.
+     * equipable item. Because different equipable items can have the same id, the values in this hashmap are lists of equipable items
+     * with the same id. Content can only be added or removed in the constructor of Monster, hero and through
+     * the pickup method in the hero class and the drop, store and equip methods in the creature class.
      *
      * @invar The total weight of the backpacks content cannot exceed its carrying capacity.
      *        |item.getWeight() != ((Backpack) item).getTotalWeight()
@@ -137,13 +138,13 @@ public class Backpack extends Equipable{
      * @invar Every value in the hashmap references an effective arraylist
      *        |for each value in content
      *        |value != null
-     * @invar The id of in every equipable item in the arraylist of each value in the hashmap is the correct
+     * @invar The id of every equipable item in the arraylist of each value in the hashmap is the correct
      *        id of the equipable item
      *        |for each list in content
      *        |  for each equipable in list
      *        |    equipable.getId() == content.key(listAtIndex(i))
      *
-     * @note in this implementation, Creature or hero will be the controlling class for calling these methods
+     * @note in this implementation, Monster or hero will be the controlling class for calling these methods.
      */
     private HashMap<Long, ArrayList<Equipable>> content = new HashMap<Long, ArrayList<Equipable>>();
 
@@ -159,7 +160,8 @@ public class Backpack extends Equipable{
     /**
      * Gives all the items in the backpack in a list.
      */
-    public ArrayList<Equipable> getAllItems(){
+    @Model
+    protected ArrayList<Equipable> getAllItems(){
         ArrayList<Equipable> AllItems = new ArrayList<Equipable>();
         for(ArrayList<Equipable> list : getContent().values()){
            for(Equipable item:list){
@@ -168,11 +170,6 @@ public class Backpack extends Equipable{
         }
         return AllItems;
     }
-
-
-
-
-
 
     /**
      * Checks if the content of this backpack contains an equipable item with the given id as its id.
@@ -218,7 +215,6 @@ public class Backpack extends Equipable{
         }
         return total;
     }
-
 
     /**
      * Returns the number of armors stored in a backpack
@@ -413,7 +409,8 @@ public class Backpack extends Equipable{
      * @effect The capacity of the owner is reduced to account for the weight of the item.
      *         |anchor.getOwner().ChangeCapacity(-this.getTotalWeight())
      */
-    @Model @Raw @Override
+
+    @Model  @Override @Raw
     protected void equip(Anchor anchor){
         anchor.setItem(this);
         setHolder(anchor.getOwner());

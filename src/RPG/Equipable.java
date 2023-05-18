@@ -17,7 +17,7 @@ import java.util.UUID;
  *        | canHaveAsWeight(getWeight())
  *
  * @invar Each equipable item must have a allowed value
- *        | isValidValue(getValue())
+ *        |canHaveAsValue(getValue())
  *
  * @note Subclasses may only add/strengthen invariants (Liskov principle).
  *
@@ -92,7 +92,7 @@ public abstract class Equipable {
      *
      *
      */
-    @Raw @Model
+     @Model @Raw
     protected final void setId(long id) {
         if(canHaveAsId(id))
             Id = id;
@@ -111,7 +111,7 @@ public abstract class Equipable {
      * @note This checker only checks the common rule between all the subclasses. Whether or not the id is unique is resolved by the subclasses.
      *
      */
-    @Raw @Model
+     @Model @Raw
     protected boolean canHaveAsId(long id){
        return(id >= 0 && id < Integer.MAX_VALUE);
 
@@ -167,6 +167,7 @@ public abstract class Equipable {
      * Returns the maximum sell value for this equipable.
      */
     @Basic
+    @Immutable
     public int getMAXSELLVALUE(){
         return MAXSELLVALUE;
     }
@@ -190,9 +191,9 @@ public abstract class Equipable {
      *         The given value is a integer less thann one.
      *         |value < 1
      */
-    @Raw @Model
+     @Model @Raw
     protected void setValue(int value) throws IllegalArgumentException {
-        if(!isValidValue(value))
+        if(!canHaveAsValue(value))
             throw new IllegalArgumentException();
         this.value = value;
     }
@@ -206,8 +207,8 @@ public abstract class Equipable {
      * @return True if the given value is greater than one and smaller than the maximum sell value.
      *        |if(value > 1) && (value < MAXSELLVALUE) then result == True.
      */
-    @Raw //refactor
-    public boolean isValidValue(int value){
+    @Raw
+    public boolean canHaveAsValue(int value){
         return(value >= 1 && value < getMAXSELLVALUE());
     }
 
@@ -235,7 +236,7 @@ public abstract class Equipable {
      * @param holder
      *        the new holder for this equipable item
      */
-    @Model
+    @Model @Raw
     protected void setHolder(Creature holder) {
         this.holder = holder;
     }

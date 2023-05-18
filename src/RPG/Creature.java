@@ -202,7 +202,7 @@ public abstract class Creature {
      * @effect  the amount of remaining capacity is now the previous amount plus the given weight.
      *        | setCapacity(getCapacity() + capacity)
      */
-    @Model
+    @Model @Raw
     protected void ChangeCapacity(int capacity) {
         setCapacity(getCapacity() + capacity);
     }
@@ -747,7 +747,7 @@ public abstract class Creature {
      *         |anchor.getItem() != null || getAnchors.contains(anchortype) == false
      */
     @Raw
-    public void Equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOccupiedException, BeltAnchorException{
+    public void equip(Equipable item, AnchorType location) throws IllegalArgumentException, OtherPlayersItemException, AnchorslotOccupiedException, BeltAnchorException{
 
         Backpack parent = item.getParentbackpack();
         if(parent == null)
